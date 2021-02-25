@@ -744,7 +744,7 @@ The instruction displayed as "Bad instruction" is <a href="https://developer.arm
 In general, if you see a lot of such variables in the decompilation of Ghidra, there is a high possibility that the calling convention specified at the decompiling time does not match the actual calling convention.
 In this case, Ghidra decompiled the <code>main</code> function assuming the AArch64 ABI calling convention specified by default, but other proprietary calling conventions are likely being used.</p>
 <p>We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.</p>
-<p>The details will be presented later in a separate article. I solved these issues by fixing the SLEIGH file and the compiler specification (cspec) file. The patch is available from <a href="https://github.com/FFRI/ProjectChampollion/tree/main/ghidra">here</a>.</p>
+<p>The details will be presented later in a separate article. I solved these issues <a href="https://github.com/NationalSecurityAgency/ghidra/issues/2710">by fixing the SLEIGH file</a> and the compiler specification (cspec) file. The patch is available from <a href="https://github.com/FFRI/ProjectChampollion/tree/main/ghidra">here</a>.</p>
 <p>After fixing Ghidra, the entire <code>main</code> function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.</p>
 <figure>
     <img src="../assets/disas_result_ghidra2.png" width="500" />

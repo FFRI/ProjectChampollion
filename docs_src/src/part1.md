@@ -255,7 +255,7 @@ In this case, Ghidra decompiled the `main` function assuming the AArch64 ABI cal
 
 We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.
 
-The details will be presented later in a separate article. I solved these issues by fixing the SLEIGH file and the compiler specification (cspec) file. The patch is available from [here](https://github.com/FFRI/ProjectChampollion/tree/main/ghidra).
+The details will be presented later in a separate article. I solved these issues [by fixing the SLEIGH file](https://github.com/NationalSecurityAgency/ghidra/issues/2710) and the compiler specification (cspec) file. The patch is available from [here](https://github.com/FFRI/ProjectChampollion/tree/main/ghidra).
 
 After fixing Ghidra, the entire `main` function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.
 
