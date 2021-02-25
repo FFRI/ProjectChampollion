@@ -8,7 +8,7 @@ The technical details of Rosetta 2 are partially documented, but not rich enough
 Project Champollion is a project aimed at revealing the internals of Rosetta 2.
 Currently, it provides:
 
-- reverse-engineering results of Rosetta 2 (published in the GitHub pages of this repository. You can check it from [here]())
+- reverse-engineering results of Rosetta 2 (published in the [GitHub pages](https://ffri.github.io/ProjectChampollion/.) of this repository.)
 - [analysis configurations for Ghidra](./ghidra) for analyzing AOT Mach-O binaries
 - [parser of `aot_shared_cache`](./AotSharedCacheExtractor)
 

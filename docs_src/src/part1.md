@@ -255,7 +255,7 @@ In this case, Ghidra decompiled the `main` function assuming the AArch64 ABI cal
 
 We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.
 
-The details will be presented later in a separate article. I solved these issues by fixing the SLEIGH file and the compiler specification (cspec) file. The patch is available from [here]().
+The details will be presented later in a separate article. I solved these issues by fixing the SLEIGH file and the compiler specification (cspec) file. The patch is available from [here](https://github.com/FFRI/ProjectChampollion/tree/main/ghidra).
 
 After fixing Ghidra, the entire `main` function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.
 
@@ -717,7 +717,7 @@ The following points will be introduced in part2 and beyond. I will publish thes
 - AOT\_METADATA load command included in an AOT file
 - Speeding up the loading process with AOT shared cache files
 - Introduction to the AOT shared cache file structure and the parser
-    - The parser of AOT shared cache files is available [here]().
+    - The parser of AOT shared cache files is available [here](https://github.com/FFRI/ProjectChampollion/tree/main/AotSharedCacheExtractor).
 - Code signatures included in AOT files and AOT shared cache files
 - How to debug the x86\_64 emulation process at the arm64 instruction level
 - How to create a patch to parse an AOT file with Ghidra
