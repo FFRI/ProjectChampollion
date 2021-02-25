@@ -1,0 +1,17 @@
+site_name: Project Champollion
+docs_dir: src
+site_dir: ../docs
+
+nav:
+  - Top page: 'index.md'
+  - 'Reverse-engineering Rosetta 2 part1: Analyzing AOT files and Rosetta 2 runtime' : 'part1.md'
+  - 'Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 runtime and AOT shared cache files': 'part2.md'
+  - Appendix: 'appendix.md'
+
+theme:
+  name: material
+
+plugins:
+  - exclude:
+      glob:
+        - "*_jp.md"

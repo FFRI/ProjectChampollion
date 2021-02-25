@@ -1,0 +1,1272 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Reverse-engineering Rosetta 2 part1: Analyzing AOT files and Rosetta 2 runtime - Project Champollion</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="Project Champollion" class="md-header-nav__button md-logo" aria-label="Project Champollion">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Project Champollion
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Reverse-engineering Rosetta 2 part1: Analyzing AOT files and Rosetta 2 runtime
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Project Champollion" class="md-nav__button md-logo" aria-label="Project Champollion">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Project Champollion
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Reverse-engineering Rosetta 2 part1: Analyzing AOT files and Rosetta 2 runtime
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Reverse-engineering Rosetta 2 part1: Analyzing AOT files and Rosetta 2 runtime
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-analysis-environment" class="md-nav__link">
+    Setting up the analysis environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-of-oahd-and-oahd-helper" class="md-nav__link">
+    Roles of oahd and oahd-helper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyzing-aot-files" class="md-nav__link">
+    Analyzing AOT files
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyzing AOT files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problems-in-analysis-with-ghidra" class="md-nav__link">
+    Problems in analysis with Ghidra
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-code-in-aot-files-calling-conventions" class="md-nav__link">
+    Analyzing the code in AOT files: calling conventions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-code-in-aot-files-references-to-the-x86_64-executable" class="md-nav__link">
+    Analyzing the code in AOT files: references to the x86_64 executable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyzing-rosetta-2-runtime" class="md-nav__link">
+    Analyzing Rosetta 2 runtime
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyzing Rosetta 2 runtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x86_64-address-resolution-and-lazy-binding" class="md-nav__link">
+    X86_64 address resolution and lazy binding
+  </a>
+  
+    <nav class="md-nav" aria-label="X86_64 address resolution and lazy binding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-flow-around-puts-function-call-in-the-aot-file" class="md-nav__link">
+    Execution flow around puts function call in the AOT file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#following-the-process-of-lazy-binding-in-the-aot-file" class="md-nav__link">
+    Following the process of lazy binding in the AOT file.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolve_x64_addr-internal" class="md-nav__link">
+    resolve_x64_addr internal
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jit-binary-translation-of-rosetta-2-runtime-translate-function" class="md-nav__link">
+    JIT binary translation of Rosetta 2 runtime: translate function
+  </a>
+  
+    <nav class="md-nav" aria-label="JIT binary translation of Rosetta 2 runtime: translate function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-x86_64-machine-code-decoding-process" class="md-nav__link">
+    Analyzing the x86_64 machine code decoding process
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's next?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 runtime and AOT shared cache files
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-the-analysis-environment" class="md-nav__link">
+    Setting up the analysis environment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-of-oahd-and-oahd-helper" class="md-nav__link">
+    Roles of oahd and oahd-helper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyzing-aot-files" class="md-nav__link">
+    Analyzing AOT files
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyzing AOT files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problems-in-analysis-with-ghidra" class="md-nav__link">
+    Problems in analysis with Ghidra
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-code-in-aot-files-calling-conventions" class="md-nav__link">
+    Analyzing the code in AOT files: calling conventions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-code-in-aot-files-references-to-the-x86_64-executable" class="md-nav__link">
+    Analyzing the code in AOT files: references to the x86_64 executable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyzing-rosetta-2-runtime" class="md-nav__link">
+    Analyzing Rosetta 2 runtime
+  </a>
+  
+    <nav class="md-nav" aria-label="Analyzing Rosetta 2 runtime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x86_64-address-resolution-and-lazy-binding" class="md-nav__link">
+    X86_64 address resolution and lazy binding
+  </a>
+  
+    <nav class="md-nav" aria-label="X86_64 address resolution and lazy binding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-flow-around-puts-function-call-in-the-aot-file" class="md-nav__link">
+    Execution flow around puts function call in the AOT file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#following-the-process-of-lazy-binding-in-the-aot-file" class="md-nav__link">
+    Following the process of lazy binding in the AOT file.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolve_x64_addr-internal" class="md-nav__link">
+    resolve_x64_addr internal
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jit-binary-translation-of-rosetta-2-runtime-translate-function" class="md-nav__link">
+    JIT binary translation of Rosetta 2 runtime: translate function
+  </a>
+  
+    <nav class="md-nav" aria-label="JIT binary translation of Rosetta 2 runtime: translate function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyzing-the-x86_64-machine-code-decoding-process" class="md-nav__link">
+    Analyzing the x86_64 machine code decoding process
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's next?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime">Reverse-engineering Rosetta 2 part1: Analyzing AOT files and the Rosetta 2 <code>runtime</code></h1>
+<p>date: 2021/2/19</p>
+<p>author: Koh M. Nakagawa</p>
+<h2 id="introduction">Introduction</h2>
+<p>Apple announced that it would be moving from Intel processors to Arm-based Apple Silicon CPUs for Macs at WWDC 2020.
+The Apple Silicon-based Mac Book Air and Pro were released in October 2020 with great fanfare.</p>
+<p>One of the issues that arise with the CPU transition is application compatibility.
+Since Apple Silicon is an Arm-based processor, applications built for Intel-based Macs will no longer work.
+To solve this problem, Apple offers the following two technologies:</p>
+<ul>
+<li>Universal Binary 2</li>
+<li>Rosetta 2</li>
+</ul>
+<p>Universal Binary 2 is a mechanism to encapsulate binaries built for multiple architectures into a single binary, which is also called Fat Binary.
+Apple has been using this technology for a long time to maintain backward compatibility.
+A Mach-O loader selects the binary with the best architecture for the machine it is running on, then loads only that binary into memory to run the program.
+Most macOS Big Sur system binaries are currently Fat Binaries, containing binaries built for both Arm and Intel architectures.</p>
+<p>Rosetta 2 is a technology that translates Intel-based binaries or JIT-generated code into Arm-based binaries or code.
+It is the successor to Rosetta, which was also used in the past processor transition.
+There is not much information officially released by Apple.
+Of course, there is no source code available, unlike the XNU kernel.
+Also, at the time of writing this article, there seems to be no article that examines it in detail.</p>
+<p>In this article, I introduce some reverse engineering results of Rosetta 2.</p>
+<p>Why I take a closer look at Rosetta 2?</p>
+<p>The reason is that I'm interested in translated binaries in Rosetta 2 and examining the possibility of exploiting them.
+I presented <a href="https://www.blackhat.com/eu-20/briefings/schedule/index.html#jack-in-the-cache-a-new-code-injection-technique-through-modifying-x-to-arm-translation-cache-21324">a new code injection technique in Windows 10 on Arm at Black Hat EU</a> last December.
+The code injection is achieved by modifying x86 to Arm (XTA) binary translation cache files.
+This research encourages me to examine whether similar code injection techniques can be achieved with Rosetta 2.</p>
+<p>In this part, I will cover the following points:</p>
+<ul>
+<li>The executables associated with Rosetta 2 and their roles</li>
+<li>Analysis results of the translated binaries</li>
+<li>JIT binary translation capabilities of Rosetta 2 (mainly focusing on x86_64 machine code decoding process)</li>
+</ul>
+<p>In the following, I will follow Apple's terminology when referring to architecture.</p>
+<ul>
+<li>arm64: The architecture specified when generating binaries to run on an Apple Silicon Mac</li>
+<li>x86_64: The architecture specified when generating binaries to run on an Intel-based Mac</li>
+</ul>
+<h2 id="setting-up-the-analysis-environment">Setting up the analysis environment</h2>
+<p>First, I show you how to set up the analysis environment.</p>
+<p>Rosetta 2 is not installed by default on an Apple Silicon Mac.
+So, you need to install it following the pop-up that appears when you run an x86_64 code for the first time.</p>
+<figure>
+    <img src="../assets/macos-big-sur-software-update-rosetta-alert.jpg" />
+    <figcaption>Figure 1 Rosetta 2 installation popup (https://support.apple.com/en-us/HT211861).</figcaption>
+</figure>
+
+<p>After the installation, a folder named <code>/Library/Apple/usr/libexec/oah/</code> (hereinafter referred to as the oah folder) is created, and you can see the following binaries installed.</p>
+<figure>
+    <img src="../assets/rosetta_binaries.png" />
+    <figcaption>Figure 2 Binaries installed after Rosetta 2 installation.</figcaption>
+</figure>
+
+<p>The role of each binary will be explained later.</p>
+<p>The next step is to disable System Integrity Protection (SIP).
+This is because the folder that contains the translated binaries is protected by SIP and cannot be accessed by default even with administrative privileges.</p>
+<p>Please follow the steps below to disable SIP.</p>
+<ul>
+<li>Restart the OS</li>
+<li>Press and hold Touch ID to boot in the recovery mode</li>
+<li>Select Terminal from "Utilities" at the top of the screen</li>
+<li>Type <code>csrutil disable</code> and execute</li>
+<li>Restart the OS again</li>
+</ul>
+<p>In addition to this, please install Xcode and Command Line Tools for Xcode to use Clang and LLDB.</p>
+<h2 id="roles-of-oahd-and-oahd-helper">Roles of <code>oahd</code> and <code>oahd-helper</code></h2>
+<p>First, let's create a command line application built for x86_64 and monitor system events (e.g., process creation, file-system activities, and memory mapping) when the x86_64 application runs.</p>
+<pre><code>$ cat hello.c
+#include &lt;stdio.h&gt;
+int main() {
+    puts(&quot;Hello World&quot;);
+    return 0;
+}
+$ clang -arch x86_64 hello.c -o hello.out # specify x86_64 as the target architecture
+$ file hello.out
+hello.out: Mach-O 64-bit executable x86_64
+</code></pre>
+<p>To obtain several system events, I used EventMonitor created using the <a href="https://developer.apple.com/documentation/endpointsecurity">Endpoint Security Framework</a>.
+I will release EventMonitor as an OSS soon.</p>
+<p>Start EventMonitor and run <code>hello.out</code>.
+The following jsonl file contains logs obtained by EventMonitor. The only events related to Rosetta 2 are extracted.</p>
+<p><a href="../assets/event.jsonl">event.jsonl</a></p>
+<p>When you look at the first line of the logs, you can see an event where <code>/bin/zsh</code> executes <code>hello.out</code>.</p>
+<pre><code class="language-json">{&quot;event&quot;:{&quot;log&quot;:{&quot;args&quot;:[&quot;.\/hello.out&quot;],&quot;cwd&quot;:{&quot;path&quot;:&quot;\/Users\/konakagawa.ffri&quot;,&quot;path_truncated&quot;:false},&quot;last_fd&quot;:4,&quot;target&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}},&quot;type&quot;:&quot;exec&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/bin\/zsh&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
+</code></pre>
+<p>After the exec system call, <code>oahd</code> daemon checks for the file <code>/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot</code>.</p>
+<pre><code class="language-json">... (the oahd checks for the AOT file)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;relative_target&quot;:&quot;var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;source_dir&quot;:{&quot;path&quot;:&quot;\/&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;lookup&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
+</code></pre>
+<p>The file with the extension <code>.aot</code> contains the result of the translation from x86_64 to arm64.
+We refer to this file as the AOT file.
+The name <code>.aot</code> comes from Ahead-Of-Time, which means that the translation is performed before a thread actually starts.
+The <code>oahd</code> is the management daemon for the AOT files.</p>
+<p>Since this is the first time we run <code>hello.out</code>, the <code>oahd</code> cannot find the corresponding AOT file. So, it creates a new AOT file.
+If the same binary in the same path has already been executed and the AOT file has been created, the <code>oahd</code> uses it.</p>
+<p>You can see the folder named <code>/var/db/oah</code> in the above logs.
+This folder has a <code>Oah.version</code> file at the top, which is supposed to contain the version information for Rosetta 2.
+Also, this folder has <code>16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</code> folder.
+We can see that multiple folders are containing AOT files in it.
+The names of these folders are SHA-256 hash values that are calculated from both the contents of the file in x86_64 code and the path where it was executed.</p>
+<pre><code># /var/db/oah contains the Oah.version file and 16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00 folder
+$ ls -l /var/db/oah
+total 8
+drwxr-xr-x  6528 _oahd  _oahd  208896  2 13 22:22 16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00
+-rw-------     1 _oahd  _oahd      32  1 27 14:44 Oah.version
+# show some AOT files
+$ ls -l /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/* | head -n 10
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/00088a4116103832383ae2866e61d745d3d0013c5073ed032dabf6a785611db9:
+total 40
+-rwxr-xr-x  1 _oahd  _oahd  17656  1 27 14:45 FlashlightModule.aot
+
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/0008a5059fda4b8aee7110b04a3e65f175a80ea55a64129a7660c7d3ed77a9d5:
+total 56
+-rwxr-xr-x  1 _oahd  _oahd  25928  1 27 14:47 libswiftAccelerate.dylib.aot
+
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/00091f4ca51a770fa7a398f4320efe920fa8c3fc611247dcf55ca025f22301d4:
+total 600
+-rwxr-xr-x  1 _oahd  _oahd  304536  1 27 14:45 AirPlayRoutePrediction.aot
+
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/000a1ab017d7e24b25cd58739ae01120b8a6d3a9cff37235156dced0123f2c3c:
+total 24
+-rwxr-xr-x  1 _oahd  _oahd  12280  1 27 14:46 NanoNewsComplications.aot
+
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/001dac33f82e558695268fb4a4285f47e9806766e7398e377d9dff59235399f5:
+total 1192
+-rwxr-xr-x  1 _oahd  _oahd  606347  1 27 14:46 TSCoreSOS.aot
+</code></pre>
+<p>Note that the folders and files under <code>/var/db/oah</code> are protected by SIP, so we cannot access even with admin privileges.
+After disabling SIP, we can access these folders and files with admin privileges.</p>
+<p>Now, back to the analysis of the logs.
+<code>oahd</code> checks for the AOT file, and if not found, it runs <code>oahd-helper</code> to create a new AOT file.</p>
+<pre><code class="language-json">... (oahd creates hello.out.aot.in_progress file)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;dest_path&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false},&quot;dest_type&quot;:0,&quot;filename&quot;:null},&quot;type&quot;:&quot;create&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
+... (creates a child process)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;child&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}},&quot;type&quot;:&quot;fork&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;args&quot;:[&quot;oahd-helper&quot;,&quot;3&quot;,&quot;4&quot;],&quot;cwd&quot;:{&quot;path&quot;:&quot;\/&quot;,&quot;path_truncated&quot;:false},&quot;last_fd&quot;:4,&quot;target&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}},&quot;type&quot;:&quot;exec&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+</code></pre>
+<p>The <code>oahd-helper</code> takes two file descriptors (the x86_64 code and the AOT file to write to) as command-line arguments, translates x86_64 code into arm64 code, and saves the result as an AOT file.</p>
+<p>When <code>oahd-helper</code> writes the result, it temporarily creates a file with the extension <code>aot.in_progress</code> and renames it to a file with the extension <code>aot</code>.
+The reason for making the file <code>aot.in_progress</code> once is probably to avoid using the AOT file if the same application starts in the middle of writing the translated result.</p>
+<pre><code class="language-json">... (oahd-helper writes the translated result)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+... (closes file descriptor)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;modified&quot;:true,&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;close&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
+... (renames)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;destination_type&quot;:1,&quot;dir&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0&quot;,&quot;path_truncated&quot;:false},&quot;filename&quot;:&quot;hello.out.aot&quot;,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;rename&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
+</code></pre>
+<p>Finally, this AOT file is mapped onto the memory of the <code>hello.out</code> process.</p>
+<pre><code class="language-json">... (a segment of the AOT file is mapped onto the memory with PROT_READ | PROT_WRITE | PROT_EXEC protection)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;file_pos&quot;:0,&quot;flags&quot;:131090,&quot;max_protection&quot;:7,&quot;protection&quot;:5,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;mmap&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
+... (a segment of the AOT file is mapped onto the memory with PROT_READ protection)
+{&quot;event&quot;:{&quot;log&quot;:{&quot;file_pos&quot;:8192,&quot;flags&quot;:18,&quot;max_protection&quot;:7,&quot;protection&quot;:1,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;mmap&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
+</code></pre>
+<p>You can see that <code>PROT_EXEC</code> protection is granted when looking at the first event of <code>mmap</code>.
+From this, we can infer that the executable code is contained in the AOT file.</p>
+<p>Next, let's dig into the AOT files.</p>
+<h2 id="analyzing-aot-files">Analyzing AOT files</h2>
+<h3 id="problems-in-analysis-with-ghidra">Problems in analysis with Ghidra</h3>
+<p>First, let's check the file type.</p>
+<pre><code>$ file /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot 
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot: Mach-O 64-bit executable arm64
+</code></pre>
+<p><code>file</code> command says that the AOT file is just a Mach-O file, so it can be analyzed using the existing disassembler.
+Let's import it with Ghidra version 9.2.1 (Figure 3).</p>
+<figure>
+    <img src="../assets/ghidra_load_finished.PNG" />
+    <figcaption>Figure 3 Dialog box displayed after importing the AOT file with Ghidra.</figcaption>
+</figure>
+
+<p>We follow the symbol tree, go to the <code>main</code> function and show the disassembly listing (Figure 4) and the decompilation around <code>main</code> (Figure 5).</p>
+<figure>
+    <img src="../assets/disas_result_ghidra.PNG" width="500" />
+    <figcaption>Figure 4 Disassembly listing of <code>main</code> function.</figcaption>
+</figure>
+
+<figure>
+    <img src="../assets/decomp_result_ghidra.PNG" />
+    <figcaption>Figure 5 Decompilation of <code>main</code> function.</figcaption>
+</figure>
+
+<p>Unfortunately, there seems to be a problem with both the disassembly and decompilation.</p>
+<p>The end of the <code>main</code> function is expected to be a branch instruction such as the <code>ret</code> instruction, but it is ended by the <code>adds x4, x4, #0x10</code> instruction.
+When you look at the decompilation, you can see that it ends at the function call <code>halt_baddata();</code> with the comment "WARNING: Bad instruction - Truncating control flow here."
+It seems that the disassembly was interrupted in the middle because it contains instructions that Ghidra does not support.
+The instruction displayed as "Bad instruction" is <a href="https://developer.arm.com/documentation/ddi0596/2020-12/Base-Instructions/CFINV--Invert-Carry-Flag-?lang=en">cfinv instruction introduced in Armv8.4</a>, which is not yet supported in Ghidra version 9.2.1.</p>
+<p>You can see that <code>in_*</code> variables in the decompilation.
+<code>in_*</code> is a variable seen when a read occurs before a write to a register that is not passed as an argument under the function's calling convention.
+In general, if you see a lot of such variables in the decompilation of Ghidra, there is a high possibility that the calling convention specified at the decompiling time does not match the actual calling convention.
+In this case, Ghidra decompiled the <code>main</code> function assuming the AArch64 ABI calling convention specified by default, but other proprietary calling conventions are likely being used.</p>
+<p>We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.</p>
+<p>The details will be presented later in a separate article. I solved these issues by fixing the SLEIGH file and the compiler specification (cspec) file. The patch is available from <a href="">here</a>.</p>
+<p>After fixing Ghidra, the entire <code>main</code> function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.</p>
+<figure>
+    <img src="../assets/disas_result_ghidra2.png" width="500" />
+    <figcaption>Figure 6 Disassembly listing of <code>main</code> function after modifying Ghidra.</figcaption>
+</figure>
+
+<figure>
+    <img src="../assets/decomp_result_ghidra2.png" />
+    <figcaption>Figure 7 Decompilation of <code>main</code> function after modifying Ghidra.</figcaption>
+</figure>
+
+<h3 id="analyzing-the-code-in-aot-files-calling-conventions">Analyzing the code in AOT files: calling conventions</h3>
+<p>Now that the analysis environment is in place, we can move on to the detailed analysis of the code contained in AOT files.</p>
+<p>I mentioned earlier that a proprietary ABI is used in AOT files.
+Specifically, the System V AMD64 ABI is used, with the x86_64 registers converted to arm64 registers according to the following table.</p>
+<table>
+<thead>
+<tr>
+<th>x86_64</th>
+<th>arm64</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAX</td>
+<td>x0</td>
+</tr>
+<tr>
+<td>RCX</td>
+<td>x1</td>
+</tr>
+<tr>
+<td>RDX</td>
+<td>x2</td>
+</tr>
+<tr>
+<td>RBX</td>
+<td>x3</td>
+</tr>
+<tr>
+<td>RSP</td>
+<td>x4</td>
+</tr>
+<tr>
+<td>RBP</td>
+<td>x5</td>
+</tr>
+<tr>
+<td>RSI</td>
+<td>x6</td>
+</tr>
+<tr>
+<td>RDI</td>
+<td>x7</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>x8</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>x9</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>x10</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>x11</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>x12</td>
+</tr>
+<tr>
+<td>R13</td>
+<td>x13</td>
+</tr>
+<tr>
+<td>R14</td>
+<td>x14</td>
+</tr>
+<tr>
+<td>R15</td>
+<td>x15</td>
+</tr>
+<tr>
+<td>XMM{0--15}</td>
+<td>q{0--15}</td>
+</tr>
+</tbody>
+</table>
+<p>Let's look at an example to see the calling convention. The AOT file built from the following source code is used for the analysis.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+__attribute__((noinline))
+int int_arguments(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12) {
+    return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10 + a11 + a12;
+}
+
+__attribute__((noinline))
+double double_arguments(double a1, double a2, double a3, double a4, double a5, double a6, double a7, double a8, double a9, double a10, double a11, double a12) {
+    return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10 + a11 + a12;
+}
+
+int main() {
+    const int sum_int = int_arguments(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    const double sum_double = double_arguments(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+    printf(&quot;%f %d\n&quot;, sum_double, sum_int);
+}
+</code></pre>
+<p>Here are the disassembly listings of the AOT file corresponding to the <code>int_arguments</code> (Figure 8) and <code>double_arguments</code> calls (Figure 9).</p>
+<figure>
+    <img src="../assets/systemv_abi_calling_convention_int.png" />
+    <figcaption>Figure 8 Comparison of the disassembly listing between the code of AOT file and the original x86_64 code. Shown only for the function call of <code>int_arguments</code>.</figcaption>
+</figure>
+
+<figure>
+    <img src="../assets/systemv_abi_calling_convention_float.png" />
+    <figcaption>Figure 9 Comparison of the disassembly listing between the code of AOT file and the original x86_64 code. Shown only for the function call of <code>double_arguments</code>.</figcaption>
+</figure>
+
+<p>According to the System V AMD64 ABI calling convention, integer and pointer values are passed through the RDI, RSI, RDX, RCX, R8, and R9 registers.
+When there are more arguments, the additional arguments are passed through the stack.
+We check the corresponding registers of arm64 according to the table shown earlier.
+Consequently, we figure out that the arguments are passed through the x7, x6, x2, x1, x8, and x9 registers, and when there are more arguments, they are passed through the stack (note that x4 register specifies the top of the stack).
+You can easily understand that the left disassembly listing of Figure 8. follows such a calling convention.</p>
+<p>In the same manner, you can understand the calling convention for float arguments (Figure 9).</p>
+<h3 id="analyzing-the-code-in-aot-files-references-to-the-x86_64-executable">Analyzing the code in AOT files: references to the x86_64 executable</h3>
+<p>When you analyze AOT files with Ghidra, you will see that several references do not exist in the program memory.
+As shown in Figure 10, the <code>DAT_ffffffffffff8000</code> and <code>SUB_00002064</code> in red letters indicate that the reference does not exist in the program memory.</p>
+<figure>
+    <img src="../assets/not_found_various_references.png" width="600" />
+    <figcaption>Figure 10 Example of a reference that does not exist in program memory.</figcaption>
+</figure>
+
+<p>These occur because the references to the following two binaries do not exist in the Ghidra's program memory.</p>
+<ul>
+<li>The x86_64 binary that is the target of the emulation</li>
+<li>The Rosetta 2 <code>runtime</code> binary that initializes the emulation process, maps the AOT file onto the memory, and performs JIT translation</li>
+</ul>
+<p>In fact, these files are mapped onto the memory, and references to functions and variables are resolved correctly.
+Let's check this by looking at the memory map of the emulation process using <code>vmmap</code> command.</p>
+<pre><code>==== Non-writable regions for process 70817
+REGION TYPE                 START - END       [ VSIZE  RSDNT  DIRTY   SWAP] PRT/MAX SHRMOD PURGE REGION DETAIL
+(__TEXT segment of x86_64 code)
+__TEXT                   100000000-100003000  [   12K    12K     0K     0K] r-x/r-x SM=COW       /Users/USER/Documents/*/check_calling_convention.out
+__TEXT                   100003000-100004000  [    4K     4K     4K     0K] r-x/rwx SM=COW       /Users/USER/Documents/*/check_calling_convention.out
+__DATA_CONST             100004000-100008000  [   16K    16K    16K     0K] r--/rw- SM=COW       /Users/USER/Documents/*/check_calling_convention.out
+__LINKEDIT               10000c000-10000d000  [    4K     4K     0K     0K] r--/r-- SM=COW       /Users/USER/Documents/*/check_calling_convention.out
+__LINKEDIT               10000d000-100010000  [   12K     0K     0K     0K] r--/r-- SM=NUL       /Users/USER/Documents/*/check_calling_convention.out
+(__TEXT segment of the AOT file)
+mapped file              100010000-100012000  [    8K     8K     0K     0K] r-x/rwx SM=COW       /private/var/db/*/check_calling_convention.out.aot
+(Rosetta 2 runtime)
+mapped file              100012000-100016000  [   16K    16K     0K     0K] r-x/r-x SM=COW       /Library/Apple/*/runtime
+(__LINKEDIT segment of the AOT file)
+mapped file              100017000-100018000  [    4K     4K     0K     0K] r--/rwx SM=COW       /private/var/db/*/check_calling_convention.out.aot
+(Rosetta 2 runtime)
+mapped file              100020000-100024000  [   16K    16K     0K     0K] r-x/r-x SM=COW       /Library/Apple/*/runtime
+Rosetta Thread Context   108023000-108024000  [    4K     0K     0K     0K] ---/rwx SM=NUL
+Rosetta Return Stack     108028000-108029000  [    4K     0K     0K     0K] ---/rwx SM=NUL
+...
+</code></pre>
+<p>You can see that the x86_64 executable and the <code>runtime</code> binary are mapped onto the areas before and after the AOT file, respectively.</p>
+<p>So, in what cases do references to x86_64 or <code>runtime</code> from AOT files exist?</p>
+<p>A typical case is when there is a reference to a global variable or constant in the x86_64 executable.
+Since the AOT file does not contain any constant data of the original x86_64 executable, it is necessary to reference it.</p>
+<p>For example, take the code in Figure 9 shown earlier (the relevant part is only shown in Figure 11). </p>
+<figure>
+    <img src="../assets/reference_to_x64_code.png"/>
+    <figcaption>Figure 11 Comparison of the disassembly listing between the AOT file and the original x86_64 executable.</figcaption>
+</figure>
+
+<p>The <code>MOVSD XMM0,DAT_100003f58</code> in the original x86_64 executable is translated into two instructions, <code>adrp x22,-0xd00; ldr d0,[x22, #0xf58];</code> in the AOT file.
+Currently, Ghidra maps the AOT file onto memory with a base address of 0x0 and displays the disassembly, but according to the command output of <code>vmmap</code>, the AOT file is mapped at 0x10001000.
+So, let's change the base address to 0x100010000 where the AOT file is mapped, and reopen it.</p>
+<figure>
+    <img src="../assets/modify_reference_to_x64.png" width=500 />
+    <figcaption>Figure 12 Disassembly listing of the AOT file. Shown only for the instructions accessing the constants contained in the original x86_64 code.</figcaption>
+</figure>
+
+<p>You can see that it refers to <code>DAT_100003f58</code> in the x86_64 code; that is, it refers to the constant data contained in the x86_64 executable from the AOT file.</p>
+<p>Since there is no endianness change in this migration from x86_64 to arm64, there are no problems with simply adding references from the AOT file to the x86_64 code like this.
+However, in the past transition from PowerPC to Intel, the endianness change was required before referencing constants.
+Since changing the endianness at runtime has a large overhead, the AOT file probably also contained the data after the endianness was changed.</p>
+<p>The cases where references to <code>runtime</code> exist will be discussed in the next section, along with explaining the reverse-engineering results of <code>runtime</code>.</p>
+<h2 id="analyzing-rosetta-2-runtime">Analyzing Rosetta 2 <code>runtime</code></h2>
+<p>The Rosetta 2 <code>runtime</code> is the binary that initializes the emulation process, maps the AOT file onto the memory, and performs JIT translation.
+When an x86_64 emulation process starts, <code>runtime</code> is mapped onto the memory, and the program counter is set to the entry point of <code>runtime</code>.</p>
+<p>One interesting point is that <code>runtime</code> is <strong>not</strong> a dynamic link library.
+This is in contrast to the x86 emulation engine <code>xtajit.dll</code> in Windows 10 on Arm.
+In the case of <code>xtajit.dll</code>, it is loaded as a DLL <a href="https://wbenny.github.io/2018/11/04/wow64-internals.html">from <code>ntdll.dll</code> via <code>wow64.dll</code></a>.</p>
+<p>The currently known features of <code>runtime</code> are as follows.</p>
+<ol>
+<li>It resolves the address in an AOT file from the address of an x86_64 executable</li>
+<li>It performs the JIT binary translation from x86_64 code into arm64 code</li>
+<li>It checks the existence of an AOT file corresponding to an x86_64 executable</li>
+<li>It parses the header commands of an AOT file and maps it onto the memory</li>
+</ol>
+<p>In this article, I will discuss the features of 1. and 2.
+The features of 3. and 4. will be covered in the next article.</p>
+<h3 id="x86_64-address-resolution-and-lazy-binding">X86_64 address resolution and lazy binding</h3>
+<p>Firstly, let's discuss the feature 1 by considering the AOT file of the following source code.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    puts(&quot;Hello World&quot;);
+    puts(&quot;Hello World Again&quot;);
+    puts(&quot;Hello World Again Again&quot;);
+}
+</code></pre>
+<p>We follow the execution flow around <code>puts</code> function call in the AOT file of the above program.</p>
+<h4 id="execution-flow-around-puts-function-call-in-the-aot-file">Execution flow around <code>puts</code> function call in the AOT file</h4>
+<p>The disassembly listing near the <code>puts</code> function call in the AOT file is as follows (Figure 13).
+Note that the base address is set to 0x100010000 when opening this file with Ghidra.</p>
+<figure>
+    <img src="../assets/aot_puts_call.png"/>
+    <figcaption>Figure 13 Disassembly listing near the <code>puts</code> function call in the AOT file.</figcaption>
+</figure>
+
+<p>First, it reads data from <code>DAT_100008000</code> (the instruction at 0x1000110b0). <code>DAT_100008000</code> contains the lazy symbol pointer (<code>__la_symbol_ptr::puts</code>) of <code>puts</code> function contained in the original x86_64 code.
+Before the first <code>puts</code> function call, <code>__la_symbol_pr::puts</code> contains the function pointer to <code>__stub_helper::puts</code>.
+Once the <code>puts</code> function is called, the dynamic linker overwrites the value of the <code>__stub_helper::puts</code> with the address of the <code>puts</code> function in <code>libsystem_c.dylib</code>.
+(If you are not familiar with lazy binding, please refer to <a href="https://adrummond.net/posts/macho">this page</a>.)</p>
+<p>Next, two 8-bytes pieces of data from the <code>__stubs_sh</code> section of the AOT file are loaded, and these values are assigned to x25 and x22 registers (the instruction at 0x1000110bc).
+The <code>__stubs_sh</code> serves as a lazy symbol pointer in the AOT file.
+That is, once the <code>puts</code> function is called, the contents of <code>__stubs_sh</code> are eventually overwritten with the address of the <code>puts</code> function by Rosetta 2 <code>runtime</code>.
+After the binding, x25 and x22 are set to the x86_64 <code>puts</code> address and the AOT file's corresponding address, respectively.</p>
+<p>So, what happens if the address of the <code>puts</code> function in <code>__stubs_sh</code> has not been resolved yet?</p>
+<p>In this case, the address to be resolved is assigned to the x22 register (the instruction at 0x1000110c8), and then the <code>SUB_100012064</code> function in <code>runtime</code> (the instruction at 0x1000110cc) is called to get the address in the corresponding AOT file.
+Note that the result of the <code>SUB_100012064</code> function call is stored in the x22 register.
+Since the resolved address is stored in the x22 register, the <code>puts</code> function can be called at the <code>br x22</code> instruction.</p>
+<p>The <code>SUB_100012064</code> function also reflects the resolved result in <code>__stubs_sh</code>.
+Thus, the address of x86_64 passed to x22 register and the resolved address are stored in the <code>__stubs_sh</code> section.</p>
+<p>In this way, the lazy binding mechanism is also employed in the AOT file, so the address is not resolved until the function is called.</p>
+<p>In the following, we refer to the <code>SUB_100012064</code> function as <code>resolve_x64_addr</code>.</p>
+<h4 id="following-the-process-of-lazy-binding-in-the-aot-file">Following the process of lazy binding in the AOT file.</h4>
+<p>Let's follow the process of lazy binding in the AOT file with LLDB.</p>
+<p>Put a breakpoint and check the pointer values in <code>__la_symbol_ptr::puts</code> and <code>__stubs_sh</code> before calling the <code>puts</code> function.</p>
+<p><strong>Before the first call to the <code>puts</code> function</strong></p>
+<pre><code># reads the data in __la_symbol::puts
+# 0x0000000100003f6c corresponds to the address of __stub_helper::_puts
+(lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
+0x100008000: {0x0000000100003f6c}
+# reads the data in __stubs_sh
+(lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
+0x100016000: {0x0000000000000000 0x0000000000000000}
+</code></pre>
+<p>You can see that <code>__stubs_sh</code> contains a value of 0 and <code>__la_symbol::puts</code> contains the pointer to <code>__stub_helper::puts</code>.</p>
+<p><strong>Before the second call to the <code>puts</code> function</strong></p>
+<pre><code># reads the data in __la_symbol::puts
+# __la_symbol::puts is modified to 0x00007fff20324274 (the function address of puts in libsystem_c.dylib) by dynamic linker
+(lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
+0x100008000: {0x00007fff20324274}
+# reads the data in __stubs_sh
+(lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
+0x100016000: {0x0000000100003f6c 0x00000001000110f0}
+</code></pre>
+<p>Once the <code>puts</code> function is called, you see that the contents of <code>__la_symbol::puts</code> are overwritten and changed to 0x00007fff20324274, which is the address of the <code>puts</code> function in <code>libsystem_c.dylib</code>.
+This means that the first call to <code>puts</code> causes the dynamic linker to change the contents of <code>__la_symbol_ptr::puts</code> to point directly to the address of the <code>puts</code> function.</p>
+<p>On the other hand, you can see that <code>__stubs_sh</code> has been written to {0x0000000100003f6c 0x0000000110f0}.
+These addresses correspond to the addresses in the x86_64 executable and the AOT file of <code>__stub_helper::puts</code>, respectively (see Figure 14).
+This is because the <code>resolve_x64_addr</code> function was called with the function pointer of <code>__stub_helper::_puts</code> in x86_64 code as an argument at the first call.</p>
+<figure>
+    <img src="../assets/stubs_sh_puts_aot.png"/>
+    <figcaption>Figure 14 Disassembly listing near the function call of <code>puts</code> in the AOT file.</figcaption>
+</figure>
+
+<p><strong>Before the third call to the <code>puts</code> function</strong></p>
+<pre><code># reads the data in __la_symbol::puts
+# __la_symbol::puts is modified to 0x00007fff20324274 (puts function address of libsystem_c.dylib) by dynamic linker
+(lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
+0x100008000: {0x00007fff20324274}
+# reads the data in __stubs_sh
+(lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
+0x100016000: {0x00007fff20324274 0x00007ffe9664644c}
+</code></pre>
+<p>There is no change in the contents of <code>__la_symbol::puts</code>.
+On the contrary, you can see that <code>__stubs_sh</code> has been rewritten as {0x00007fff20324274, 0x00007ffe9664644c}.
+This is because the <code>resolve_x64_addr</code> function was called with the address of the <code>puts</code> in <code>libsystem_c.dylib</code> as an argument at the second call.
+You can see that the resolved address is stored in <code>__stubs_sh</code>.</p>
+<p>In summary, the contents of <code>__stubs_sh</code> are updated as follows.</p>
+<ul>
+<li>Before the first <code>puts</code> function call: {0, 0}</li>
+<li>Before the second <code>puts</code> function call: {<code>__stubs_helper::puts</code> function address, <code>__stubs_helper::puts</code> address in the corresponding AOT file}</li>
+<li>Before the third call to the <code>puts</code> function: {address of the <code>puts</code> function in <code>libsystem_c.dylib</code>, address in the corresponding AOT file}</li>
+</ul>
+<p>After the second call to the <code>puts</code> function, the <code>puts</code> function is directly called without calling Rosetta 2 <code>runtime</code>'s <code>resolve_x64_addr</code>.</p>
+<h4 id="resolve_x64_addr-internal"><code>resolve_x64_addr</code> internal</h4>
+<p>Next, let's focus on the analysis of <code>resolve_x64_addr</code> function.</p>
+<p>When <code>resolve_x64_addr</code> is called, the currently running context is saved (Figure 15).</p>
+<figure>
+    <img src="../assets/context_save.png" width="500" />
+    <figcaption>Figure 15 Saving the running context.</figcaption>
+</figure>
+
+<p>Then, <code>FUN_00011a54</code> (<code>0x00011a54+runtime</code>) is called.</p>
+<figure>
+    <img src="../assets/resolve_x64addr_internal.png" />
+    <figcaption>Figure 16 Function to resolve the address of the corresponding AOT file from the address of the x86_64 code.</figcaption>
+</figure>
+
+<p>The <code>FUN_00011a54</code> function takes the address of the x86_64 to be resolved as the second argument, and the address to <code>__stubs_sh</code> as the third argument (Figure 16).
+In the first call to the <code>find_translation_in_tree_x86</code> (<code>0x00022070+runtime</code>) in the <code>FUN_00011a54</code>, the corresponding AOT file's address will be searched.
+This search is done against the red-black tree that holds the correspondence between the x86_64 executable and the AOT file address.
+If found, <code>find_translation_in_tree_x86</code> updates the contents of <code>__stubs_sh</code>, and stores the found address of the AOT file (Figure 17) to the address specified as the third argument.</p>
+<figure>
+    <img src="../assets/update_stubs_sh.png" />
+    <figcaption>Figure 17 Decompilation of <code>find_translation_in_tree_x86</code> updating the content of <code>__stubs_sh</code>.</figcaption>
+</figure>
+
+<p>If not found, <code>find_translation_in_tree_x86</code> returns 0. In this case, <code>translate</code> (<code>0x00028954+runtime</code>) function is called in the <code>FUN_00011a54</code> function (Figure 16).</p>
+<p>The <code>translate</code> function, which will be explained in detail in the next section, translates x86_64 code into arm64 code in JIT and returning the result.
+The <code>translate</code> function is probably called when calling a function of a shared library that does not have an AOT file at the time of execution.</p>
+<p>Finally, <code>resolve_x64_addr</code> assigns the return value to x22, and goes back to the AOT file.</p>
+<h3 id="jit-binary-translation-of-rosetta-2-runtime-translate-function">JIT binary translation of Rosetta 2 <code>runtime</code>: <code>translate</code> function</h3>
+<p>I mentioned the <code>translate</code> function at the end of the previous section.
+Rosetta 2 implements the logic for JIT code translation as well as AOT code translation.</p>
+<p>The logic for JIT translation is also needed is to support the execution of x86_64 applications that generate x86_64 code at runtime (e.g., JavaScript engine uses a JIT compiler).</p>
+<p>For this kind of application, AOT translation is not enough because a portion of machine code to be executed is determined only at runtime.
+In order to execute such an application, the x86_64 code generated at runtime must be translated into arm64 by the JIT translator.</p>
+<p>Rosetta 2 <code>runtime</code> is able to translate the x86_64 machine code in a heap to arm64 and then execute it.</p>
+<p>In this section, we will look at the JIT translation feature included in Rosetta 2 <code>runtime</code>.</p>
+<h4 id="target-application">Target application</h4>
+<p>Let's follow the process of JIT translation in Rosetta 2 <code>runtime</code> through the following source code example.</p>
+<pre><code class="language-c">// run_shellcode.c
+#include &lt;stdio.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+typedef int (*sc)();
+
+char shellcode[] =
+&quot;\x48\x31\xc0\x99\x50\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x57\x54\x5f\x48\x31\xf6\xb0\x02\x48\xc1\xc8\x28\xb0\x3b\x0f\x05&quot;;
+
+int main(int argc, char **argv) {
+    void *ptr = mmap(0, 0x22, PROT_EXEC | PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+    if (ptr == MAP_FAILED) {
+        perror(&quot;mmap&quot;);
+        exit(-1);
+    }
+    memcpy(ptr, shellcode, sizeof(shellcode));
+    ((sc)ptr)(); // &lt;----- run shellcode
+    return 0;
+}
+</code></pre>
+<p>The above code is a modified version of <a href="https://www.exploit-db.com/exploits/38065">OSX/x86_64 - execve(/bin/sh) + Null-Free Shellcode (34 bytes)</a>.
+The process is as follows:</p>
+<ul>
+<li>Allocate a memory region with W+R+X permission by anonymous mapping</li>
+<li>Write <code>shellcode</code></li>
+<li>Go to the heap region where the <code>shellcode</code> is written</li>
+</ul>
+<p>Here, I show the disassembly listing and the decompilation of the AOT file corresponding to the above x86_64 code (Figure 18).
+Note that the base address is set to 0x100010000.</p>
+<figure>
+    <img src="../assets/runshellcode_at_aot.png" />
+    <figcaption>Figure 18 Decompilation of the corresponding AOT file near "run shellcode."</figcaption>
+</figure>
+
+<p>You notice that the call to the <code>func_0x0001000120cc</code> function exists between <code>memcpy</code> and the execution of the shellcode.</p>
+<p><code>func_0x0001000120cc</code> in Rosetta 2 <code>runtime</code> is called after passing the address of the shellcode to x22.
+The <code>func_0x0001000120cc</code> function saves the currently running context and then calls the <code>translate_indirect_branch</code> (<code>runtime+0x11944</code>) function to translate the x86_64 shellcode to arm64 one.
+After exiting the function, x22 will contain the pointer to the region that includes the JIT translated code.</p>
+<p>In the <code>translate_indirect_branch</code> function, <code>FUN_00022ac0</code> (<code>runtime+0x22ac0</code>) is called, and two more functions are called in it: the <code>translate</code> function and the <code>find_translation_in_tree_x86</code> function (Figure 19).
+These two functions have already been introduced in <a href="#resolve_x64_addr-internal"><code>resolve_x64_addr</code> internal</a>.
+The <code>FUN_00022ac0</code> function also first searches for results that have already been translated by the <code>translate_indirect_branch</code> function, and performs JIT translation only if there is none.</p>
+<figure>
+    <img src="../assets/translate_indirect_branch_internal.png" />
+    <figcaption>Figure 19 Decompilation of <code>FUN_00022ac0</code>.</figcaption>
+</figure>
+
+<h4 id="analyzing-the-x86_64-machine-code-decoding-process">Analyzing the x86_64 machine code decoding process</h4>
+<p>Not surprisingly, the <code>translate</code> function is large, and the number of functions called in it is huge.
+For example, the following functions are called</p>
+<ul>
+<li>The <code>decode_opcode</code> (<code>runtime+0x55e6c</code>) function used to parse the opcode of the x86_64 machine code</li>
+<li>The <code>decode_operand_mem16</code> (<code>runtime+0x56ab0</code>) function is used to parse the operand of the x86_64 machine code</li>
+</ul>
+<p>This section delves into the process found in the first part of the <code>decode_opcode</code> function used for parsing opcodes.</p>
+<p>The following is a portion of the decompilation of <code>decode_opcode</code>, starting with checking the x86_64 prefix byte.</p>
+<figure>
+    <img src="../assets/decode_opcode_prefix.png">
+    <figcaption>Figure 20 Part of the decompilation of the <code>decode_opcode</code> function.</figcaption>
+</figure>
+
+<p>You can see the conditional expression (<code>(opcodeInt &lt; 0x3f) &amp;&amp; ((1 &lt;&lt; opcodeBytes 0x3f) &amp; 0x4040404000000000) != 0</code>), which is equivalent to <code>(opcodeInt == 0x26) | (opcodeInt == 0x2e) | (opcodeInt == 0x36) | (opcodeInt == 0x3e)</code>. What are those magic numbers (0x26, 0x2e, 0x36, 0x3e)?</p>
+<p>According to the <a href="https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-software-developers-manual-volume-2d-instruction-set-reference.html">Intel 64 and IA-32 Architecture software developer's manual Volume 2D: Instruction set reference</a> Table A-2, these opcodes mean the segment override prefixes, which are used for overwriting the default segment settings (Figure 21 and Figure 22).</p>
+<figure>
+    <img src="../assets/prefix_1.png" />
+    <figcaption>Figure 21 CS, DS segment override prefix.</figcaption>
+</figure>
+
+<figure>
+    <img src="../assets/prefix_2.png" />
+    <figcaption>Figure 22 ES, SS segment override prefix.</figcaption>
+</figure>
+
+<p>You can also see the process of checking the lock prefix (0xf0), repne/repnz prefix (0xf2), rep/repe/repz prefix (0xf3).</p>
+<p>The result of checking the prefix byte is assigned to the structure specified by the first argument of <code>decode_opcode</code> (corresponds to the <code>param_1</code> variable in Figure 20).
+The prefix bytes seem to be assigned to a separate field for each group, as shown <a href="https://wiki.osdev.org/X86-64_Instruction_Encoding#Legacy_Prefixes">here</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article, I have reported on the following aspects of Rosetta 2.</p>
+<ul>
+<li>How <code>oahd</code> executes <code>oahd-helper</code> and creates the AOT file after starting the x86_64 process</li>
+<li>Results of the static analysis of the AOT file<ul>
+<li>Calling conventions used in the AOT file</li>
+</ul>
+</li>
+<li>The two features of <code>runtime</code><ul>
+<li>Lazy binding of AOT files</li>
+<li>JIT binary translation from x86_64 to arm64</li>
+</ul>
+</li>
+</ul>
+<p>Rosetta 2 was reported to have a good score in <a href="https://9to5mac.com/2020/12/15/benchmarks-show-how-far-behind-windows-arm-machines-are-compared-to-m1-macs/">Geekbench 5</a>, so its design seems sophisticated.
+We hope that this article will lead to further analysis of Rosetta 2 and reveal its sophisticated design.</p>
+<h2 id="whats-next">What's next?</h2>
+<p>The following points will be introduced in part2 and beyond. I will publish these results in a few weeks.</p>
+<ul>
+<li>Other features of Rosetta 2 <code>runtime</code><ul>
+<li>Loading of AOT files</li>
+<li>The ability to query <code>oahd</code> for the existence of AOT files via Mach IPC</li>
+</ul>
+</li>
+<li>Debugging features included in Rosetta 2 <code>runtime</code><ul>
+<li>Tracing of JIT translations (<code>ROSETTA_PRINT_IR</code>)</li>
+<li>Printing the information on segments mapped onto the memory (<code>ROSETTA_PRINT_SEGMENTS</code>)</li>
+</ul>
+</li>
+<li>AOT_METADATA load command included in an AOT file</li>
+<li>Speeding up the loading process with AOT shared cache files</li>
+<li>Introduction to the AOT shared cache file structure and the parser<ul>
+<li>The parser of AOT shared cache files is available <a href="">here</a>.</li>
+</ul>
+</li>
+<li>Code signatures included in AOT files and AOT shared cache files</li>
+<li>How to debug the x86_64 emulation process at the arm64 instruction level</li>
+<li>How to create a patch to parse an AOT file with Ghidra</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Top page
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../part2/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 runtime and AOT shared cache files
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

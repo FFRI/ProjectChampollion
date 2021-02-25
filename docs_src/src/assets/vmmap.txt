@@ -1,0 +1,17 @@
+==== Non-writable regions for process 70817
+REGION TYPE                    START - END         [ VSIZE  RSDNT  DIRTY   SWAP] PRT/MAX SHRMOD PURGE    REGION DETAIL
+__TEXT                      100000000-100003000    [   12K    12K     0K     0K] r-x/r-x SM=COW          /Users/USER/Documents/*/check_calling_
+__TEXT                      100003000-100004000    [    4K     4K     4K     0K] r-x/rwx SM=COW          /Users/USER/Documents/*/check_calling_
+__DATA_CONST                100004000-100008000    [   16K    16K    16K     0K] r--/rw- SM=COW          /Users/USER/Documents/*/check_calling_
+__LINKEDIT                  10000c000-10000d000    [    4K     4K     0K     0K] r--/r-- SM=COW          /Users/USER/Documents/*/check_calling_
+__LINKEDIT                  10000d000-100010000    [   12K     0K     0K     0K] r--/r-- SM=NUL          /Users/USER/Documents/*/check_calling_
+mapped file                 100010000-100012000    [    8K     8K     0K     0K] r-x/rwx SM=COW          /private/var/db/*/check_calling_conven
+mapped file                 100012000-100016000    [   16K    16K     0K     0K] r-x/r-x SM=COW          /Library/Apple/*/runtime
+mapped file                 100017000-100018000    [    4K     4K     0K     0K] r--/rwx SM=COW          /private/var/db/*/check_calling_conven
+mapped file                 100020000-100024000    [   16K    16K     0K     0K] r-x/r-x SM=COW          /Library/Apple/*/runtime
+Rosetta Thread Context      108023000-108024000    [    4K     0K     0K     0K] ---/rwx SM=NUL
+Rosetta Return Stack        108028000-108029000    [    4K     0K     0K     0K] ---/rwx SM=NUL
+Rosetta Generic             10802d000-10802e000    [    4K     0K     0K     0K] ---/rwx SM=NUL
+Rosetta Generic             108232000-108233000    [    4K     0K     0K     0K] ---/rwx SM=NUL
+MALLOC metadata             1082cc000-1082cd000    [    4K     4K     4K     0K] r--/rwx SM=PRV
+...

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "aotcacheextractor"
+version = "0.1.0"
+description = "Extract AOT shared cache content"
+authors = ["Koh M. Nakagawa <ko.nakagawa@ffri.jp>"]
+license = "Apache version 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typer = "^0.3.2"
+black = "^20.8b1"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.800"
+isort = "^5.7.0"
+black = "^20.8b1"
+pre-commit = "^2.10.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

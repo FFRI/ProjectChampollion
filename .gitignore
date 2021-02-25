@@ -1,0 +1,4 @@
+*.out
+.venv
+node_modules
+*_jp.md
