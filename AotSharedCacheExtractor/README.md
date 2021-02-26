@@ -69,6 +69,8 @@ CodeFragmentMetaData:
 $ python extract-codesig /path/to/aot_shared_cache codesig
 Will extract a code signature located at [0x9a3fc000, 0x9b74400b]
 The extracted code signature is saved to code_sig
+$ file code_sig
+code_sig: Mac OS X Detached Code Signature (non-executable) - 20217867 bytes
 ```
 
 ## Notes about [`aot_mapped_module_names`](./aot_mapped_module_names) file
