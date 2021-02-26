@@ -10,6 +10,18 @@ Its mechanism is similar to the dyld\_shared\_cache; when a new process is launc
 
 AOT shared cache file is also undocumented like the dyld\_shared\_cache. Therefore, I reverse-engineered the structure of AOT shared cache, and write a simple python script to show the contents of AOT shared cache.
 
+## How to use?
+
+Before use this script, you need to install [poetry](https://github.com/python-poetry/poetry) to resolve its dependencies.
+Then, you can install AotSharedCacheExtractor as follows.
+
+```
+$ poetry shell
+$ poetry update
+$ poetry install
+$ python main.py /path/to/aot_shared_cache
+```
+
 ## Notes about `aot_mapped_module_names` file
 
 `aot_mapped_module_names` contains the list of module names in the AOT shared cache file for macOS Bug Sur version 11.1.
