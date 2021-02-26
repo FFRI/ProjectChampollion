@@ -63,7 +63,7 @@ class AotCacheHeader(Structure):
         uint64_t offset_to_codesig;
         uint64_t size_of_codesig;
         uint32_t n_entries;
-        uint32_t offset_to_metadata_sect;
+        uint32_t offset_to_metadata_seg;
         struct AotCacheMappingInfo mapping[3];
     };
     """
@@ -77,7 +77,7 @@ class AotCacheHeader(Structure):
         ("offset_to_codesig", c_uint64),
         ("size_of_codesig", c_uint64),
         ("n_entries", c_uint32),
-        ("offset_to_metadata_sect", c_uint32),
+        ("offset_to_metadata_seg", c_uint32),
         ("mapping", AotCacheMappingInfo * 3),
     )
 
@@ -91,7 +91,7 @@ class AotCacheHeader(Structure):
 \toffset_to_codesig: {hex(self.offset_to_codesig)}
 \tsize_of_codesig: {hex(self.size_of_codesig)}
 \tn_entries: {hex(self.n_entries)}
-\toffset_to_metadata_sect: {hex(self.offset_to_metadata_sect)}
+\toffset_to_metadata_seg: {hex(self.offset_to_metadata_seg)}
 \tmapping:\n {''.join(str(self.mapping[i]) for i in range(3))}"""
 
 
@@ -154,10 +154,10 @@ def show_modules(aot_cache_path: str) -> None:
 
         typer.echo(header)
 
-        code_sect_beg = header.mapping[1].address
-        metadata_sect_beg = header.offset_to_metadata_sect
-        typer.echo(f"metadata section starts from {hex(metadata_sect_beg)}")
-        cur_seek = header.offset_to_metadata_sect
+        code_seg_beg = header.mapping[1].address
+        metadata_seg_beg = header.offset_to_metadata_seg
+        typer.echo(f"metadata segment starts from {hex(metadata_seg_beg)}")
+        cur_seek = header.offset_to_metadata_seg
         typer.echo(f"number of entries is {header.n_entries}")
 
         for _ in range(header.n_entries):
@@ -167,25 +167,25 @@ def show_modules(aot_cache_path: str) -> None:
             typer.echo(entry)
             cur_seek += sizeof(CodeFragmentMetaData)
             if entry.type == 0:
-                if cur_seek != metadata_sect_beg + entry.offset_to_branch_data:
+                if cur_seek != metadata_seg_beg + entry.offset_to_branch_data:
                     show_err("branch data does not follow")
                     show_err(
-                        f"{hex(cur_seek)} {hex(metadata_sect_beg)} {hex(entry.offset_to_branch_data)}"
+                        f"{hex(cur_seek)} {hex(metadata_seg_beg)} {hex(entry.offset_to_branch_data)}"
                     )
                     return
                 branch_data_beg, branch_data_end = cur_seek, cur_seek + entry.size_of_branch_data
                 cur_seek += entry.size_of_branch_data
 
-                if cur_seek != metadata_sect_beg + entry.offset_to_insn_map:
+                if cur_seek != metadata_seg_beg + entry.offset_to_insn_map:
                     show_err("instruction map data does not follow")
                     show_err(
-                        f"{hex(cur_seek)} {hex(metadata_sect_beg)} {hex(entry.offset_to_insn_map)}"
+                        f"{hex(cur_seek)} {hex(metadata_seg_beg)} {hex(entry.offset_to_insn_map)}"
                     )
                     return
                 insn_map_beg, insn_map_end = cur_seek, cur_seek + entry.size_of_insn_map
                 cur_seek += entry.size_of_insn_map
 
-                cache_code_beg = code_sect_beg + entry.offset_to_arm64_code
+                cache_code_beg = code_seg_beg + entry.offset_to_arm64_code
                 cache_code_end = cache_code_beg + entry.size_of_arm64_code
 
                 typer.echo(
@@ -198,7 +198,7 @@ def show_modules(aot_cache_path: str) -> None:
                     f"\tinstruction map: [{hex(insn_map_beg)}, {hex(insn_map_end)}]"
                 )
             elif entry.type == 1:
-                runtime_begin = code_sect_beg + entry.offset_to_arm64_code
+                runtime_begin = code_seg_beg + entry.offset_to_arm64_code
                 runtime_end = runtime_begin + entry.size_of_arm64_code
                 typer.echo(
                     f"[{hex(runtime_begin)}, {hex(runtime_end)}] RuntimeRoutines"
