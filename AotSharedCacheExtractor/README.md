@@ -23,7 +23,8 @@ $ poetry update
 Then, you can run this script and show the contents of the AOT shared cache file (`/System/Library/dyld/aot_shared_cache`).
 
 ```
-$ python main.py /path/to/aot_shared_cache
+# Dump contents of an AOT shared cache
+$ python main.py dump /path/to/aot_shared_cache
 AotCacheHeader:
         magic: 0x6568636143746f41
         field_0x8: 0x901e87ff163d262d
@@ -63,6 +64,11 @@ CodeFragmentMetaData:
         size_of_x64_code: 0x0
         offset_to_arm64_code: 0x0
 ...
+
+# Extract a code signature of an AOT shared cache
+$ python extract-codesig /path/to/aot_shared_cache codesig
+Will extract a code signature located at [0x9a3fc000, 0x9b74400b]
+The extracted code signature is saved to code_sig
 ```
 
 ## Notes about [`aot_mapped_module_names`](./aot_mapped_module_names) file

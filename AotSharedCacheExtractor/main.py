@@ -4,12 +4,14 @@
 import mmap
 import os
 from ctypes import Structure, c_uint32, c_uint64, sizeof
-from typing import Iterable, List, Optional, cast
+from typing import Iterable, Optional, cast
 
 import typer
 
 app = typer.Typer()
 
+
+AOT_SHARED_CACHE_MAGIC = 0x6568636143746F41
 
 def show_err(msg: str) -> None:
     typer.secho(msg, err=True, fg=typer.colors.RED)
@@ -23,9 +25,9 @@ def show_log(msg: str) -> None:
     typer.secho(msg, err=True, fg=typer.colors.GREEN)
 
 
-class AotCacheMappingInfo(Structure):
+class AotMappingInfo(Structure):
     """
-    struct AotCacheMappingInfo {
+    struct AotMappingInfo {
         uint64_t address;
         uint64_t size;
         uint64_t file_offset;
@@ -43,7 +45,7 @@ class AotCacheMappingInfo(Structure):
     )
 
     def __str__(self) -> str:
-        return f"""\tAotCacheMappingInfo:
+        return f"""\tAotMappingInfo:
 \t\taddress: {hex(self.address)}
 \t\tsize: {hex(self.size)}
 \t\tfile_offset: {hex(self.file_offset)}
@@ -52,9 +54,9 @@ class AotCacheMappingInfo(Structure):
 """
 
 
-class AotCacheHeader(Structure):
+class AotSharedCacheHeader(Structure):
     """
-    struct AotCacheHeader {
+    struct AotSharedCacheHeader {
         uint64_t magic;
         uint64_t field_0x8;
         uint64_t field_0x10;
@@ -64,7 +66,7 @@ class AotCacheHeader(Structure):
         uint64_t size_of_codesig;
         uint32_t n_entries;
         uint32_t offset_to_metadata_seg;
-        struct AotCacheMappingInfo mapping[3];
+        struct AotMappingInfo mapping[3];
     };
     """
 
@@ -78,11 +80,11 @@ class AotCacheHeader(Structure):
         ("size_of_codesig", c_uint64),
         ("n_entries", c_uint32),
         ("offset_to_metadata_seg", c_uint32),
-        ("mapping", AotCacheMappingInfo * 3),
+        ("mapping", AotMappingInfo * 3),
     )
 
     def __str__(self) -> str:
-        return f"""AotCacheHeader:
+        return f"""AotSharedCacheHeader:
 \tmagic: {hex(self.magic)}
 \tfield_0x8: {hex(self.field_0x8)}
 \tfield_0x10: {hex(self.field_0x10)}
@@ -133,9 +135,35 @@ def load_aot_mapped_module_names(mapped_module_file: str) -> Optional[Iterable[s
 
 
 @app.command()
-def show_modules(aot_cache_path: str) -> None:
-    if not os.path.exists(aot_cache_path):
-        show_err(f"{aot_cache_path} does not exist")
+def extract_codesig(aot_shared_cache_path: str, output_file_path: str) -> None:
+    if not os.path.exists(aot_shared_cache_path):
+        show_err(f"{aot_shared_cache_path} does not exist")
+        return
+
+    with open(aot_shared_cache_path, "r+b") as fin:
+        mm = mmap.mmap(fin.fileno(), 0)
+        header = AotSharedCacheHeader.from_buffer_copy(
+            cast(bytes, mm[0:sizeof(AotSharedCacheHeader)]), 0
+        )
+        if header.magic != AOT_SHARED_CACHE_MAGIC:
+            show_err("magic should be AotCache")
+            return
+
+        codesig_beg = header.offset_to_codesig
+        codesig_end = codesig_beg + header.size_of_codesig
+
+        show_log(f"Will extract a code signature located at [{hex(codesig_beg)}, {hex(codesig_end)}]")
+
+        with open(output_file_path, "wb") as fout:
+            fout.write(cast(bytes, mm[codesig_beg:codesig_end]))
+
+        show_log(f"The extracted code signature is saved to {output_file_path}")
+
+
+@app.command()
+def dump(aot_shared_cache_path: str) -> None:
+    if not os.path.exists(aot_shared_cache_path):
+        show_err(f"{aot_shared_cache_path} does not exist")
         return
 
     if (
@@ -143,13 +171,13 @@ def show_modules(aot_cache_path: str) -> None:
     ) is None:
         return
 
-    with open(aot_cache_path, "r+b") as fin:
+    with open(aot_shared_cache_path, "r+b") as fin:
         mm = mmap.mmap(fin.fileno(), 0)
-        header = AotCacheHeader.from_buffer_copy(
-            cast(bytes, mm[0 : sizeof(AotCacheHeader)]), 0
+        header = AotSharedCacheHeader.from_buffer_copy(
+            cast(bytes, mm[0:sizeof(AotSharedCacheHeader)]), 0
         )
-        if header.magic != 0x6568636143746F41:
-            show_err(f"magic should be AotCache")
+        if header.magic != AOT_SHARED_CACHE_MAGIC:
+            show_err("magic should be AotCache")
             return
 
         typer.echo(header)
@@ -185,11 +213,11 @@ def show_modules(aot_cache_path: str) -> None:
                 insn_map_beg, insn_map_end = cur_seek, cur_seek + entry.size_of_insn_map
                 cur_seek += entry.size_of_insn_map
 
-                cache_code_beg = code_seg_beg + entry.offset_to_arm64_code
-                cache_code_end = cache_code_beg + entry.size_of_arm64_code
+                arm64_code_beg = code_seg_beg + entry.offset_to_arm64_code
+                cache_code_end = arm64_code_beg + entry.size_of_arm64_code
 
                 typer.echo(
-                    f"[{hex(cache_code_beg)}, {hex(cache_code_end)}] {next(mapped_module_names)}"
+                    f"[{hex(arm64_code_beg)}, {hex(cache_code_end)}] {next(mapped_module_names)}"
                 )
                 typer.echo(
                     f"\tbranch data: [{hex(branch_data_beg)}, {hex(branch_data_end)}]"
