@@ -1,5 +1,5 @@
 #
-# (c) FFRI Security, Inc., 2020 / Author: FFRI Security, Inc.
+# (c) FFRI Security, Inc., 2021 / Author: FFRI Security, Inc.
 #
 import mmap
 import os
@@ -42,6 +42,15 @@ class AotCacheMappingInfo(Structure):
         ("max_prot", c_uint32),
     )
 
+    def __str__(self) -> str:
+        return f"""\tAotCacheMappingInfo:
+\t\taddress: {hex(self.address)}
+\t\tsize: {hex(self.size)}
+\t\tfile_offset: {hex(self.file_offset)}
+\t\tinit_prot: {hex(self.init_prot)}
+\t\tmax_prot: {hex(self.max_prot)}
+"""
+
 
 class AotCacheHeader(Structure):
     """
@@ -66,14 +75,24 @@ class AotCacheHeader(Structure):
         ("uuid", c_uint64 * 2),
         ("version", c_uint64 * 4),
         ("offset_to_codesig", c_uint64),
-        ("sizeo_of_codesig", c_uint64),
+        ("size_of_codesig", c_uint64),
         ("n_entries", c_uint32),
         ("offset_to_metadata_sect", c_uint32),
         ("mapping", AotCacheMappingInfo * 3),
     )
 
     def __str__(self) -> str:
-        return f"magic: {hex(self.magic)}"
+        return f"""AotCacheHeader:
+\tmagic: {hex(self.magic)}
+\tfield_0x8: {hex(self.field_0x8)}
+\tfield_0x10: {hex(self.field_0x10)}
+\tuuid: {[hex(self.uuid[i]) for i in range(2)]}
+\tversion: {[hex(self.version[i]) for i in range(4)]}
+\toffset_to_codesig: {hex(self.offset_to_codesig)}
+\tsize_of_codesig: {hex(self.size_of_codesig)}
+\tn_entries: {hex(self.n_entries)}
+\toffset_to_metadata_sect: {hex(self.offset_to_metadata_sect)}
+\tmapping:\n {''.join(str(self.mapping[i]) for i in range(3))}"""
 
 
 class CodeFragmentMetaData(Structure):
@@ -89,6 +108,19 @@ class CodeFragmentMetaData(Structure):
         ("offset_to_insn_map", c_uint32),
         ("size_of_insn_map", c_uint32),
     )
+
+    def __str__(self) -> str:
+        return f"""CodeFragmentMetaData:
+\ttype: {hex(self.type)}
+\toffset_to_path_name: {hex(self.offset_to_path_name)}
+\toffset_to_x64_code: {hex(self.offset_to_x64_code)}
+\tsize_of_x64_code: {hex(self.size_of_x64_code)}
+\toffset_to_arm64_code: {hex(self.offset_to_arm64_code)}
+\tsize_of_arm64_code: {hex(self.size_of_arm64_code)}
+\toffset_to_branch_data: {hex(self.offset_to_branch_data)}
+\tsize_of_branch_data: {hex(self.size_of_branch_data)}
+\toffset_to_insn_map: {hex(self.offset_to_insn_map)}
+\tsize_of_insn_map: {hex(self.size_of_insn_map)}"""
 
 
 def load_aot_mapped_module_names(mapped_module_file: str) -> Optional[Iterable[str]]:
@@ -120,9 +152,11 @@ def show_modules(aot_cache_path: str) -> None:
             show_err(f"magic should be AotCache")
             return
 
-        code_sect_begin = header.mapping[1].address
-        metadata_sect_begin = header.offset_to_metadata_sect
-        typer.echo(f"metadata section starts from {hex(metadata_sect_begin)}")
+        typer.echo(header)
+
+        code_sect_beg = header.mapping[1].address
+        metadata_sect_beg = header.offset_to_metadata_sect
+        typer.echo(f"metadata section starts from {hex(metadata_sect_beg)}")
         cur_seek = header.offset_to_metadata_sect
         typer.echo(f"number of entries is {header.n_entries}")
 
@@ -130,30 +164,41 @@ def show_modules(aot_cache_path: str) -> None:
             entry = CodeFragmentMetaData.from_buffer_copy(
                 cast(bytes, mm[cur_seek : cur_seek + sizeof(CodeFragmentMetaData)])
             )
+            typer.echo(entry)
             cur_seek += sizeof(CodeFragmentMetaData)
             if entry.type == 0:
-                if cur_seek != metadata_sect_begin + entry.offset_to_branch_data:
+                if cur_seek != metadata_sect_beg + entry.offset_to_branch_data:
                     show_err("branch data does not follow")
                     show_err(
-                        f"{hex(cur_seek)} {hex(metadata_sect_begin)} {hex(entry.offset_to_branch_data)}"
+                        f"{hex(cur_seek)} {hex(metadata_sect_beg)} {hex(entry.offset_to_branch_data)}"
                     )
                     return
+                branch_data_beg, branch_data_end = cur_seek, cur_seek + entry.size_of_branch_data
                 cur_seek += entry.size_of_branch_data
-                if cur_seek != metadata_sect_begin + entry.offset_to_insn_map:
+
+                if cur_seek != metadata_sect_beg + entry.offset_to_insn_map:
                     show_err("instruction map data does not follow")
                     show_err(
-                        f"{hex(cur_seek)} {hex(metadata_sect_begin)} {hex(entry.offset_to_insn_map)}"
+                        f"{hex(cur_seek)} {hex(metadata_sect_beg)} {hex(entry.offset_to_insn_map)}"
                     )
                     return
+                insn_map_beg, insn_map_end = cur_seek, cur_seek + entry.size_of_insn_map
                 cur_seek += entry.size_of_insn_map
 
-                cache_code_begin = code_sect_begin + entry.offset_to_arm64_code
-                cache_code_end = cache_code_begin + entry.size_of_arm64_code
+                cache_code_beg = code_sect_beg + entry.offset_to_arm64_code
+                cache_code_end = cache_code_beg + entry.size_of_arm64_code
+
                 typer.echo(
-                    f"[{hex(cache_code_begin)}, {hex(cache_code_end)}] {next(mapped_module_names)}"
+                    f"[{hex(cache_code_beg)}, {hex(cache_code_end)}] {next(mapped_module_names)}"
+                )
+                typer.echo(
+                    f"\tbranch data: [{hex(branch_data_beg)}, {hex(branch_data_end)}]"
+                )
+                typer.echo(
+                    f"\tinstruction map: [{hex(insn_map_beg)}, {hex(insn_map_end)}]"
                 )
             elif entry.type == 1:
-                runtime_begin = code_sect_begin + entry.offset_to_arm64_code
+                runtime_begin = code_sect_beg + entry.offset_to_arm64_code
                 runtime_end = runtime_begin + entry.size_of_arm64_code
                 typer.echo(
                     f"[{hex(runtime_begin)}, {hex(runtime_end)}] RuntimeRoutines"
