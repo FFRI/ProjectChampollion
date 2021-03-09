@@ -260,7 +260,7 @@ The `ROSETTA_PRINT_IR` debugging feature can likely be used to trace the transla
 As in the previous section, after running the program via LLDB, we can get the following logs by enabling `ROSETTA_PRINT_SEGMENTS`.
 
 - [A standard error when `ROSETTA_PRINT_SEGMENTS` is enabled](./assets/print_segments_err.log)
-- [A standard output when `ROSETTA_PRINT_SEGMENTS` is enabled](./assets/print_segments_outlog)
+- [A standard output when `ROSETTA_PRINT_SEGMENTS` is enabled](./assets/print_segments_out.log)
 
 Firstly, let's look at the standard error.
 
