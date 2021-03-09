@@ -1,0 +1,12 @@
+runtime mapped at 0x7ffdfff78000
+segments for /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/b3690b640c30cc1cd5d018dfefc14f1069ab08653c96f0d1c1028c0088a7832e/run_shellcode.out.aot:
+    mapping __TEXT at [0x100010000, 0x1000111e8)
+    mapping RuntimeRoutines at [0x100012000, 0x100016000)
+    mapping __LINKEDIT at [0x100017000, 0x100017168)
+segments for /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/62bee60f3b169ff1f137b962bfe71dd2be9feeee8b72b2bec1db3f097708f0c9/dyld.aot:
+    mapping __TEXT at [0x200128000, 0x2001e3b24)
+    mapping RuntimeRoutines at [0x2001e4000, 0x2001e8000)
+    mapping __LINKEDIT at [0x2001e9000, 0x200235cf3)
+allocating ExecutableHeap chunk:
+    mapping RuntimeRoutines at [0x100020000, 0x100024000)
+    allocation at [0x100024000, 0x108020000)

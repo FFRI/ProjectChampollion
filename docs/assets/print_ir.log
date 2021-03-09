@@ -1,0 +1,5180 @@
+20003ce24    BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+20003ce24    pop       rbx
+20003ce25    pop       r14
+20003ce27    pop       rbp
+20003ce28    ret
+
+20002a74b    BB_0
+             preds    
+20002a74b    test      eax, eax, def #n
+20002a74d    mov       rcx, [rbp - 0x40]
+20002a751    mov       rax, rcx
+20002a754    cmovcc    s, rax, r13
+20002a758    test      rcx, rcx, def #z
+20002a75b    cmovcc    e, rcx, rax
+20002a75f    mov       [rbp - 0x40], rcx
+20002a763    jmp       BB_1
+
+20002a939    BB_1
+             preds     BB_0
+20002a939    mov       eax, [r13 + 0x4]
+20002a93d    add       r13, rax
+20002a940    inc       ebx
+20002a942    cmp       ebx, esi, def #nzcvpa
+20002a944    jcc       ne, 0x20002a678, fallthrough BB_2
+
+20002a94a    BB_2
+             preds     BB_1
+20002a94a    jmp       BB_3
+
+20002a96d    BB_3
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_2
+20002a96d    cmp       [rbp - 0x40], 0x0, def #nzcvpa
+20002a972    jcc       ne, BB_13, fallthrough BB_4
+
+20002a978    BB_4
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_3
+20002a978    mov       rsi, [rbp - 0x80]
+20002a97c    test      rsi, rsi, def #nzcvpa
+20002a97f    mov       rbx, [rbp - 0x78]
+20002a983    jcc       e, BB_6, fallthrough BB_5
+
+20002a985    BB_5
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_4
+20002a985    mov       rax, [r14]
+20002a988    mov       rdi, r14
+20002a98b    call      [rax + 0x358], return BB_6
+
+20002a991    BB_6
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_4, BB_5
+20002a991    mov       rsi, [rbp - 0x70]
+20002a995    test      rsi, rsi, def #nzcvpa
+20002a998    jcc       e, BB_8, fallthrough BB_7
+
+20002a99a    BB_7
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_6
+20002a99a    mov       rax, [r14]
+20002a99d    mov       rdi, r14
+20002a9a0    call      [rax + 0x360], return BB_8
+
+20002a9a6    BB_8
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_6, BB_7
+20002a9a6    test      rbx, rbx, def #nzcvpa
+20002a9a9    jcc       e, BB_10, fallthrough BB_9
+
+20002a9ab    BB_9
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_8
+20002a9ab    mov       rax, [r14]
+20002a9ae    mov       rdi, r14
+20002a9b1    mov       rsi, rbx
+20002a9b4    call      [rax + 0x368], return BB_10
+
+20002a9ba    BB_10
+             preds     BB_8, BB_9
+20002a9ba    test      r15, r15, def #z
+20002a9bd    jcc       e, BB_12, fallthrough BB_11
+
+20002a9bf    BB_11
+             preds     BB_10
+20002a9bf    mov       rax, [r14]
+20002a9c2    mov       rax, [rax + 0x370]
+20002a9c9    mov       rdi, r14
+20002a9cc    mov       rsi, r15
+20002a9cf    mov       rdx, r12
+20002a9d2    mov       rcx, [rbp - 0x68]
+20002a9d6    add       rsp, 0x58, def #nzcvpa
+20002a9da    pop       rbx
+20002a9db    pop       r12
+20002a9dd    pop       r13
+20002a9df    pop       r14
+20002a9e1    pop       r15
+20002a9e3    pop       rbp
+20002a9e4    jmp       rax
+
+20002a9e6    BB_12
+             preds     BB_10
+20002a9e6    add       rsp, 0x58, def #nzcvpa
+20002a9ea    pop       rbx
+20002a9eb    pop       r12
+20002a9ed    pop       r13
+20002a9ef    pop       r14
+20002a9f1    pop       r15
+20002a9f3    pop       rbp
+20002a9f4    ret
+
+20002aa07    BB_13
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_3
+20002aa07    mov       rdi, r14
+20002aa0a    call      0x200024164, return BB_14
+
+20002aa0f    BB_14
+             preds     BB_13
+20002aa0f    cmp       [rbp - 0x48], 0x0, def #z
+20002aa14    jcc       ne, BB_16, fallthrough BB_15
+
+20002aa16    BB_15
+             preds     BB_14
+20002aa16    mov       rcx, [rbp - 0x40]
+20002aa1a    mov       edx, [rcx]
+20002aa1c    lea       rdi, [0x20009d79f]
+20002aa23    mov       rsi, rax
+20002aa26    xor       eax, eax, def #nzcvpa
+20002aa28    call      0x2000115de, return BB_16
+
+20002aa2d    BB_16
+             preds     BB_14, BB_15
+20002aa2d    mov       rcx, [rbp - 0x48]
+20002aa31    mov       edx, [rcx + 0x8]
+20002aa34    movzx     ecx, dh
+20002aa37    shr       edx, 0x10
+20002aa3a    mov       rsi, [rbp - 0x40]
+20002aa3e    mov       r8d, [rsi]
+20002aa41    lea       rdi, [0x20009d743]
+20002aa48    mov       rsi, rax
+20002aa4b    xor       eax, eax, def #nzcvpa
+20002aa4d    call      0x2000115de, return BB_17
+
+20002aa52    BB_17
+             preds     BB_16
+20002aa52    nop       
+20002aa54    cld       
+20002aa56    invalid
+
+20002a678    BB_0
+             preds     BB_24
+20002a678    mov       eax, [r13]
+20002a67c    cmp       eax, 0x1, def #nzv
+20002a67f    jcc       le, BB_3, fallthrough BB_1
+
+20002a681    BB_1
+             preds     BB_0
+20002a681    lea       ecx, [rax - 0xb]
+20002a684    cmp       ecx, 0x1a, def #zc
+20002a687    jcc       a, BB_12, fallthrough BB_2
+
+20002a689    BB_2
+             preds     BB_1
+20002a689    movsxd    rcx, [rdi + rcx*4]
+20002a68d    add       rcx, rdi, def #nzcvpa
+20002a690    jmp       rcx
+
+20002a69b    BB_3
+             preds     BB_0
+20002a69b    cmp       eax, -0x7fffffde, def #nzv
+20002a6a0    jcc       g, BB_8, fallthrough BB_4
+
+20002a6a2    BB_4
+             preds     BB_3
+20002a6a2    cmp       eax, -0x7fffffe2, def #nzv
+20002a6a7    jcc       g, BB_14, fallthrough BB_5
+
+20002a6a9    BB_5
+             preds     BB_4
+20002a6a9    cmp       eax, -0x7fffffe8, def #z
+20002a6ae    jcc       e, BB_24, fallthrough BB_6
+
+20002a6b4    BB_6
+             preds     BB_5
+20002a6b4    cmp       eax, -0x7fffffe4, def #z
+20002a6b9    jcc       e, BB_24, fallthrough BB_7
+
+20002a6bf    BB_7
+             preds     BB_6
+20002a6bf    jmp       BB_23
+
+20002a6c4    BB_8
+             preds     BB_3
+20002a6c4    cmp       eax, -0x7fffffce, def #nzv
+20002a6c9    jcc       g, BB_17, fallthrough BB_9
+
+20002a6cb    BB_9
+             preds     BB_8
+20002a6cb    cmp       eax, -0x7fffffdd, def #z
+20002a6d0    jcc       e, BB_24, fallthrough BB_10
+
+20002a6d6    BB_10
+             preds     BB_9
+20002a6d6    cmp       eax, -0x7fffffd8, def #z
+20002a6db    jcc       e, BB_24, fallthrough BB_11
+
+20002a6e1    BB_11
+             preds     BB_10
+20002a6e1    jmp       BB_23
+
+20002a6e3    BB_12
+             preds     BB_1
+20002a6e3    lea       ecx, [rax - 0x2f]
+20002a6e6    cmp       ecx, 0x2, def #c
+20002a6e9    jcc       ae, BB_20, fallthrough BB_13
+
+20002a6eb    BB_13
+             preds     BB_12
+20002a6eb    mov       [rbp - 0x48], r13
+20002a6ef    jmp       BB_24
+
+20002a6f4    BB_14
+             preds     BB_4
+20002a6f4    cmp       eax, -0x7fffffe1, def #z
+20002a6f9    jcc       e, BB_24, fallthrough BB_15
+
+20002a6ff    BB_15
+             preds     BB_14
+20002a6ff    cmp       eax, -0x7fffffde, def #z
+20002a704    jcc       ne, BB_23, fallthrough BB_16
+
+20002a706    BB_16
+             preds     BB_15
+20002a706    mov       [rbp - 0x80], r13
+20002a70a    jmp       BB_24
+
+20002a70f    BB_17
+             preds     BB_8
+20002a70f    cmp       eax, -0x7fffffcd, def #z
+20002a714    jcc       e, BB_22, fallthrough BB_18
+
+20002a716    BB_18
+             preds     BB_17
+20002a716    cmp       eax, -0x7fffffcc, def #z
+20002a71b    jcc       ne, BB_23, fallthrough BB_19
+
+20002a71d    BB_19
+             preds     BB_18
+20002a71d    mov       [rbp - 0x70], r13
+20002a721    jmp       BB_24
+
+20002a726    BB_20
+             preds     BB_12
+20002a726    cmp       eax, 0x2, def #z
+20002a729    jcc       ne, BB_23, fallthrough BB_21
+
+20002a72b    BB_21
+             preds     BB_20
+20002a72b    mov       rax, [r14 + 0x60]
+20002a72f    mov       r15d, [r13 + 0x8]
+20002a733    mov       r12d, [r13 + 0x10]
+20002a737    add       r12, rax
+20002a73a    add       r15, rax
+20002a73d    jmp       BB_24
+
+20002a742    BB_22
+             preds     BB_17
+20002a742    mov       [rbp - 0x78], r13
+20002a746    jmp       BB_24
+
+20002a74b    BB_23
+             preds     BB_7, BB_11, BB_15, BB_18, BB_20
+20002a74b    test      eax, eax, def #n
+20002a74d    mov       rcx, [rbp - 0x40]
+20002a751    mov       rax, rcx
+20002a754    cmovcc    s, rax, r13
+20002a758    test      rcx, rcx, def #z
+20002a75b    cmovcc    e, rcx, rax
+20002a75f    mov       [rbp - 0x40], rcx
+20002a763    jmp       BB_24
+
+20002a939    BB_24
+             preds     BB_5, BB_6, BB_9, BB_10, BB_13, BB_14, BB_16, BB_19, BB_21, BB_22, BB_23
+20002a939    mov       eax, [r13 + 0x4]
+20002a93d    add       r13, rax
+20002a940    inc       ebx
+20002a942    cmp       ebx, esi, def #z
+20002a944    jcc       ne, BB_0, fallthrough BB_25
+
+20002a94a    BB_25
+             preds     BB_24
+20002a94a    jmp       BB_26
+
+20002a96d    BB_26
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_25
+20002a96d    cmp       [rbp - 0x40], 0x0, def #nzcvpa
+20002a972    jcc       ne, BB_36, fallthrough BB_27
+
+20002a978    BB_27
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_26
+20002a978    mov       rsi, [rbp - 0x80]
+20002a97c    test      rsi, rsi, def #nzcvpa
+20002a97f    mov       rbx, [rbp - 0x78]
+20002a983    jcc       e, BB_29, fallthrough BB_28
+
+20002a985    BB_28
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_27
+20002a985    mov       rax, [r14]
+20002a988    mov       rdi, r14
+20002a98b    call      [rax + 0x358], return BB_29
+
+20002a991    BB_29
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_27, BB_28
+20002a991    mov       rsi, [rbp - 0x70]
+20002a995    test      rsi, rsi, def #nzcvpa
+20002a998    jcc       e, BB_31, fallthrough BB_30
+
+20002a99a    BB_30
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_29
+20002a99a    mov       rax, [r14]
+20002a99d    mov       rdi, r14
+20002a9a0    call      [rax + 0x360], return BB_31
+
+20002a9a6    BB_31
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_29, BB_30
+20002a9a6    test      rbx, rbx, def #nzcvpa
+20002a9a9    jcc       e, BB_33, fallthrough BB_32
+
+20002a9ab    BB_32
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_31
+20002a9ab    mov       rax, [r14]
+20002a9ae    mov       rdi, r14
+20002a9b1    mov       rsi, rbx
+20002a9b4    call      [rax + 0x368], return BB_33
+
+20002a9ba    BB_33
+             preds     BB_31, BB_32
+20002a9ba    test      r15, r15, def #z
+20002a9bd    jcc       e, BB_35, fallthrough BB_34
+
+20002a9bf    BB_34
+             preds     BB_33
+20002a9bf    mov       rax, [r14]
+20002a9c2    mov       rax, [rax + 0x370]
+20002a9c9    mov       rdi, r14
+20002a9cc    mov       rsi, r15
+20002a9cf    mov       rdx, r12
+20002a9d2    mov       rcx, [rbp - 0x68]
+20002a9d6    add       rsp, 0x58, def #nzcvpa
+20002a9da    pop       rbx
+20002a9db    pop       r12
+20002a9dd    pop       r13
+20002a9df    pop       r14
+20002a9e1    pop       r15
+20002a9e3    pop       rbp
+20002a9e4    jmp       rax
+
+20002a9e6    BB_35
+             preds     BB_33
+20002a9e6    add       rsp, 0x58, def #nzcvpa
+20002a9ea    pop       rbx
+20002a9eb    pop       r12
+20002a9ed    pop       r13
+20002a9ef    pop       r14
+20002a9f1    pop       r15
+20002a9f3    pop       rbp
+20002a9f4    ret
+
+20002aa07    BB_36
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_26
+20002aa07    mov       rdi, r14
+20002aa0a    call      0x200024164, return BB_37
+
+20002aa0f    BB_37
+             preds     BB_36
+20002aa0f    cmp       [rbp - 0x48], 0x0, def #z
+20002aa14    jcc       ne, BB_39, fallthrough BB_38
+
+20002aa16    BB_38
+             preds     BB_37
+20002aa16    mov       rcx, [rbp - 0x40]
+20002aa1a    mov       edx, [rcx]
+20002aa1c    lea       rdi, [0x20009d79f]
+20002aa23    mov       rsi, rax
+20002aa26    xor       eax, eax, def #nzcvpa
+20002aa28    call      0x2000115de, return BB_39
+
+20002aa2d    BB_39
+             preds     BB_37, BB_38
+20002aa2d    mov       rcx, [rbp - 0x48]
+20002aa31    mov       edx, [rcx + 0x8]
+20002aa34    movzx     ecx, dh
+20002aa37    shr       edx, 0x10
+20002aa3a    mov       rsi, [rbp - 0x40]
+20002aa3e    mov       r8d, [rsi]
+20002aa41    lea       rdi, [0x20009d743]
+20002aa48    mov       rsi, rax
+20002aa4b    xor       eax, eax, def #nzcvpa
+20002aa4d    call      0x2000115de, return BB_40
+
+20002aa52    BB_40
+             preds     BB_39
+20002aa52    nop       
+20002aa54    cld       
+20002aa56    invalid
+
+20002951f    BB_0
+             preds    
+20002951f    inc       r15d
+200029522    mov       r12, r13
+200029525    cmp       r15d, r8d, def #nzcvpa
+200029528    jcc       ne, 0x200028fce, fallthrough BB_1
+
+20002952e    BB_1
+             preds     BB_0
+20002952e    jmp       BB_2
+
+200029572    BB_2
+             preds     BB_1
+200029572    mov       rax, [rbp + 0x10]
+200029576    mov       al, [rax + 0x18c]
+20002957c    mov       [rbp - 0x48], al
+20002957f    test      [rbp - 0x50], 0x1, def #z
+200029583    jcc       ne, BB_4, fallthrough BB_3
+
+200029585    BB_3
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_2
+200029585    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+200029589    jcc       ne, BB_136, fallthrough BB_4
+
+20002958f    BB_4
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_2, BB_3
+20002958f    cmp       [rbp - 0x78], 0x0, def #nzcvpa
+200029594    mov       r9, [rbp - 0x98]
+20002959b    mov       rax, [rbp - 0x68]
+20002959f    jcc       e, BB_138, fallthrough BB_5
+
+2000295a5    BB_5
+             preds     BB_4
+2000295a5    cmp       [rbp - 0x70], 0x0, def #z
+2000295aa    jcc       ne, BB_7, fallthrough BB_6
+
+2000295ac    BB_6
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_5
+2000295ac    cmp       [rbp - 0x3c], 0x0, def #nzcvpa
+2000295b0    jcc       e, BB_140, fallthrough BB_7
+
+2000295b6    BB_7
+             preds     BB_5, BB_6
+2000295b6    cmp       [rbp - 0x48], 0x0, def #z
+2000295ba    jcc       e, BB_32, fallthrough BB_8
+
+2000295c0    BB_8
+             preds     BB_7
+2000295c0    test      r8d, r8d, def #z
+2000295c3    jcc       e, BB_32, fallthrough BB_9
+
+2000295c9    BB_9
+             preds     BB_8
+2000295c9    xor       ecx, ecx
+2000295cb    xor       r11d, r11d
+2000295ce    xor       edx, edx
+2000295d0    mov       r14, r10
+             jmp       BB_10
+
+2000295d3    BB_10
+             preds     BB_9, BB_30
+2000295d3    cmp       [r14], 0x19, def #z
+2000295d7    jcc       ne, BB_30, fallthrough BB_11
+
+2000295dd    BB_11
+             preds     BB_10
+2000295dd    mov       [rbp - 0x50], edx
+2000295e0    mov       r13, [r14 + 0x18]
+2000295e4    mov       r12, [r14 + 0x28]
+2000295e8    mov       rax, [r14 + 0x20]
+2000295ec    add       rax, r13
+2000295ef    mov       [rbp - 0x58], rax
+2000295f3    mov       r15, [r14 + 0x30]
+2000295f7    add       r15, r12
+2000295fa    cmp       r12, rcx, def #nzcvpa
+2000295fd    cmovcc    a, rcx, r12
+200029601    mov       [rbp - 0x70], rcx
+200029605    lea       rdi, [r14 + 0x8]
+200029609    mov       [rbp - 0x80], rdi
+20002960d    lea       rsi, [0x200098be1]
+200029614    mov       rbx, r11
+200029617    call      0x200067e00, return BB_12
+
+20002961c    BB_12
+             preds     BB_11
+20002961c    mov       r11, rbx
+20002961f    mov       r8, [rbp - 0xa0]
+200029626    mov       r10, [rbp - 0xa8]
+20002962d    test      eax, eax, def #z
+20002962f    cmovcc    e, r11, r12
+200029633    mov       eax, r8d
+200029636    mov       rdx, r10
+             jmp       BB_13
+
+200029639    BB_13
+             preds     BB_12, BB_28
+200029639    mov       rcx, r14
+20002963c    cmp       rdx, r14, def #z
+20002963f    jcc       e, BB_28, fallthrough BB_14
+
+200029641    BB_14
+             preds     BB_13
+200029641    cmp       [rdx], 0x19, def #z
+200029644    jcc       ne, BB_27, fallthrough BB_15
+
+200029646    BB_15
+             preds     BB_14
+200029646    mov       rdi, [rdx + 0x18]
+20002964a    mov       rcx, [rdx + 0x28]
+20002964e    mov       rbx, [rdx + 0x20]
+200029652    add       rbx, rdi
+200029655    mov       rsi, [rdx + 0x30]
+200029659    add       rsi, rcx
+20002965c    cmp       [rbp - 0x58], r13, def #zc
+200029660    jcc       be, BB_18, fallthrough BB_16
+
+200029662    BB_16
+             preds     BB_15
+200029662    cmp       rdi, r13, def #zc
+200029665    jcc       a, BB_18, fallthrough BB_17
+
+200029667    BB_17
+             preds     BB_16
+200029667    cmp       rbx, r13, def #zc
+20002966a    jcc       a, BB_116, fallthrough BB_18
+
+200029670    BB_18
+             preds     BB_15, BB_16, BB_17
+200029670    cmp       rdi, r13, def #c
+200029673    jcc       b, BB_21, fallthrough BB_19
+
+200029675    BB_19
+             preds     BB_18
+200029675    cmp       rdi, [rbp - 0x58], def #c
+200029679    jcc       ae, BB_21, fallthrough BB_20
+
+20002967b    BB_20
+             preds     BB_19
+20002967b    cmp       rbx, rdi, def #zc
+20002967e    jcc       a, BB_116, fallthrough BB_21
+
+200029684    BB_21
+             preds     BB_18, BB_19, BB_20
+200029684    cmp       r15, r12, def #zc
+200029687    jcc       be, BB_24, fallthrough BB_22
+
+200029689    BB_22
+             preds     BB_21
+200029689    cmp       rcx, r12, def #zc
+20002968c    jcc       a, BB_24, fallthrough BB_23
+
+20002968e    BB_23
+             preds     BB_22
+20002968e    cmp       rsi, r12, def #zc
+200029691    jcc       a, BB_117, fallthrough BB_24
+
+200029697    BB_24
+             preds     BB_21, BB_22, BB_23
+200029697    cmp       rcx, r12, def #c
+20002969a    jcc       b, BB_27, fallthrough BB_25
+
+20002969c    BB_25
+             preds     BB_24
+20002969c    cmp       rcx, r15, def #c
+20002969f    jcc       ae, BB_27, fallthrough BB_26
+
+2000296a1    BB_26
+             preds     BB_25
+2000296a1    cmp       rsi, rcx, def #zc
+2000296a4    jcc       a, BB_117, fallthrough BB_27
+
+2000296aa    BB_27
+             preds     BB_14, BB_24, BB_25, BB_26
+2000296aa    mov       ecx, [rdx + 0x4]
+2000296ad    add       rcx, rdx
+             jmp       BB_28
+
+2000296b0    BB_28
+             preds     BB_13, BB_27
+2000296b0    mov       rdx, rcx
+2000296b3    dec       eax, def #z
+2000296b5    jcc       ne, BB_13, fallthrough BB_29
+
+2000296b7    BB_29
+             preds     BB_28
+2000296b7    mov       r9, [rbp - 0x98]
+2000296be    mov       rcx, [rbp - 0x70]
+2000296c2    mov       edx, [rbp - 0x50]
+             jmp       BB_30
+
+2000296c5    BB_30
+             preds     BB_10, BB_29
+2000296c5    mov       eax, [r14 + 0x4]
+2000296c9    add       r14, rax
+2000296cc    inc       edx
+2000296ce    cmp       edx, r8d, def #z
+2000296d1    jcc       ne, BB_10, fallthrough BB_31
+
+2000296d7    BB_31
+             preds     BB_30
+2000296d7    cmp       rcx, r11, def #z
+2000296da    mov       rax, [rbp - 0x68]
+2000296de    jcc       ne, BB_169, fallthrough BB_32
+
+2000296e4    BB_32
+             preds     BB_7, BB_8, BB_31
+2000296e4    test      rax, rax, def #z
+2000296e7    mov       r14, [rbp - 0xb0]
+2000296ee    jcc       ne, BB_35, fallthrough BB_33
+
+2000296f0    BB_33
+             preds     BB_32
+2000296f0    cmp       [rbp - 0x88], 0x0, def #z
+2000296f8    jcc       ne, BB_35, fallthrough BB_34
+
+2000296fa    BB_34
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_33
+2000296fa    cmp       [rbp - 0x38], 0x0, def #nzcvpa
+2000296ff    jcc       e, BB_142, fallthrough BB_35
+
+200029705    BB_35
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_32, BB_33, BB_34
+200029705    test      r9, r9, def #nzcvpa
+200029708    jcc       e, BB_144, fallthrough BB_36
+
+20002970e    BB_36
+             preds     BB_35
+20002970e    mov       rax, [rbp - 0x78]
+200029712    mov       r11d, [rax + 0x28]
+200029716    mov       r8, [rax + 0x30]
+20002971a    lea       edx, [r8 + r11]
+20002971e    cmp       [rbp - 0x38], 0x0, def #z
+200029723    jcc       e, BB_59, fallthrough BB_37
+
+200029729    BB_37
+             preds     BB_36
+200029729    cmp       [rbp - 0x3c], 0x0, def #z
+20002972d    jcc       ne, BB_59, fallthrough BB_38
+
+200029733    BB_38
+             preds     BB_37
+200029733    cmp       [rbp - 0x48], 0x0, def #z
+200029737    jcc       e, BB_59, fallthrough BB_39
+
+20002973d    BB_39
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_38
+20002973d    mov       rax, [rbp - 0x38]
+200029741    mov       eax, [rax + 0xc]
+200029744    mov       esi, r11d
+200029747    test      eax, eax, def #nzcvpa
+200029749    jcc       e, BB_43, fallthrough BB_40
+
+20002974b    BB_40
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_39
+20002974b    jcc       s, BB_184, fallthrough BB_41
+
+200029751    BB_41
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_40
+200029751    mov       rcx, [rbp - 0x38]
+200029755    mov       esi, [rcx + 0x8]
+200029758    cmp       esi, r11d, def #nzcvpa
+20002975b    jcc       b, BB_186, fallthrough BB_42
+
+200029761    BB_42
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_41
+200029761    add       esi, eax
+200029763    cmp       esi, edx, def #nzcvpa
+200029765    jcc       a, BB_188, fallthrough BB_43
+
+20002976b    BB_43
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_39, BB_42
+20002976b    mov       rax, [rbp - 0x38]
+20002976f    mov       eax, [rax + 0x14]
+200029772    test      eax, eax, def #nzcvpa
+200029774    jcc       e, BB_47, fallthrough BB_44
+
+200029776    BB_44
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_43
+200029776    jcc       s, BB_190, fallthrough BB_45
+
+20002977c    BB_45
+             preds     BB_44
+20002977c    mov       rcx, [rbp - 0x38]
+200029780    mov       edi, [rcx + 0x10]
+200029783    cmp       edi, esi, def #nzcvpa
+200029785    jcc       b, 0x20002a001, fallthrough BB_46
+
+20002978b    BB_46
+             preds     BB_45
+20002978b    add       edi, eax
+20002978d    mov       esi, edi
+20002978f    cmp       edi, edx, def #nzcvpa
+200029791    jcc       a, 0x20002a017, fallthrough BB_47
+
+200029797    BB_47
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_43, BB_46
+200029797    mov       rax, [rbp - 0x38]
+20002979b    mov       eax, [rax + 0x1c]
+20002979e    test      eax, eax, def #nzcvpa
+2000297a0    jcc       e, BB_51, fallthrough BB_48
+
+2000297a2    BB_48
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_47
+2000297a2    jcc       s, 0x20002a02d, fallthrough BB_49
+
+2000297a8    BB_49
+             preds     BB_48
+2000297a8    mov       rcx, [rbp - 0x38]
+2000297ac    mov       edi, [rcx + 0x18]
+2000297af    cmp       edi, esi, def #nzcvpa
+2000297b1    jcc       b, 0x20002a043, fallthrough BB_50
+
+2000297b7    BB_50
+             preds     BB_49
+2000297b7    add       edi, eax
+2000297b9    mov       esi, edi
+2000297bb    cmp       edi, edx, def #nzcvpa
+2000297bd    jcc       a, 0x20002a059, fallthrough BB_51
+
+2000297c3    BB_51
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_47, BB_50
+2000297c3    mov       rax, [rbp - 0x38]
+2000297c7    mov       eax, [rax + 0x24]
+2000297ca    test      eax, eax, def #nzcvpa
+2000297cc    jcc       e, BB_55, fallthrough BB_52
+
+2000297ce    BB_52
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_51
+2000297ce    jcc       s, 0x20002a06f, fallthrough BB_53
+
+2000297d4    BB_53
+             preds     BB_52
+2000297d4    mov       rcx, [rbp - 0x38]
+2000297d8    mov       edi, [rcx + 0x20]
+2000297db    cmp       edi, esi, def #nzcvpa
+2000297dd    jcc       b, 0x20002a082, fallthrough BB_54
+
+2000297e3    BB_54
+             preds     BB_53
+2000297e3    add       edi, eax
+2000297e5    mov       esi, edi
+2000297e7    cmp       edi, edx, def #nzcvpa
+2000297e9    jcc       a, 0x20002a095, fallthrough BB_55
+
+2000297ef    BB_55
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_51, BB_54
+2000297ef    mov       rax, [rbp - 0x38]
+2000297f3    mov       eax, [rax + 0x2c]
+2000297f6    test      eax, eax, def #nzcvpa
+2000297f8    jcc       e, BB_59, fallthrough BB_56
+
+2000297fa    BB_56
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_55
+2000297fa    jcc       s, 0x20002a0a8, fallthrough BB_57
+
+200029800    BB_57
+             preds     BB_56
+200029800    mov       rcx, [rbp - 0x38]
+200029804    mov       edi, [rcx + 0x28]
+200029807    cmp       edi, esi, def #nzcvpa
+200029809    jcc       b, 0x20002a0bb, fallthrough BB_58
+
+20002980f    BB_58
+             preds     BB_57
+20002980f    add       edi, eax
+200029811    cmp       edi, edx, def #nzcvpa
+200029813    jcc       a, 0x20002a0ce, fallthrough BB_59
+
+200029819    BB_59
+             preds     BB_36, BB_37, BB_38, BB_55, BB_58
+200029819    mov       rax, [rbp - 0x88]
+200029820    test      rax, rax, def #z
+200029823    jcc       e, BB_64, fallthrough BB_60
+
+200029825    BB_60
+             preds     BB_59
+200029825    cmp       [rbp - 0x3c], 0x0, def #z
+200029829    jcc       ne, BB_64, fallthrough BB_61
+
+20002982b    BB_61
+             preds     BB_60
+20002982b    cmp       [rbp - 0x48], 0x0, def #z
+20002982f    jcc       e, BB_64, fallthrough BB_62
+
+200029831    BB_62
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_61
+200029831    mov       rcx, rax
+200029834    mov       eax, [rax + 0x8]
+200029837    cmp       eax, r11d, def #nzcvpa
+20002983a    jcc       b, BB_146, fallthrough BB_63
+
+200029840    BB_63
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_62
+200029840    add       eax, [rcx + 0xc]
+200029843    cmp       eax, edx, def #nzcvpa
+200029845    jcc       a, BB_148, fallthrough BB_64
+
+20002984b    BB_64
+             preds     BB_59, BB_60, BB_61, BB_63
+20002984b    mov       rax, [rbp - 0xb8]
+200029852    test      rax, rax, def #z
+200029855    jcc       e, BB_69, fallthrough BB_65
+
+200029857    BB_65
+             preds     BB_64
+200029857    cmp       [rbp - 0x3c], 0x0, def #z
+20002985b    jcc       ne, BB_69, fallthrough BB_66
+
+20002985d    BB_66
+             preds     BB_65
+20002985d    cmp       [rbp - 0x48], 0x0, def #z
+200029861    jcc       e, BB_69, fallthrough BB_67
+
+200029863    BB_67
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_66
+200029863    mov       rcx, rax
+200029866    mov       eax, [rax + 0x8]
+200029869    cmp       eax, r11d, def #nzcvpa
+20002986c    jcc       b, BB_146, fallthrough BB_68
+
+200029872    BB_68
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_67
+200029872    add       eax, [rcx + 0xc]
+200029875    cmp       eax, edx, def #nzcvpa
+200029877    jcc       a, BB_148, fallthrough BB_69
+
+20002987d    BB_69
+             preds     BB_64, BB_65, BB_66, BB_68
+20002987d    mov       rax, [rbp - 0x68]
+200029881    test      rax, rax, def #z
+200029884    jcc       e, BB_107, fallthrough BB_70
+
+20002988a    BB_70
+             preds     BB_69
+20002988a    mov       esi, [rax + 0xc]
+20002988d    test      esi, esi, def #z
+20002988f    jcc       e, BB_73, fallthrough BB_71
+
+200029891    BB_71
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_70
+200029891    cmp       [rax + 0x8], r11d, def #nzcvpa
+200029895    jcc       b, BB_170, fallthrough BB_72
+
+20002989b    BB_72
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_71
+20002989b    cmp       esi, 0x10000001, def #nzcvpa
+2000298a1    jcc       ae, BB_172, fallthrough BB_73
+
+2000298a7    BB_73
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_70, BB_72
+2000298a7    mov       eax, esi
+2000298a9    shl       eax, 0x4
+2000298ac    cmp       r8, rax, def #nzcvpa
+2000298af    jcc       b, BB_153, fallthrough BB_74
+
+2000298b5    BB_74
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_73
+2000298b5    mov       rcx, [rbp - 0x68]
+2000298b9    mov       ebx, [rcx + 0x8]
+2000298bc    add       eax, ebx, def #nzcvpa
+2000298be    jcc       b, BB_155, fallthrough BB_75
+
+2000298c4    BB_75
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_74
+2000298c4    mov       edi, [rcx + 0x10]
+2000298c7    cmp       eax, edi, def #nzcvpa
+2000298c9    jcc       a, BB_157, fallthrough BB_76
+
+2000298cf    BB_76
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_75
+2000298cf    mov       eax, [rcx + 0x14]
+2000298d2    add       eax, edi, def #nzcvpa
+2000298d4    jcc       b, BB_159, fallthrough BB_77
+
+2000298da    BB_77
+             preds     BB_76
+2000298da    cmp       eax, edx, def #zc
+2000298dc    jcc       be, BB_80, fallthrough BB_78
+
+2000298de    BB_78
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_77
+2000298de    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+2000298e2    jcc       ne, BB_161, fallthrough BB_79
+
+2000298e8    BB_79
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_78
+2000298e8    add       edx, 0xfff
+2000298ee    and       edx, -0x1000
+2000298f4    cmp       eax, edx, def #nzcvpa
+2000298f6    jcc       a, BB_161, fallthrough BB_80
+
+2000298fc    BB_80
+             preds     BB_77, BB_79
+2000298fc    test      bl, 0x7, def #z
+2000298ff    jcc       e, BB_91, fallthrough BB_81
+
+200029901    BB_81
+             preds     BB_80
+200029901    mov       edx, [r14 + 0x10]
+200029905    test      edx, edx, def #z
+200029907    jcc       e, BB_91, fallthrough BB_82
+
+200029909    BB_82
+             preds     BB_81
+200029909    mov       rbx, 0x1803000000000
+             jmp       BB_83
+
+200029913    BB_83
+             preds     BB_82, BB_86
+200029913    mov       eax, [r10]
+200029916    cmp       rax, 0x32, def #zc
+20002991a    jcc       a, BB_86, fallthrough BB_84
+
+20002991c    BB_84
+             preds     BB_83
+20002991c    bt        rbx, rax, def #c
+200029920    jcc       b, BB_88, fallthrough BB_85
+
+200029922    BB_85
+             preds     BB_84
+200029922    cmp       rax, 0x32, def #z
+200029926    jcc       e, BB_89, fallthrough BB_86
+
+200029928    BB_86
+             preds     BB_83, BB_85
+200029928    mov       eax, [r10 + 0x4]
+20002992c    add       r10, rax
+20002992f    dec       edx, def #z
+200029931    jcc       ne, BB_83, fallthrough BB_87
+
+200029933    BB_87
+             preds     BB_86
+200029933    jmp       BB_91
+
+200029935    BB_88
+             preds     BB_84
+200029935    add       r10, 0xc
+200029939    jmp       BB_90
+
+20002993b    BB_89
+             preds     BB_85
+20002993b    add       r10, 0x10
+             jmp       BB_90
+
+20002993f    BB_90
+             preds     BB_88, BB_89
+20002993f    cmp       [r10], 0xa0f00, def #nzcvpa
+200029946    jcc       ae, 0x20002a0e1, fallthrough BB_91
+
+20002994c    BB_91
+             preds     BB_80, BB_81, BB_87, BB_90
+20002994c    mov       edx, [r9 + 0x3c]
+200029950    test      rdx, rdx, def #z
+200029953    jcc       e, BB_98, fallthrough BB_92
+
+200029955    BB_92
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_91
+200029955    mov       ebx, [r9 + 0x38]
+200029959    cmp       ebx, r11d, def #nzcvpa
+20002995c    jcc       b, BB_174, fallthrough BB_93
+
+200029962    BB_93
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_92
+200029962    cmp       edx, 0x10000001, def #nzcvpa
+200029968    jcc       ae, BB_176, fallthrough BB_94
+
+20002996e    BB_94
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_93
+20002996e    shl       rdx, 0x2
+200029972    cmp       r8, rdx, def #nzcvpa
+200029975    jcc       b, BB_178, fallthrough BB_95
+
+20002997b    BB_95
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_94
+20002997b    add       ebx, edx, def #nzcvpa
+20002997d    jcc       b, BB_180, fallthrough BB_96
+
+200029983    BB_96
+             preds     BB_95
+200029983    cmp       ebx, edi, def #zc
+200029985    jcc       be, BB_98, fallthrough BB_97
+
+200029987    BB_97
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_96
+200029987    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+20002998b    jcc       ne, BB_182, fallthrough BB_98
+
+200029991    BB_98
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_91, BB_96, BB_97
+200029991    mov       eax, [r9 + 0xc]
+200029995    cmp       eax, esi, def #nzcvpa
+200029997    jcc       a, BB_130, fallthrough BB_99
+
+20002999d    BB_99
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_98
+20002999d    mov       ecx, [r9 + 0x8]
+2000299a1    cmp       ecx, esi, def #nzcvpa
+2000299a3    jcc       a, BB_130, fallthrough BB_100
+
+2000299a9    BB_100
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_99
+2000299a9    add       ecx, eax, def #nzcvpa
+2000299ab    jcc       b, BB_163, fallthrough BB_101
+
+2000299b1    BB_101
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_100
+2000299b1    mov       eax, [r9 + 0x14]
+2000299b5    cmp       eax, esi, def #nzcvpa
+2000299b7    jcc       a, BB_132, fallthrough BB_102
+
+2000299bd    BB_102
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_101
+2000299bd    mov       ecx, [r9 + 0x10]
+2000299c1    cmp       ecx, esi, def #nzcvpa
+2000299c3    jcc       a, BB_132, fallthrough BB_103
+
+2000299c9    BB_103
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_102
+2000299c9    add       ecx, eax, def #nzcvpa
+2000299cb    jcc       b, BB_165, fallthrough BB_104
+
+2000299d1    BB_104
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_103
+2000299d1    mov       eax, [r9 + 0x1c]
+2000299d5    cmp       eax, esi, def #nzcvpa
+2000299d7    jcc       a, BB_134, fallthrough BB_105
+
+2000299dd    BB_105
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_104
+2000299dd    mov       ecx, [r9 + 0x18]
+2000299e1    cmp       ecx, esi, def #nzcvpa
+2000299e3    jcc       a, BB_134, fallthrough BB_106
+
+2000299e9    BB_106
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_105
+2000299e9    add       ecx, eax, def #nzcvpa
+2000299eb    jcc       b, BB_167, fallthrough BB_107
+
+2000299f1    BB_107
+             preds     BB_69, BB_106
+2000299f1    mov       rax, [rbp - 0xd0]
+2000299f8    cmp       [rax], 0x100, def #c
+2000299fe    jcc       ae, BB_150, fallthrough BB_108
+
+200029a04    BB_108
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_107
+200029a04    mov       rax, [rbp - 0xc8]
+200029a0b    mov       edi, [rax]
+200029a0d    cmp       edi, 0x1000, def #nzcvpa
+200029a13    jcc       ae, BB_151, fallthrough BB_109
+
+200029a19    BB_109
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_108
+200029a19    mov       rsi, r14
+200029a1c    call      0x20002a132, return BB_110
+
+200029a21    BB_110
+             preds     BB_109
+200029a21    test      al, al, def #z
+200029a23    jcc       e, BB_112, fallthrough BB_111
+
+200029a25    BB_111
+             preds     BB_110
+200029a25    mov       rax, [rbp - 0xc8]
+200029a2c    mov       [rax], 0x1
+             jmp       BB_112
+
+200029a32    BB_112
+             preds     BB_110, BB_111
+200029a32    cmp       [rbp - 0x90], 0x0, def #z
+200029a39    jcc       ne, BB_115, fallthrough BB_113
+
+200029a3b    BB_113
+             preds     BB_112
+200029a3b    cmp       [r14 + 0x18], 0x0, def #n
+200029a40    jcc       ns, BB_115, fallthrough BB_114
+
+200029a42    BB_114
+             preds     BB_113
+200029a42    mov       rax, [rbp - 0xc0]
+200029a49    mov       [rax], 0x1
+             jmp       BB_115
+
+200029a4c    BB_115
+             preds     BB_112, BB_113, BB_114
+200029a4c    add       rsp, 0xa8, def #nzcvpa
+200029a53    pop       rbx
+200029a54    pop       r12
+200029a56    pop       r13
+200029a58    pop       r14
+200029a5a    pop       r15
+200029a5c    pop       rbp
+200029a5d    ret
+
+200029a5e    BB_116
+             preds     BB_17, BB_20
+200029a5e    add       rdx, 0x8
+200029a62    lea       rdi, [0x20009cc46]
+200029a69    jmp       BB_118
+
+200029a6b    BB_117
+             preds     BB_23, BB_26
+200029a6b    add       rdx, 0x8
+200029a6f    lea       rdi, [0x20009cc80]
+             jmp       BB_118
+
+200029a76    BB_118
+             preds     BB_116, BB_117
+200029a76    mov       rsi, [rbp - 0x80]
+200029a7a    xor       eax, eax, def #nzcvpa
+200029a7c    call      0x2000115de, return BB_119
+
+200029a81    BB_119
+             preds     BB_118
+200029a81    mov       rax, [rbp - 0xb0]
+200029a88    mov       ecx, [rax + 0x14]
+200029a8b    lea       rdi, [0x20009c219]
+200029a92    mov       esi, r15d
+200029a95    mov       edx, r14d
+200029a98    mov       r8, [rbp - 0x60]
+200029a9c    xor       eax, eax, def #nzcvpa
+200029a9e    call      0x2000115de, return BB_120
+
+200029aa3    BB_120
+             preds     BB_119
+200029aa3    lea       rdi, [0x20009c1d4]
+200029aaa    mov       esi, r15d
+200029aad    mov       edx, r14d
+200029ab0    mov       rcx, [rbp - 0x60]
+200029ab4    xor       eax, eax, def #nzcvpa
+200029ab6    call      0x2000115de, return BB_121
+
+200029abb    BB_121
+             preds     BB_120
+200029abb    lea       rdi, [0x20009c8cc]
+             jmp       BB_122
+
+200029ac2    BB_122
+             preds     BB_121, BB_169
+200029ac2    xor       eax, eax, def #nzcvpa
+200029ac4    call      0x2000115de, return BB_123
+
+200029ac9    BB_123
+             preds     BB_122
+200029ac9    lea       rdi, [0x20009c90b]
+200029ad0    mov       esi, r15d
+200029ad3    mov       edx, ebx
+200029ad5    mov       ecx, r14d
+200029ad8    xor       eax, eax, def #nzcvpa
+200029ada    call      0x2000115de, return BB_124
+
+200029adf    BB_124
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_123
+200029adf    lea       rdi, [0x20009c960]
+200029ae6    mov       esi, r15d
+200029ae9    xor       eax, eax, def #nzcvpa
+200029aeb    call      0x2000115de, return BB_125
+
+200029af0    BB_125
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_124
+200029af0    mov       edi, 0x8
+200029af5    call      0x200060fce, return BB_126
+
+200029afa    BB_126
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_125
+200029afa    lea       rcx, [0x20009cb81]
+200029b01    jmp       0x20002a0f2
+
+200029d16    BB_127
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_152
+200029d16    xor       eax, eax, def #nzcvpa
+200029d18    call      0x2000115de, return BB_128
+
+200029d1d    BB_128
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_127
+200029d1d    mov       edi, 0x8
+200029d22    call      0x200060fce, return BB_129
+
+200029d27    BB_129
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_128
+200029d27    lea       rcx, [0x20009c7ca]
+200029d2e    jmp       0x20002a0f2
+
+200029d4d    BB_130
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_98, BB_99
+200029d4d    mov       edi, 0x8
+200029d52    call      0x200060fce, return BB_131
+
+200029d57    BB_131
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_130
+200029d57    lea       rcx, [0x20009d47f]
+200029d5e    jmp       0x20002a0f2
+
+200029d63    BB_132
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_101, BB_102
+200029d63    mov       edi, 0x8
+200029d68    call      0x200060fce, return BB_133
+
+200029d6d    BB_133
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_132
+200029d6d    lea       rcx, [0x20009d51d]
+200029d74    jmp       0x20002a0f2
+
+200029d79    BB_134
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_104, BB_105
+200029d79    mov       edi, 0x8
+200029d7e    call      0x200060fce, return BB_135
+
+200029d83    BB_135
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_134
+200029d83    lea       rcx, [0x20009d5bd]
+200029d8a    jmp       0x20002a0f2
+
+200029da0    BB_136
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_3
+200029da0    mov       edi, 0x8
+200029da5    call      0x200060fce, return BB_137
+
+200029daa    BB_137
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_136
+200029daa    lea       rcx, [0x20009cbad]
+200029db1    jmp       0x20002a0f2
+
+200029db6    BB_138
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_4
+200029db6    mov       edi, 0x8
+200029dbb    call      0x200060fce, return BB_139
+
+200029dc0    BB_139
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_138
+200029dc0    lea       rcx, [0x20009cbcc]
+200029dc7    jmp       0x20002a0f2
+
+200029dcc    BB_140
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_6
+200029dcc    mov       edi, 0x8
+200029dd1    call      0x200060fce, return BB_141
+
+200029dd6    BB_141
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_140
+200029dd6    lea       rcx, [0x20009cbff]
+200029ddd    jmp       0x20002a0f2
+
+200029de2    BB_142
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_34
+200029de2    mov       edi, 0x8
+200029de7    call      0x200060fce, return BB_143
+
+200029dec    BB_143
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_142
+200029dec    lea       rcx, [0x20009ccfc]
+200029df3    jmp       0x20002a0f2
+
+200029df8    BB_144
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_35
+200029df8    mov       edi, 0x8
+200029dfd    call      0x200060fce, return BB_145
+
+200029e02    BB_145
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_144
+200029e02    lea       rcx, [0x20009cd4f]
+200029e09    jmp       0x20002a0f2
+
+200029e0e    BB_146
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_62, BB_67
+200029e0e    mov       edi, 0x8
+200029e13    call      0x200060fce, return BB_147
+
+200029e18    BB_147
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_146
+200029e18    lea       rcx, [0x20009d105]
+200029e1f    jmp       0x20002a0f2
+
+200029e24    BB_148
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_63, BB_68
+200029e24    mov       edi, 0x8
+200029e29    call      0x200060fce, return BB_149
+
+200029e2e    BB_149
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_148
+200029e2e    lea       rcx, [0x20009d14b]
+200029e35    jmp       0x20002a0f2
+
+200029e3a    BB_150
+             preds     BB_107
+200029e3a    lea       rdi, [0x20009d663]
+200029e41    jmp       BB_152
+
+200029e43    BB_151
+             preds     BB_108
+200029e43    lea       rdi, [0x20009d698]
+             jmp       BB_152
+
+200029e4a    BB_152
+             preds     BB_150, BB_151
+200029e4a    mov       rsi, [rbp - 0x60]
+200029e4e    jmp       BB_127
+
+200029e53    BB_153
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_73
+200029e53    mov       edi, 0x8
+200029e58    call      0x200060fce, return BB_154
+
+200029e5d    BB_154
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_153
+200029e5d    lea       rcx, [0x20009d1f9]
+200029e64    jmp       0x20002a0f2
+
+200029e69    BB_155
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_74
+200029e69    mov       edi, 0x8
+200029e6e    call      0x200060fce, return BB_156
+
+200029e73    BB_156
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_155
+200029e73    lea       rcx, [0x20009d232]
+200029e7a    jmp       0x20002a0f2
+
+200029e7f    BB_157
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_75
+200029e7f    mov       edi, 0x8
+200029e84    call      0x200060fce, return BB_158
+
+200029e89    BB_158
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_157
+200029e89    lea       rcx, [0x20009d262]
+200029e90    jmp       0x20002a0f2
+
+200029e95    BB_159
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_76
+200029e95    mov       edi, 0x8
+200029e9a    call      0x200060fce, return BB_160
+
+200029e9f    BB_160
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_159
+200029e9f    lea       rcx, [0x20009d29f]
+200029ea6    jmp       0x20002a0f2
+
+200029eab    BB_161
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_78, BB_79
+200029eab    mov       edi, 0x8
+200029eb0    call      0x200060fce, return BB_162
+
+200029eb5    BB_162
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_161
+200029eb5    lea       rcx, [0x20009d2d0]
+200029ebc    jmp       0x20002a0f2
+
+200029ec1    BB_163
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_100
+200029ec1    mov       edi, 0x8
+200029ec6    call      0x200060fce, return BB_164
+
+200029ecb    BB_164
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_163
+200029ecb    lea       rcx, [0x20009d4d6]
+200029ed2    jmp       0x20002a0f2
+
+200029ed7    BB_165
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_103
+200029ed7    mov       edi, 0x8
+200029edc    call      0x200060fce, return BB_166
+
+200029ee1    BB_166
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_165
+200029ee1    lea       rcx, [0x20009d575]
+200029ee8    jmp       0x20002a0f2
+
+200029eed    BB_167
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_106
+200029eed    mov       edi, 0x8
+200029ef2    call      0x200060fce, return BB_168
+
+200029ef7    BB_168
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_167
+200029ef7    lea       rcx, [0x20009d618]
+200029efe    jmp       0x20002a0f2
+
+200029f03    BB_169
+             preds     BB_31
+200029f03    lea       rdi, [0x20009ccc4]
+200029f0a    jmp       BB_122
+
+200029f0f    BB_170
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_71
+200029f0f    mov       edi, 0x8
+200029f14    call      0x200060fce, return BB_171
+
+200029f19    BB_171
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_170
+200029f19    lea       rcx, [0x20009d190]
+200029f20    jmp       0x20002a0f2
+
+200029f25    BB_172
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_72
+200029f25    mov       edi, 0x8
+200029f2a    call      0x200060fce, return BB_173
+
+200029f2f    BB_173
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_172
+200029f2f    lea       rcx, [0x20009d1ca]
+200029f36    jmp       0x20002a0f2
+
+200029f3b    BB_174
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_92
+200029f3b    mov       edi, 0x8
+200029f40    call      0x200060fce, return BB_175
+
+200029f45    BB_175
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_174
+200029f45    lea       rcx, [0x20009d346]
+200029f4c    jmp       0x20002a0f2
+
+200029f51    BB_176
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_93
+200029f51    mov       edi, 0x8
+200029f56    call      0x200060fce, return BB_177
+
+200029f5b    BB_177
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_176
+200029f5b    lea       rcx, [0x20009d389]
+200029f62    jmp       0x20002a0f2
+
+200029f67    BB_178
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_94
+200029f67    mov       edi, 0x8
+200029f6c    call      0x200060fce, return BB_179
+
+200029f71    BB_179
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_178
+200029f71    lea       rcx, [0x20009d3c1]
+200029f78    jmp       0x20002a0f2
+
+200029f7d    BB_180
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_95
+200029f7d    mov       edi, 0x8
+200029f82    call      0x200060fce, return BB_181
+
+200029f87    BB_181
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_180
+200029f87    lea       rcx, [0x20009d403]
+200029f8e    jmp       0x20002a0f2
+
+200029f93    BB_182
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_97
+200029f93    mov       edi, 0x8
+200029f98    call      0x200060fce, return BB_183
+
+200029f9d    BB_183
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_182
+200029f9d    lea       rcx, [0x20009d43c]
+200029fa4    jmp       0x20002a0f2
+
+200029fa9    BB_184
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_40
+200029fa9    mov       edi, 0x8
+200029fae    call      0x200060fce, return BB_185
+
+200029fb3    BB_185
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_184
+200029fb3    lea       rcx, [0x20009cd7b]
+200029fba    jmp       0x20002a0f2
+
+200029fbf    BB_186
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_41
+200029fbf    mov       edi, 0x8
+200029fc4    call      0x200060fce, return BB_187
+
+200029fc9    BB_187
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_186
+200029fc9    lea       rcx, [0x20009cdb2]
+200029fd0    jmp       0x20002a0f2
+
+200029fd5    BB_188
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_42
+200029fd5    mov       edi, 0x8
+200029fda    call      0x200060fce, return BB_189
+
+200029fdf    BB_189
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_188
+200029fdf    lea       rcx, [0x20009cdf0]
+200029fe6    jmp       0x20002a0f2
+
+200029feb    BB_190
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_44
+200029feb    mov       edi, 0x8
+200029ff0    call      0x200060fce, return BB_191
+
+200029ff5    BB_191
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_190
+200029ff5    lea       rcx, [0x20009ce2d]
+200029ffc    jmp       0x200029ffc
+
+200028fce    BB_0
+             preds    
+200028fce    mov       r14d, [r12 + 0x4]
+200028fd3    cmp       r14, 0x7, def #nzcvpa
+200028fd7    jcc       be, 0x200029aa3, fallthrough BB_1
+
+200028fdd    BB_1
+             preds     BB_0
+200028fdd    lea       r13, [r12 + r14]
+200028fe1    cmp       r13, rdx, def #nzcvpa
+200028fe4    jcc       a, 0x200029a81, fallthrough BB_2
+
+200028fea    BB_2
+             preds     BB_1
+200028fea    cmp       r12, r13, def #nzcvpa
+200028fed    jcc       a, 0x200029a81, fallthrough BB_3
+
+200028ff3    BB_3
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_2
+200028ff3    mov       eax, [r12]
+200028ff7    cmp       eax, 0xc, def #nzcvpa
+200028ffa    jcc       g, 0x200029045, fallthrough BB_4
+
+200028ffc    BB_4
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_3
+200028ffc    jmp       0x200028ffc
+
+200029045    BB_0
+             preds    
+200029045    cmp       eax, 0x2b, def #nzv
+200029048    jcc       g, BB_3, fallthrough BB_1
+
+20002904a    BB_1
+             preds     BB_0
+20002904a    lea       ecx, [rax - 0x1d]
+20002904d    cmp       ecx, 0x8, def #zc
+200029050    jcc       a, BB_6, fallthrough BB_2
+
+200029052    BB_2
+             preds     BB_1
+200029052    lea       rsi, [0x20002a108]
+200029059    movsxd    rax, [rsi + rcx*4]
+20002905d    add       rax, rsi, def #nzcvpa
+200029060    jmp       rax
+
+2000290af    BB_3
+             preds     BB_0
+2000290af    lea       ecx, [rax - 0x2f]
+2000290b2    cmp       ecx, 0x2, def #c
+2000290b5    jcc       ae, BB_32, fallthrough BB_4
+
+2000290bb    BB_4
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_3
+2000290bb    mov       rax, [rbp + 0x10]
+2000290bf    cmp       [rax + 0x199], 0x0, def #nzcvpa
+2000290c6    jcc       ne, BB_89, fallthrough BB_5
+
+2000290cc    BB_5
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_4
+2000290cc    jmp       BB_215
+
+2000290d1    BB_6
+             preds     BB_1
+2000290d1    cmp       eax, 0xd, def #z
+2000290d4    jcc       e, BB_28, fallthrough BB_7
+
+2000290da    BB_7
+             preds     BB_6
+2000290da    cmp       eax, 0x19, def #z
+2000290dd    jcc       ne, BB_89, fallthrough BB_8
+
+2000290e3    BB_8
+             preds     BB_7
+2000290e3    mov       rcx, [r12 + 0x20]
+2000290e8    mov       rdx, [r12 + 0x30]
+2000290ed    lea       rsi, [rcx + 0xfff]
+2000290f4    and       rsi, -0x1000
+2000290fb    test      rcx, rcx, def #z
+2000290fe    jcc       e, BB_10, fallthrough BB_9
+
+200029100    BB_9
+             preds     BB_8
+200029100    cmp       rdx, rsi, def #zc
+200029103    jcc       a, BB_217, fallthrough BB_10
+
+200029109    BB_10
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_8, BB_9
+200029109    cmp       r14d, 0x47, def #nzcvpa
+20002910d    jcc       be, BB_218, fallthrough BB_11
+
+200029113    BB_11
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_10
+200029113    mov       eax, [r12 + 0x40]
+200029118    lea       rax, [rax + rax*4]
+20002911c    shl       rax, 0x4
+200029120    add       rax, 0x48
+200029124    cmp       rax, r14, def #nzcvpa
+200029127    jcc       ne, BB_220, fallthrough BB_12
+
+20002912d    BB_12
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_11
+20002912d    mov       [rbp - 0x48], rsi
+200029131    mov       r14, rdx
+200029134    mov       [rbp - 0x80], rcx
+200029138    test      rcx, rcx, def #nzcvpa
+20002913b    mov       rbx, [rbp - 0xb0]
+200029142    jcc       e, BB_14, fallthrough BB_13
+
+200029144    BB_13
+             flags liveout #nzcvpa, livein #c
+             preds     BB_12
+200029144    mov       rax, [rbp - 0xd0]
+20002914b    inc       [rax], def #nzvpa
+             jmp       BB_14
+
+20002914d    BB_14
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_12, BB_13
+20002914d    lea       rdi, [r12 + 0x8]
+200029152    mov       [rbp - 0x30], rdi
+200029156    lea       rsi, [0x200098be1]
+20002915d    call      0x200067e00, return BB_15
+
+200029162    BB_15
+             preds     BB_14
+200029162    test      eax, eax, def #z
+200029164    jcc       e, BB_37, fallthrough BB_16
+
+20002916a    BB_16
+             preds     BB_15
+20002916a    mov       edx, [r12 + 0x3c]
+20002916f    cmp       edx, 0x8, def #c
+200029172    jcc       ae, BB_222, fallthrough BB_17
+
+200029178    BB_17
+             preds     BB_16
+200029178    mov       eax, [r12 + 0x38]
+20002917d    cmp       eax, 0x8, def #c
+200029180    mov       r10, [rbp - 0xa8]
+200029187    mov       r8, [rbp - 0xa0]
+20002918e    jcc       ae, BB_223, fallthrough BB_18
+
+200029194    BB_18
+             preds     BB_17
+200029194    mov       r11, r14
+200029197    mov       r14, rbx
+20002919a    test      edx, edx, def #z
+20002919c    mov       rdi, [rbp - 0x80]
+2000291a0    jcc       e, BB_20, fallthrough BB_19
+
+2000291a2    BB_19
+             preds     BB_18
+2000291a2    mov       eax, edx
+2000291a4    and       eax, 0x1, def #z
+2000291a7    jcc       e, BB_225, fallthrough BB_20
+
+2000291ad    BB_20
+             preds     BB_18, BB_19
+2000291ad    mov       r9, [r12 + 0x28]
+2000291b2    test      r9, r9, def #z
+2000291b5    setcc     ne, cl
+2000291b8    test      r11, r11, def #z
+2000291bb    setcc     e, sil
+2000291bf    jcc       e, BB_40, fallthrough BB_21
+
+2000291c5    BB_21
+             preds     BB_20
+2000291c5    test      r9, r9, def #z
+2000291c8    jcc       ne, BB_40, fallthrough BB_22
+
+2000291ce    BB_22
+             preds     BB_21
+2000291ce    test      dl, 0x1, def #z
+2000291d1    jcc       e, BB_226, fallthrough BB_23
+
+2000291d7    BB_23
+             preds     BB_22
+2000291d7    test      dl, 0x2, def #z
+2000291da    jcc       e, BB_25, fallthrough BB_24
+
+2000291dc    BB_24
+             preds     BB_23
+2000291dc    mov       rax, [rbp + 0x10]
+2000291e0    cmp       [rax + 0x18c], 0x0, def #z
+2000291e7    jcc       ne, BB_227, fallthrough BB_25
+
+2000291ed    BB_25
+             preds     BB_23, BB_24
+2000291ed    mov       eax, [r14 + 0x14]
+2000291f1    add       rax, 0x20
+2000291f5    cmp       r11, rax, def #c
+2000291f8    jcc       b, BB_228, fallthrough BB_26
+
+2000291fe    BB_26
+             preds     BB_25
+2000291fe    mov       rsi, [rbp - 0x70]
+200029202    test      rsi, rsi, def #z
+200029205    jcc       ne, BB_229, fallthrough BB_27
+
+20002920b    BB_27
+             preds     BB_26
+20002920b    xor       esi, esi
+20002920d    xor       ecx, ecx
+20002920f    xor       r9d, r9d
+200029212    mov       rdx, r12
+200029215    mov       [rbp - 0x70], r12
+200029219    jmp       BB_40
+
+20002924c    BB_28
+             preds     BB_6
+20002924c    mov       ebx, [r12 + 0x8]
+200029251    cmp       ebx, r14d, def #zc
+200029254    jcc       a, BB_213, fallthrough BB_29
+
+20002925a    BB_29
+             preds     BB_28
+20002925a    add       r12, rbx, def #nzcvpa
+20002925d    mov       rdi, r12
+200029260    call      0x2000671e0, return BB_30
+
+200029265    BB_30
+             preds     BB_29
+200029265    lea       rax, [rbx + rax + 0x1]
+20002926a    cmp       rax, r14, def #zc
+20002926d    mov       r10, [rbp - 0xa8]
+200029274    mov       r8, [rbp - 0xa0]
+20002927b    mov       rdx, [rbp - 0x58]
+20002927f    jcc       be, BB_89, fallthrough BB_31
+
+200029285    BB_31
+             preds     BB_30
+200029285    jmp       BB_214
+
+2000292b0    BB_32
+             preds     BB_3
+2000292b0    cmp       eax, 0x2c, def #z
+2000292b3    jcc       ne, BB_89, fallthrough BB_33
+
+2000292b9    BB_33
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_32
+2000292b9    cmp       r14d, 0x18, def #nzcvpa
+2000292bd    jcc       ne, BB_230, fallthrough BB_34
+
+2000292c3    BB_34
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_33
+2000292c3    mov       rax, [rbp + 0x20]
+2000292c7    cmp       [rax], 0x0, def #nzcvpa
+2000292cb    jcc       e, BB_36, fallthrough BB_35
+
+2000292cd    BB_35
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_34
+2000292cd    jmp       BB_232
+
+2000292ea    BB_36
+             preds     BB_34
+2000292ea    mov       [rax], r12
+2000292ed    jmp       BB_89
+
+200029331    BB_37
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_15
+200029331    mov       r9, [r12 + 0x28]
+200029336    test      r9, r9, def #nzcvpa
+200029339    jcc       e, BB_234, fallthrough BB_38
+
+20002933f    BB_38
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_37
+20002933f    cmp       [rbp - 0x78], 0x0, def #nzcvpa
+200029344    mov       r10, [rbp - 0xa8]
+20002934b    mov       r8, [rbp - 0xa0]
+200029352    jcc       ne, BB_236, fallthrough BB_39
+
+200029358    BB_39
+             preds     BB_38
+200029358    mov       r11, r14
+20002935b    mov       r14, rbx
+20002935e    test      r11, r11, def #z
+200029361    setcc     e, sil
+200029365    mov       cl, 0x1
+200029367    mov       rdx, r12
+20002936a    mov       [rbp - 0x78], r12
+20002936e    mov       rdi, [rbp - 0x80]
+             jmp       BB_40
+
+200029372    BB_40
+             preds     BB_20, BB_21, BB_27, BB_39
+200029372    mov       rdx, [rbp + 0x10]
+200029376    cmp       [rdx + 0x18c], 0x0, def #z
+20002937d    jcc       e, BB_88, fallthrough BB_41
+
+200029383    BB_41
+             preds     BB_40
+200029383    test      rdi, rdi, def #n
+200029386    jcc       s, BB_238, fallthrough BB_42
+
+20002938c    BB_42
+             preds     BB_41
+20002938c    mov       rdx, [r12 + 0x18]
+200029391    add       rdx, rdi, def #c
+200029394    jcc       b, BB_239, fallthrough BB_43
+
+20002939a    BB_43
+             preds     BB_42
+20002939a    cmp       rdi, r11, def #z
+20002939d    jcc       e, BB_62, fallthrough BB_44
+
+2000293a3    BB_44
+             preds     BB_43
+2000293a3    mov       edx, [r12 + 0x3c]
+2000293a8    test      edx, edx, def #z
+2000293aa    jcc       e, BB_56, fallthrough BB_45
+
+2000293ac    BB_45
+             preds     BB_44
+2000293ac    cmp       rdi, r11, def #c
+2000293af    jcc       ae, BB_47, fallthrough BB_46
+
+2000293b1    BB_46
+             preds     BB_45
+2000293b1    cmp       r11, [rbp - 0x48], def #zc
+2000293b5    jcc       a, BB_240, fallthrough BB_47
+
+2000293bb    BB_47
+             preds     BB_45, BB_46
+2000293bb    test      dl, 0x4, def #z
+2000293be    jcc       e, BB_62, fallthrough BB_48
+
+2000293c0    BB_48
+             preds     BB_47
+2000293c0    cmp       [r14 + 0xc], 0x8, def #z
+2000293c5    jcc       ne, BB_242, fallthrough BB_49
+
+2000293cb    BB_49
+             preds     BB_48
+2000293cb    mov       edi, [r14 + 0x10]
+2000293cf    test      edi, edi, def #z
+2000293d1    jcc       e, BB_62, fallthrough BB_50
+
+2000293d3    BB_50
+             preds     BB_49
+2000293d3    mov       rdx, r10
+             jmp       BB_51
+
+2000293d6    BB_51
+             preds     BB_50, BB_54
+2000293d6    mov       ebx, [rdx]
+2000293d8    cmp       rbx, 0x32, def #zc
+2000293dc    jcc       a, BB_54, fallthrough BB_52
+
+2000293de    BB_52
+             preds     BB_51
+2000293de    mov       rax, 0x1803000000000
+2000293e8    bt        rax, rbx, def #c
+2000293ec    jcc       b, BB_59, fallthrough BB_53
+
+2000293ee    BB_53
+             preds     BB_52
+2000293ee    cmp       rbx, 0x32, def #z
+2000293f2    jcc       e, BB_60, fallthrough BB_54
+
+2000293f4    BB_54
+             preds     BB_51, BB_53
+2000293f4    mov       ebx, [rdx + 0x4]
+2000293f7    add       rdx, rbx
+2000293fa    dec       edi, def #z
+2000293fc    jcc       ne, BB_51, fallthrough BB_55
+
+2000293fe    BB_55
+             preds     BB_54
+2000293fe    jmp       BB_62
+
+20002940e    BB_56
+             preds     BB_44
+20002940e    test      r11, r11, def #z
+200029411    jcc       e, BB_62, fallthrough BB_57
+
+200029413    BB_57
+             preds     BB_56
+200029413    test      rdi, rdi, def #z
+200029416    jcc       e, BB_62, fallthrough BB_58
+
+200029418    BB_58
+             preds     BB_57
+200029418    jmp       BB_241
+
+20002941d    BB_59
+             preds     BB_52
+20002941d    add       rdx, 0xc
+200029421    jmp       BB_61
+
+200029423    BB_60
+             preds     BB_53
+200029423    add       rdx, 0x10
+             jmp       BB_61
+
+200029427    BB_61
+             preds     BB_59, BB_60
+200029427    cmp       [rdx], 0xa0c00, def #c
+20002942d    jcc       ae, BB_242, fallthrough BB_62
+
+200029433    BB_62
+             preds     BB_43, BB_47, BB_49, BB_55, BB_56, BB_57, BB_61
+200029433    cmp       [rbp - 0x3c], 0x0, def #z
+200029437    jcc       e, BB_66, fallthrough BB_63
+
+200029439    BB_63
+             preds     BB_62
+200029439    test      sil, sil, def #z
+20002943c    jcc       ne, BB_71, fallthrough BB_64
+
+20002943e    BB_64
+             preds     BB_63
+20002943e    cmp       [r12 + 0x3c], 0x5, def #z
+200029444    jcc       e, BB_70, fallthrough BB_65
+
+200029446    BB_65
+             preds     BB_64
+200029446    jmp       BB_71
+
+200029448    BB_66
+             preds     BB_62
+200029448    test      r11, r11, def #z
+20002944b    jcc       e, BB_71, fallthrough BB_67
+
+20002944d    BB_67
+             preds     BB_66
+20002944d    mov       edx, [r14 + 0x14]
+200029451    cmp       r9, rdx, def #c
+200029454    jcc       ae, BB_71, fallthrough BB_68
+
+200029456    BB_68
+             preds     BB_67
+200029456    add       rdx, 0x20
+20002945a    cmp       r11, rdx, def #c
+20002945d    setcc     ae, dl
+200029460    not       cl
+200029462    test      cl, dl, def #z
+200029464    jcc       e, BB_243, fallthrough BB_69
+
+20002946a    BB_69
+             preds     BB_68
+20002946a    cmp       [r12 + 0x3c], 0x5, def #z
+200029470    jcc       ne, BB_244, fallthrough BB_70
+
+200029476    BB_70
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_64, BB_69
+200029476    test      [rbp - 0x50], 0x1, def #nzcvpa
+20002947a    mov       cl, 0x1
+20002947c    mov       [rbp - 0x50], rcx
+200029480    jcc       ne, BB_247, fallthrough BB_71
+
+200029486    BB_71
+             preds     BB_63, BB_65, BB_66, BB_67, BB_70
+200029486    lea       rdx, [r12 + 0x48]
+20002948b    mov       ecx, [r12 + 0x40]
+200029490    lea       rcx, [rcx + rcx*4]
+200029494    shl       rcx, 0x4
+200029498    lea       rcx, [r12 + rcx + 0x48]
+20002949d    cmp       rcx, rdx, def #zc
+2000294a0    jcc       be, BB_88, fallthrough BB_72
+
+2000294a2    BB_72
+             preds     BB_71
+2000294a2    add       r9, r11
+2000294a5    mov       rax, 0x1803000000000
+             jmp       BB_73
+
+2000294af    BB_73
+             preds     BB_72, BB_87
+2000294af    cmp       [rbp - 0x3c], 0x0, def #z
+2000294b3    jcc       ne, BB_87, fallthrough BB_74
+
+2000294b5    BB_74
+             preds     BB_73
+2000294b5    mov       esi, [rdx + 0x30]
+2000294b8    test      rsi, rsi, def #z
+2000294bb    jcc       e, BB_87, fallthrough BB_75
+
+2000294bd    BB_75
+             preds     BB_74
+2000294bd    add       rsi, [rdx + 0x28]
+2000294c1    cmp       rsi, r9, def #zc
+2000294c4    jcc       be, BB_87, fallthrough BB_76
+
+2000294c6    BB_76
+             preds     BB_75
+2000294c6    cmp       [r14 + 0xc], 0x8, def #z
+2000294cb    jcc       ne, BB_249, fallthrough BB_77
+
+2000294d1    BB_77
+             preds     BB_76
+2000294d1    mov       edi, [r14 + 0x10]
+2000294d5    test      edi, edi, def #z
+2000294d7    jcc       e, BB_87, fallthrough BB_78
+
+2000294d9    BB_78
+             preds     BB_77
+2000294d9    mov       rsi, r10
+             jmp       BB_79
+
+2000294dc    BB_79
+             preds     BB_78, BB_82
+2000294dc    mov       ebx, [rsi]
+2000294de    cmp       rbx, 0x32, def #zc
+2000294e2    jcc       a, BB_82, fallthrough BB_80
+
+2000294e4    BB_80
+             preds     BB_79
+2000294e4    bt        rax, rbx, def #c
+2000294e8    jcc       b, BB_84, fallthrough BB_81
+
+2000294ea    BB_81
+             preds     BB_80
+2000294ea    cmp       rbx, 0x32, def #z
+2000294ee    jcc       e, BB_85, fallthrough BB_82
+
+2000294f0    BB_82
+             preds     BB_79, BB_81
+2000294f0    mov       ebx, [rsi + 0x4]
+2000294f3    add       rsi, rbx
+2000294f6    dec       edi, def #z
+2000294f8    jcc       ne, BB_79, fallthrough BB_83
+
+2000294fa    BB_83
+             preds     BB_82
+2000294fa    jmp       BB_87
+
+2000294fc    BB_84
+             preds     BB_80
+2000294fc    add       rsi, 0xc
+200029500    jmp       BB_86
+
+200029502    BB_85
+             preds     BB_81
+200029502    add       rsi, 0x10
+             jmp       BB_86
+
+200029506    BB_86
+             preds     BB_84, BB_85
+200029506    cmp       [rsi], 0xa0c00, def #c
+20002950c    jcc       ae, BB_249, fallthrough BB_87
+
+200029512    BB_87
+             preds     BB_73, BB_74, BB_75, BB_77, BB_83, BB_86
+200029512    add       rdx, 0x50
+200029516    cmp       rdx, rcx, def #c
+200029519    jcc       b, BB_73, fallthrough BB_88
+
+20002951b    BB_88
+             preds     BB_40, BB_71, BB_87
+20002951b    mov       rdx, [rbp - 0x58]
+             jmp       BB_89
+
+20002951f    BB_89
+             preds     BB_4, BB_7, BB_30, BB_32, BB_36, BB_88
+20002951f    inc       r15d
+200029522    mov       r12, r13
+200029525    cmp       r15d, r8d, def #nzcvpa
+200029528    jcc       ne, 0x200028fce, fallthrough BB_90
+
+20002952e    BB_90
+             preds     BB_89
+20002952e    jmp       BB_91
+
+200029572    BB_91
+             preds     BB_90
+200029572    mov       rax, [rbp + 0x10]
+200029576    mov       al, [rax + 0x18c]
+20002957c    mov       [rbp - 0x48], al
+20002957f    test      [rbp - 0x50], 0x1, def #z
+200029583    jcc       ne, BB_93, fallthrough BB_92
+
+200029585    BB_92
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_91
+200029585    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+200029589    jcc       ne, BB_256, fallthrough BB_93
+
+20002958f    BB_93
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_91, BB_92
+20002958f    cmp       [rbp - 0x78], 0x0, def #nzcvpa
+200029594    mov       r9, [rbp - 0x98]
+20002959b    mov       rax, [rbp - 0x68]
+20002959f    jcc       e, BB_258, fallthrough BB_94
+
+2000295a5    BB_94
+             preds     BB_93
+2000295a5    cmp       [rbp - 0x70], 0x0, def #z
+2000295aa    jcc       ne, BB_96, fallthrough BB_95
+
+2000295ac    BB_95
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_94
+2000295ac    cmp       [rbp - 0x3c], 0x0, def #nzcvpa
+2000295b0    jcc       e, BB_260, fallthrough BB_96
+
+2000295b6    BB_96
+             preds     BB_94, BB_95
+2000295b6    cmp       [rbp - 0x48], 0x0, def #z
+2000295ba    jcc       e, BB_121, fallthrough BB_97
+
+2000295c0    BB_97
+             preds     BB_96
+2000295c0    test      r8d, r8d, def #z
+2000295c3    jcc       e, BB_121, fallthrough BB_98
+
+2000295c9    BB_98
+             preds     BB_97
+2000295c9    xor       ecx, ecx
+2000295cb    xor       r11d, r11d
+2000295ce    xor       edx, edx
+2000295d0    mov       r14, r10
+             jmp       BB_99
+
+2000295d3    BB_99
+             preds     BB_98, BB_119
+2000295d3    cmp       [r14], 0x19, def #z
+2000295d7    jcc       ne, BB_119, fallthrough BB_100
+
+2000295dd    BB_100
+             preds     BB_99
+2000295dd    mov       [rbp - 0x50], edx
+2000295e0    mov       r13, [r14 + 0x18]
+2000295e4    mov       r12, [r14 + 0x28]
+2000295e8    mov       rax, [r14 + 0x20]
+2000295ec    add       rax, r13
+2000295ef    mov       [rbp - 0x58], rax
+2000295f3    mov       r15, [r14 + 0x30]
+2000295f7    add       r15, r12
+2000295fa    cmp       r12, rcx, def #nzcvpa
+2000295fd    cmovcc    a, rcx, r12
+200029601    mov       [rbp - 0x70], rcx
+200029605    lea       rdi, [r14 + 0x8]
+200029609    mov       [rbp - 0x80], rdi
+20002960d    lea       rsi, [0x200098be1]
+200029614    mov       rbx, r11
+200029617    call      0x200067e00, return BB_101
+
+20002961c    BB_101
+             preds     BB_100
+20002961c    mov       r11, rbx
+20002961f    mov       r8, [rbp - 0xa0]
+200029626    mov       r10, [rbp - 0xa8]
+20002962d    test      eax, eax, def #z
+20002962f    cmovcc    e, r11, r12
+200029633    mov       eax, r8d
+200029636    mov       rdx, r10
+             jmp       BB_102
+
+200029639    BB_102
+             preds     BB_101, BB_117
+200029639    mov       rcx, r14
+20002963c    cmp       rdx, r14, def #z
+20002963f    jcc       e, BB_117, fallthrough BB_103
+
+200029641    BB_103
+             preds     BB_102
+200029641    cmp       [rdx], 0x19, def #z
+200029644    jcc       ne, BB_116, fallthrough BB_104
+
+200029646    BB_104
+             preds     BB_103
+200029646    mov       rdi, [rdx + 0x18]
+20002964a    mov       rcx, [rdx + 0x28]
+20002964e    mov       rbx, [rdx + 0x20]
+200029652    add       rbx, rdi
+200029655    mov       rsi, [rdx + 0x30]
+200029659    add       rsi, rcx
+20002965c    cmp       [rbp - 0x58], r13, def #zc
+200029660    jcc       be, BB_107, fallthrough BB_105
+
+200029662    BB_105
+             preds     BB_104
+200029662    cmp       rdi, r13, def #zc
+200029665    jcc       a, BB_107, fallthrough BB_106
+
+200029667    BB_106
+             preds     BB_105
+200029667    cmp       rbx, r13, def #zc
+20002966a    jcc       a, BB_205, fallthrough BB_107
+
+200029670    BB_107
+             preds     BB_104, BB_105, BB_106
+200029670    cmp       rdi, r13, def #c
+200029673    jcc       b, BB_110, fallthrough BB_108
+
+200029675    BB_108
+             preds     BB_107
+200029675    cmp       rdi, [rbp - 0x58], def #c
+200029679    jcc       ae, BB_110, fallthrough BB_109
+
+20002967b    BB_109
+             preds     BB_108
+20002967b    cmp       rbx, rdi, def #zc
+20002967e    jcc       a, BB_205, fallthrough BB_110
+
+200029684    BB_110
+             preds     BB_107, BB_108, BB_109
+200029684    cmp       r15, r12, def #zc
+200029687    jcc       be, BB_113, fallthrough BB_111
+
+200029689    BB_111
+             preds     BB_110
+200029689    cmp       rcx, r12, def #zc
+20002968c    jcc       a, BB_113, fallthrough BB_112
+
+20002968e    BB_112
+             preds     BB_111
+20002968e    cmp       rsi, r12, def #zc
+200029691    jcc       a, BB_206, fallthrough BB_113
+
+200029697    BB_113
+             preds     BB_110, BB_111, BB_112
+200029697    cmp       rcx, r12, def #c
+20002969a    jcc       b, BB_116, fallthrough BB_114
+
+20002969c    BB_114
+             preds     BB_113
+20002969c    cmp       rcx, r15, def #c
+20002969f    jcc       ae, BB_116, fallthrough BB_115
+
+2000296a1    BB_115
+             preds     BB_114
+2000296a1    cmp       rsi, rcx, def #zc
+2000296a4    jcc       a, BB_206, fallthrough BB_116
+
+2000296aa    BB_116
+             preds     BB_103, BB_113, BB_114, BB_115
+2000296aa    mov       ecx, [rdx + 0x4]
+2000296ad    add       rcx, rdx
+             jmp       BB_117
+
+2000296b0    BB_117
+             preds     BB_102, BB_116
+2000296b0    mov       rdx, rcx
+2000296b3    dec       eax, def #z
+2000296b5    jcc       ne, BB_102, fallthrough BB_118
+
+2000296b7    BB_118
+             preds     BB_117
+2000296b7    mov       r9, [rbp - 0x98]
+2000296be    mov       rcx, [rbp - 0x70]
+2000296c2    mov       edx, [rbp - 0x50]
+             jmp       BB_119
+
+2000296c5    BB_119
+             preds     BB_99, BB_118
+2000296c5    mov       eax, [r14 + 0x4]
+2000296c9    add       r14, rax
+2000296cc    inc       edx
+2000296ce    cmp       edx, r8d, def #z
+2000296d1    jcc       ne, BB_99, fallthrough BB_120
+
+2000296d7    BB_120
+             preds     BB_119
+2000296d7    cmp       rcx, r11, def #z
+2000296da    mov       rax, [rbp - 0x68]
+2000296de    jcc       ne, BB_289, fallthrough BB_121
+
+2000296e4    BB_121
+             preds     BB_96, BB_97, BB_120
+2000296e4    test      rax, rax, def #z
+2000296e7    mov       r14, [rbp - 0xb0]
+2000296ee    jcc       ne, BB_124, fallthrough BB_122
+
+2000296f0    BB_122
+             preds     BB_121
+2000296f0    cmp       [rbp - 0x88], 0x0, def #z
+2000296f8    jcc       ne, BB_124, fallthrough BB_123
+
+2000296fa    BB_123
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_122
+2000296fa    cmp       [rbp - 0x38], 0x0, def #nzcvpa
+2000296ff    jcc       e, BB_262, fallthrough BB_124
+
+200029705    BB_124
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_121, BB_122, BB_123
+200029705    test      r9, r9, def #nzcvpa
+200029708    jcc       e, BB_264, fallthrough BB_125
+
+20002970e    BB_125
+             preds     BB_124
+20002970e    mov       rax, [rbp - 0x78]
+200029712    mov       r11d, [rax + 0x28]
+200029716    mov       r8, [rax + 0x30]
+20002971a    lea       edx, [r8 + r11]
+20002971e    cmp       [rbp - 0x38], 0x0, def #z
+200029723    jcc       e, BB_148, fallthrough BB_126
+
+200029729    BB_126
+             preds     BB_125
+200029729    cmp       [rbp - 0x3c], 0x0, def #z
+20002972d    jcc       ne, BB_148, fallthrough BB_127
+
+200029733    BB_127
+             preds     BB_126
+200029733    cmp       [rbp - 0x48], 0x0, def #z
+200029737    jcc       e, BB_148, fallthrough BB_128
+
+20002973d    BB_128
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_127
+20002973d    mov       rax, [rbp - 0x38]
+200029741    mov       eax, [rax + 0xc]
+200029744    mov       esi, r11d
+200029747    test      eax, eax, def #nzcvpa
+200029749    jcc       e, BB_132, fallthrough BB_129
+
+20002974b    BB_129
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_128
+20002974b    jcc       s, BB_304, fallthrough BB_130
+
+200029751    BB_130
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_129
+200029751    mov       rcx, [rbp - 0x38]
+200029755    mov       esi, [rcx + 0x8]
+200029758    cmp       esi, r11d, def #nzcvpa
+20002975b    jcc       b, BB_306, fallthrough BB_131
+
+200029761    BB_131
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_130
+200029761    add       esi, eax
+200029763    cmp       esi, edx, def #nzcvpa
+200029765    jcc       a, BB_308, fallthrough BB_132
+
+20002976b    BB_132
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_128, BB_131
+20002976b    mov       rax, [rbp - 0x38]
+20002976f    mov       eax, [rax + 0x14]
+200029772    test      eax, eax, def #nzcvpa
+200029774    jcc       e, BB_136, fallthrough BB_133
+
+200029776    BB_133
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_132
+200029776    jcc       s, BB_310, fallthrough BB_134
+
+20002977c    BB_134
+             preds     BB_133
+20002977c    mov       rcx, [rbp - 0x38]
+200029780    mov       edi, [rcx + 0x10]
+200029783    cmp       edi, esi, def #nzcvpa
+200029785    jcc       b, 0x20002a001, fallthrough BB_135
+
+20002978b    BB_135
+             preds     BB_134
+20002978b    add       edi, eax
+20002978d    mov       esi, edi
+20002978f    cmp       edi, edx, def #nzcvpa
+200029791    jcc       a, 0x20002a017, fallthrough BB_136
+
+200029797    BB_136
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_132, BB_135
+200029797    mov       rax, [rbp - 0x38]
+20002979b    mov       eax, [rax + 0x1c]
+20002979e    test      eax, eax, def #nzcvpa
+2000297a0    jcc       e, BB_140, fallthrough BB_137
+
+2000297a2    BB_137
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_136
+2000297a2    jcc       s, 0x20002a02d, fallthrough BB_138
+
+2000297a8    BB_138
+             preds     BB_137
+2000297a8    mov       rcx, [rbp - 0x38]
+2000297ac    mov       edi, [rcx + 0x18]
+2000297af    cmp       edi, esi, def #nzcvpa
+2000297b1    jcc       b, 0x20002a043, fallthrough BB_139
+
+2000297b7    BB_139
+             preds     BB_138
+2000297b7    add       edi, eax
+2000297b9    mov       esi, edi
+2000297bb    cmp       edi, edx, def #nzcvpa
+2000297bd    jcc       a, 0x20002a059, fallthrough BB_140
+
+2000297c3    BB_140
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_136, BB_139
+2000297c3    mov       rax, [rbp - 0x38]
+2000297c7    mov       eax, [rax + 0x24]
+2000297ca    test      eax, eax, def #nzcvpa
+2000297cc    jcc       e, BB_144, fallthrough BB_141
+
+2000297ce    BB_141
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_140
+2000297ce    jcc       s, 0x20002a06f, fallthrough BB_142
+
+2000297d4    BB_142
+             preds     BB_141
+2000297d4    mov       rcx, [rbp - 0x38]
+2000297d8    mov       edi, [rcx + 0x20]
+2000297db    cmp       edi, esi, def #nzcvpa
+2000297dd    jcc       b, 0x20002a082, fallthrough BB_143
+
+2000297e3    BB_143
+             preds     BB_142
+2000297e3    add       edi, eax
+2000297e5    mov       esi, edi
+2000297e7    cmp       edi, edx, def #nzcvpa
+2000297e9    jcc       a, 0x20002a095, fallthrough BB_144
+
+2000297ef    BB_144
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_140, BB_143
+2000297ef    mov       rax, [rbp - 0x38]
+2000297f3    mov       eax, [rax + 0x2c]
+2000297f6    test      eax, eax, def #nzcvpa
+2000297f8    jcc       e, BB_148, fallthrough BB_145
+
+2000297fa    BB_145
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_144
+2000297fa    jcc       s, 0x20002a0a8, fallthrough BB_146
+
+200029800    BB_146
+             preds     BB_145
+200029800    mov       rcx, [rbp - 0x38]
+200029804    mov       edi, [rcx + 0x28]
+200029807    cmp       edi, esi, def #nzcvpa
+200029809    jcc       b, 0x20002a0bb, fallthrough BB_147
+
+20002980f    BB_147
+             preds     BB_146
+20002980f    add       edi, eax
+200029811    cmp       edi, edx, def #nzcvpa
+200029813    jcc       a, 0x20002a0ce, fallthrough BB_148
+
+200029819    BB_148
+             preds     BB_125, BB_126, BB_127, BB_144, BB_147
+200029819    mov       rax, [rbp - 0x88]
+200029820    test      rax, rax, def #z
+200029823    jcc       e, BB_153, fallthrough BB_149
+
+200029825    BB_149
+             preds     BB_148
+200029825    cmp       [rbp - 0x3c], 0x0, def #z
+200029829    jcc       ne, BB_153, fallthrough BB_150
+
+20002982b    BB_150
+             preds     BB_149
+20002982b    cmp       [rbp - 0x48], 0x0, def #z
+20002982f    jcc       e, BB_153, fallthrough BB_151
+
+200029831    BB_151
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_150
+200029831    mov       rcx, rax
+200029834    mov       eax, [rax + 0x8]
+200029837    cmp       eax, r11d, def #nzcvpa
+20002983a    jcc       b, BB_266, fallthrough BB_152
+
+200029840    BB_152
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_151
+200029840    add       eax, [rcx + 0xc]
+200029843    cmp       eax, edx, def #nzcvpa
+200029845    jcc       a, BB_268, fallthrough BB_153
+
+20002984b    BB_153
+             preds     BB_148, BB_149, BB_150, BB_152
+20002984b    mov       rax, [rbp - 0xb8]
+200029852    test      rax, rax, def #z
+200029855    jcc       e, BB_158, fallthrough BB_154
+
+200029857    BB_154
+             preds     BB_153
+200029857    cmp       [rbp - 0x3c], 0x0, def #z
+20002985b    jcc       ne, BB_158, fallthrough BB_155
+
+20002985d    BB_155
+             preds     BB_154
+20002985d    cmp       [rbp - 0x48], 0x0, def #z
+200029861    jcc       e, BB_158, fallthrough BB_156
+
+200029863    BB_156
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_155
+200029863    mov       rcx, rax
+200029866    mov       eax, [rax + 0x8]
+200029869    cmp       eax, r11d, def #nzcvpa
+20002986c    jcc       b, BB_266, fallthrough BB_157
+
+200029872    BB_157
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_156
+200029872    add       eax, [rcx + 0xc]
+200029875    cmp       eax, edx, def #nzcvpa
+200029877    jcc       a, BB_268, fallthrough BB_158
+
+20002987d    BB_158
+             preds     BB_153, BB_154, BB_155, BB_157
+20002987d    mov       rax, [rbp - 0x68]
+200029881    test      rax, rax, def #z
+200029884    jcc       e, BB_196, fallthrough BB_159
+
+20002988a    BB_159
+             preds     BB_158
+20002988a    mov       esi, [rax + 0xc]
+20002988d    test      esi, esi, def #z
+20002988f    jcc       e, BB_162, fallthrough BB_160
+
+200029891    BB_160
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_159
+200029891    cmp       [rax + 0x8], r11d, def #nzcvpa
+200029895    jcc       b, BB_290, fallthrough BB_161
+
+20002989b    BB_161
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_160
+20002989b    cmp       esi, 0x10000001, def #nzcvpa
+2000298a1    jcc       ae, BB_292, fallthrough BB_162
+
+2000298a7    BB_162
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_159, BB_161
+2000298a7    mov       eax, esi
+2000298a9    shl       eax, 0x4
+2000298ac    cmp       r8, rax, def #nzcvpa
+2000298af    jcc       b, BB_273, fallthrough BB_163
+
+2000298b5    BB_163
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_162
+2000298b5    mov       rcx, [rbp - 0x68]
+2000298b9    mov       ebx, [rcx + 0x8]
+2000298bc    add       eax, ebx, def #nzcvpa
+2000298be    jcc       b, BB_275, fallthrough BB_164
+
+2000298c4    BB_164
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_163
+2000298c4    mov       edi, [rcx + 0x10]
+2000298c7    cmp       eax, edi, def #nzcvpa
+2000298c9    jcc       a, BB_277, fallthrough BB_165
+
+2000298cf    BB_165
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_164
+2000298cf    mov       eax, [rcx + 0x14]
+2000298d2    add       eax, edi, def #nzcvpa
+2000298d4    jcc       b, BB_279, fallthrough BB_166
+
+2000298da    BB_166
+             preds     BB_165
+2000298da    cmp       eax, edx, def #zc
+2000298dc    jcc       be, BB_169, fallthrough BB_167
+
+2000298de    BB_167
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_166
+2000298de    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+2000298e2    jcc       ne, BB_281, fallthrough BB_168
+
+2000298e8    BB_168
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_167
+2000298e8    add       edx, 0xfff
+2000298ee    and       edx, -0x1000
+2000298f4    cmp       eax, edx, def #nzcvpa
+2000298f6    jcc       a, BB_281, fallthrough BB_169
+
+2000298fc    BB_169
+             preds     BB_166, BB_168
+2000298fc    test      bl, 0x7, def #z
+2000298ff    jcc       e, BB_180, fallthrough BB_170
+
+200029901    BB_170
+             preds     BB_169
+200029901    mov       edx, [r14 + 0x10]
+200029905    test      edx, edx, def #z
+200029907    jcc       e, BB_180, fallthrough BB_171
+
+200029909    BB_171
+             preds     BB_170
+200029909    mov       rbx, 0x1803000000000
+             jmp       BB_172
+
+200029913    BB_172
+             preds     BB_171, BB_175
+200029913    mov       eax, [r10]
+200029916    cmp       rax, 0x32, def #zc
+20002991a    jcc       a, BB_175, fallthrough BB_173
+
+20002991c    BB_173
+             preds     BB_172
+20002991c    bt        rbx, rax, def #c
+200029920    jcc       b, BB_177, fallthrough BB_174
+
+200029922    BB_174
+             preds     BB_173
+200029922    cmp       rax, 0x32, def #z
+200029926    jcc       e, BB_178, fallthrough BB_175
+
+200029928    BB_175
+             preds     BB_172, BB_174
+200029928    mov       eax, [r10 + 0x4]
+20002992c    add       r10, rax
+20002992f    dec       edx, def #z
+200029931    jcc       ne, BB_172, fallthrough BB_176
+
+200029933    BB_176
+             preds     BB_175
+200029933    jmp       BB_180
+
+200029935    BB_177
+             preds     BB_173
+200029935    add       r10, 0xc
+200029939    jmp       BB_179
+
+20002993b    BB_178
+             preds     BB_174
+20002993b    add       r10, 0x10
+             jmp       BB_179
+
+20002993f    BB_179
+             preds     BB_177, BB_178
+20002993f    cmp       [r10], 0xa0f00, def #nzcvpa
+200029946    jcc       ae, 0x20002a0e1, fallthrough BB_180
+
+20002994c    BB_180
+             preds     BB_169, BB_170, BB_176, BB_179
+20002994c    mov       edx, [r9 + 0x3c]
+200029950    test      rdx, rdx, def #z
+200029953    jcc       e, BB_187, fallthrough BB_181
+
+200029955    BB_181
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_180
+200029955    mov       ebx, [r9 + 0x38]
+200029959    cmp       ebx, r11d, def #nzcvpa
+20002995c    jcc       b, BB_294, fallthrough BB_182
+
+200029962    BB_182
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_181
+200029962    cmp       edx, 0x10000001, def #nzcvpa
+200029968    jcc       ae, BB_296, fallthrough BB_183
+
+20002996e    BB_183
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_182
+20002996e    shl       rdx, 0x2
+200029972    cmp       r8, rdx, def #nzcvpa
+200029975    jcc       b, BB_298, fallthrough BB_184
+
+20002997b    BB_184
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_183
+20002997b    add       ebx, edx, def #nzcvpa
+20002997d    jcc       b, BB_300, fallthrough BB_185
+
+200029983    BB_185
+             preds     BB_184
+200029983    cmp       ebx, edi, def #zc
+200029985    jcc       be, BB_187, fallthrough BB_186
+
+200029987    BB_186
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_185
+200029987    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+20002998b    jcc       ne, BB_302, fallthrough BB_187
+
+200029991    BB_187
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_180, BB_185, BB_186
+200029991    mov       eax, [r9 + 0xc]
+200029995    cmp       eax, esi, def #nzcvpa
+200029997    jcc       a, BB_250, fallthrough BB_188
+
+20002999d    BB_188
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_187
+20002999d    mov       ecx, [r9 + 0x8]
+2000299a1    cmp       ecx, esi, def #nzcvpa
+2000299a3    jcc       a, BB_250, fallthrough BB_189
+
+2000299a9    BB_189
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_188
+2000299a9    add       ecx, eax, def #nzcvpa
+2000299ab    jcc       b, BB_283, fallthrough BB_190
+
+2000299b1    BB_190
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_189
+2000299b1    mov       eax, [r9 + 0x14]
+2000299b5    cmp       eax, esi, def #nzcvpa
+2000299b7    jcc       a, BB_252, fallthrough BB_191
+
+2000299bd    BB_191
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_190
+2000299bd    mov       ecx, [r9 + 0x10]
+2000299c1    cmp       ecx, esi, def #nzcvpa
+2000299c3    jcc       a, BB_252, fallthrough BB_192
+
+2000299c9    BB_192
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_191
+2000299c9    add       ecx, eax, def #nzcvpa
+2000299cb    jcc       b, BB_285, fallthrough BB_193
+
+2000299d1    BB_193
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_192
+2000299d1    mov       eax, [r9 + 0x1c]
+2000299d5    cmp       eax, esi, def #nzcvpa
+2000299d7    jcc       a, BB_254, fallthrough BB_194
+
+2000299dd    BB_194
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_193
+2000299dd    mov       ecx, [r9 + 0x18]
+2000299e1    cmp       ecx, esi, def #nzcvpa
+2000299e3    jcc       a, BB_254, fallthrough BB_195
+
+2000299e9    BB_195
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_194
+2000299e9    add       ecx, eax, def #nzcvpa
+2000299eb    jcc       b, BB_287, fallthrough BB_196
+
+2000299f1    BB_196
+             preds     BB_158, BB_195
+2000299f1    mov       rax, [rbp - 0xd0]
+2000299f8    cmp       [rax], 0x100, def #c
+2000299fe    jcc       ae, BB_270, fallthrough BB_197
+
+200029a04    BB_197
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_196
+200029a04    mov       rax, [rbp - 0xc8]
+200029a0b    mov       edi, [rax]
+200029a0d    cmp       edi, 0x1000, def #nzcvpa
+200029a13    jcc       ae, BB_271, fallthrough BB_198
+
+200029a19    BB_198
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_197
+200029a19    mov       rsi, r14
+200029a1c    call      0x20002a132, return BB_199
+
+200029a21    BB_199
+             preds     BB_198
+200029a21    test      al, al, def #z
+200029a23    jcc       e, BB_201, fallthrough BB_200
+
+200029a25    BB_200
+             preds     BB_199
+200029a25    mov       rax, [rbp - 0xc8]
+200029a2c    mov       [rax], 0x1
+             jmp       BB_201
+
+200029a32    BB_201
+             preds     BB_199, BB_200
+200029a32    cmp       [rbp - 0x90], 0x0, def #z
+200029a39    jcc       ne, BB_204, fallthrough BB_202
+
+200029a3b    BB_202
+             preds     BB_201
+200029a3b    cmp       [r14 + 0x18], 0x0, def #n
+200029a40    jcc       ns, BB_204, fallthrough BB_203
+
+200029a42    BB_203
+             preds     BB_202
+200029a42    mov       rax, [rbp - 0xc0]
+200029a49    mov       [rax], 0x1
+             jmp       BB_204
+
+200029a4c    BB_204
+             preds     BB_201, BB_202, BB_203
+200029a4c    add       rsp, 0xa8, def #nzcvpa
+200029a53    pop       rbx
+200029a54    pop       r12
+200029a56    pop       r13
+200029a58    pop       r14
+200029a5a    pop       r15
+200029a5c    pop       rbp
+200029a5d    ret
+
+200029a5e    BB_205
+             preds     BB_106, BB_109
+200029a5e    add       rdx, 0x8
+200029a62    lea       rdi, [0x20009cc46]
+200029a69    jmp       BB_207
+
+200029a6b    BB_206
+             preds     BB_112, BB_115
+200029a6b    add       rdx, 0x8
+200029a6f    lea       rdi, [0x20009cc80]
+             jmp       BB_207
+
+200029a76    BB_207
+             preds     BB_205, BB_206
+200029a76    mov       rsi, [rbp - 0x80]
+             jmp       BB_208
+
+200029a7a    BB_208
+             preds     BB_207, BB_229, BB_238
+200029a7a    xor       eax, eax, def #nzcvpa
+200029a7c    call      0x2000115de, return BB_209
+
+200029a81    BB_209
+             preds     BB_208
+200029a81    mov       rax, [rbp - 0xb0]
+200029a88    mov       ecx, [rax + 0x14]
+200029a8b    lea       rdi, [0x20009c219]
+200029a92    mov       esi, r15d
+200029a95    mov       edx, r14d
+200029a98    mov       r8, [rbp - 0x60]
+200029a9c    xor       eax, eax, def #nzcvpa
+200029a9e    call      0x2000115de, return BB_210
+
+200029aa3    BB_210
+             preds     BB_209
+200029aa3    lea       rdi, [0x20009c1d4]
+200029aaa    mov       esi, r15d
+200029aad    mov       edx, r14d
+200029ab0    mov       rcx, [rbp - 0x60]
+200029ab4    xor       eax, eax, def #nzcvpa
+200029ab6    call      0x2000115de, return BB_211
+
+200029abb    BB_211
+             preds     BB_210
+200029abb    lea       rdi, [0x20009c8cc]
+             jmp       BB_212
+
+200029ac2    BB_212
+             preds     BB_211, BB_289
+200029ac2    xor       eax, eax, def #nzcvpa
+200029ac4    call      0x2000115de, return BB_213
+
+200029ac9    BB_213
+             preds     BB_28, BB_212
+200029ac9    lea       rdi, [0x20009c90b]
+200029ad0    mov       esi, r15d
+200029ad3    mov       edx, ebx
+200029ad5    mov       ecx, r14d
+200029ad8    xor       eax, eax, def #nzcvpa
+200029ada    call      0x2000115de, return BB_214
+
+200029adf    BB_214
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_31, BB_213
+200029adf    lea       rdi, [0x20009c960]
+200029ae6    mov       esi, r15d
+200029ae9    xor       eax, eax, def #nzcvpa
+200029aeb    call      0x2000115de, return BB_215
+
+200029af0    BB_215
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_5, BB_214
+200029af0    mov       edi, 0x8
+200029af5    call      0x200060fce, return BB_216
+
+200029afa    BB_216
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_215
+200029afa    lea       rcx, [0x20009cb81]
+200029b01    jmp       0x20002a0f2
+
+200029b74    BB_217
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_9
+200029b74    add       r12, 0x8
+200029b78    lea       rdi, [0x20009c313]
+200029b7f    mov       rsi, r12
+200029b82    xor       eax, eax, def #nzcvpa
+200029b84    call      0x2000115de, return BB_218
+
+200029b89    BB_218
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_10, BB_217
+200029b89    mov       edi, 0x8
+200029b8e    call      0x200060fce, return BB_219
+
+200029b93    BB_219
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_218
+200029b93    lea       rcx, [0x20009c374]
+200029b9a    jmp       0x20002a0f2
+
+200029b9f    BB_220
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_11
+200029b9f    mov       edi, 0x8
+200029ba4    call      0x200060fce, return BB_221
+
+200029ba9    BB_221
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_220
+200029ba9    lea       rcx, [0x20009c3a6]
+200029bb0    jmp       0x20002a0f2
+
+200029bb5    BB_222
+             preds     BB_16
+200029bb5    lea       rdi, [0x20009c46d]
+200029bbc    mov       rsi, [rbp - 0x30]
+200029bc0    jmp       BB_224
+
+200029bc2    BB_223
+             preds     BB_17
+200029bc2    lea       rdi, [0x20009c4bf]
+200029bc9    mov       rsi, [rbp - 0x30]
+200029bcd    mov       edx, eax
+             jmp       BB_224
+
+200029bcf    BB_224
+             preds     BB_222, BB_223
+200029bcf    xor       eax, eax, def #nzcvpa
+200029bd1    call      0x2000115de, return BB_225
+
+200029bd6    BB_225
+             preds     BB_19, BB_224
+200029bd6    lea       rdi, [0x20009c510]
+200029bdd    jmp       BB_245
+
+200029be2    BB_226
+             preds     BB_22
+200029be2    lea       rdi, [0x20009c54a]
+200029be9    jmp       BB_245
+
+200029bee    BB_227
+             preds     BB_24
+200029bee    lea       rdi, [0x20009c594]
+200029bf5    jmp       BB_245
+
+200029bfa    BB_228
+             preds     BB_25
+200029bfa    lea       rdi, [0x20009c5da]
+200029c01    jmp       BB_245
+
+200029c06    BB_229
+             preds     BB_26
+200029c06    add       rsi, 0x8
+200029c0a    lea       rdi, [0x20009c61f]
+200029c11    mov       rdx, [rbp - 0x30]
+200029c15    jmp       BB_208
+
+200029c1a    BB_230
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_33
+200029c1a    mov       edi, 0x8
+200029c1f    call      0x200060fce, return BB_231
+
+200029c24    BB_231
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_230
+200029c24    lea       rcx, [0x20009caa7]
+200029c2b    jmp       0x20002a0f2
+
+200029c30    BB_232
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_35
+200029c30    mov       edi, 0x8
+200029c35    call      0x200060fce, return BB_233
+
+200029c3a    BB_233
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_232
+200029c3a    lea       rcx, [0x20009cae0]
+200029c41    jmp       0x20002a0f2
+
+200029c9e    BB_234
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_37
+200029c9e    mov       edi, 0x8
+200029ca3    call      0x200060fce, return BB_235
+
+200029ca8    BB_235
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_234
+200029ca8    lea       rcx, [0x20009c3eb]
+200029caf    jmp       0x20002a0f2
+
+200029cb4    BB_236
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_38
+200029cb4    mov       edi, 0x8
+200029cb9    call      0x200060fce, return BB_237
+
+200029cbe    BB_237
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_236
+200029cbe    lea       rcx, [0x20009c438]
+200029cc5    jmp       0x20002a0f2
+
+200029cca    BB_238
+             preds     BB_41
+200029cca    lea       rdi, [0x20009c662]
+200029cd1    mov       rsi, [rbp - 0x30]
+200029cd5    mov       rdx, [rbp - 0x60]
+200029cd9    jmp       BB_208
+
+200029cde    BB_239
+             preds     BB_42
+200029cde    lea       rdi, [0x20009c6a9]
+200029ce5    jmp       BB_245
+
+200029ce7    BB_240
+             preds     BB_46
+200029ce7    lea       rdi, [0x20009c745]
+200029cee    jmp       BB_245
+
+200029cf0    BB_241
+             preds     BB_58
+200029cf0    lea       rdi, [0x20009c6f4]
+200029cf7    jmp       BB_245
+
+200029cf9    BB_242
+             preds     BB_48, BB_61
+200029cf9    lea       rdi, [0x20009c77e]
+200029d00    jmp       BB_245
+
+200029d02    BB_243
+             preds     BB_68
+200029d02    lea       rdi, [0x20009c7ed]
+200029d09    jmp       BB_245
+
+200029d0b    BB_244
+             preds     BB_69
+200029d0b    lea       rdi, [0x20009c830]
+             jmp       BB_245
+
+200029d12    BB_245
+             preds     BB_225, BB_226, BB_227, BB_228, BB_239, BB_240, BB_241, BB_242, BB_243, BB_244
+200029d12    mov       rsi, [rbp - 0x30]
+             jmp       BB_246
+
+200029d16    BB_246
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_245, BB_272
+200029d16    xor       eax, eax, def #nzcvpa
+200029d18    call      0x2000115de, return BB_247
+
+200029d1d    BB_247
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_70, BB_246
+200029d1d    mov       edi, 0x8
+200029d22    call      0x200060fce, return BB_248
+
+200029d27    BB_248
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_247
+200029d27    lea       rcx, [0x20009c7ca]
+200029d2e    jmp       0x20002a0f2
+
+200029d33    BB_249
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_76, BB_86
+200029d33    lea       rsi, [rdx + 0x10]
+200029d37    lea       rdi, [0x20009c881]
+200029d3e    mov       rcx, [rbp - 0x60]
+200029d42    mov       r8, [rbp - 0x30]
+200029d46    xor       eax, eax, def #nzcvpa
+200029d48    call      0x2000115de, return BB_250
+
+200029d4d    BB_250
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_187, BB_188, BB_249
+200029d4d    mov       edi, 0x8
+200029d52    call      0x200060fce, return BB_251
+
+200029d57    BB_251
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_250
+200029d57    lea       rcx, [0x20009d47f]
+200029d5e    jmp       0x20002a0f2
+
+200029d63    BB_252
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_190, BB_191
+200029d63    mov       edi, 0x8
+200029d68    call      0x200060fce, return BB_253
+
+200029d6d    BB_253
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_252
+200029d6d    lea       rcx, [0x20009d51d]
+200029d74    jmp       0x20002a0f2
+
+200029d79    BB_254
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_193, BB_194
+200029d79    mov       edi, 0x8
+200029d7e    call      0x200060fce, return BB_255
+
+200029d83    BB_255
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_254
+200029d83    lea       rcx, [0x20009d5bd]
+200029d8a    jmp       0x20002a0f2
+
+200029da0    BB_256
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_92
+200029da0    mov       edi, 0x8
+200029da5    call      0x200060fce, return BB_257
+
+200029daa    BB_257
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_256
+200029daa    lea       rcx, [0x20009cbad]
+200029db1    jmp       0x20002a0f2
+
+200029db6    BB_258
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_93
+200029db6    mov       edi, 0x8
+200029dbb    call      0x200060fce, return BB_259
+
+200029dc0    BB_259
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_258
+200029dc0    lea       rcx, [0x20009cbcc]
+200029dc7    jmp       0x20002a0f2
+
+200029dcc    BB_260
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_95
+200029dcc    mov       edi, 0x8
+200029dd1    call      0x200060fce, return BB_261
+
+200029dd6    BB_261
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_260
+200029dd6    lea       rcx, [0x20009cbff]
+200029ddd    jmp       0x20002a0f2
+
+200029de2    BB_262
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_123
+200029de2    mov       edi, 0x8
+200029de7    call      0x200060fce, return BB_263
+
+200029dec    BB_263
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_262
+200029dec    lea       rcx, [0x20009ccfc]
+200029df3    jmp       0x20002a0f2
+
+200029df8    BB_264
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_124
+200029df8    mov       edi, 0x8
+200029dfd    call      0x200060fce, return BB_265
+
+200029e02    BB_265
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_264
+200029e02    lea       rcx, [0x20009cd4f]
+200029e09    jmp       0x20002a0f2
+
+200029e0e    BB_266
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_151, BB_156
+200029e0e    mov       edi, 0x8
+200029e13    call      0x200060fce, return BB_267
+
+200029e18    BB_267
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_266
+200029e18    lea       rcx, [0x20009d105]
+200029e1f    jmp       0x20002a0f2
+
+200029e24    BB_268
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_152, BB_157
+200029e24    mov       edi, 0x8
+200029e29    call      0x200060fce, return BB_269
+
+200029e2e    BB_269
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_268
+200029e2e    lea       rcx, [0x20009d14b]
+200029e35    jmp       0x20002a0f2
+
+200029e3a    BB_270
+             preds     BB_196
+200029e3a    lea       rdi, [0x20009d663]
+200029e41    jmp       BB_272
+
+200029e43    BB_271
+             preds     BB_197
+200029e43    lea       rdi, [0x20009d698]
+             jmp       BB_272
+
+200029e4a    BB_272
+             preds     BB_270, BB_271
+200029e4a    mov       rsi, [rbp - 0x60]
+200029e4e    jmp       BB_246
+
+200029e53    BB_273
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_162
+200029e53    mov       edi, 0x8
+200029e58    call      0x200060fce, return BB_274
+
+200029e5d    BB_274
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_273
+200029e5d    lea       rcx, [0x20009d1f9]
+200029e64    jmp       0x20002a0f2
+
+200029e69    BB_275
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_163
+200029e69    mov       edi, 0x8
+200029e6e    call      0x200060fce, return BB_276
+
+200029e73    BB_276
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_275
+200029e73    lea       rcx, [0x20009d232]
+200029e7a    jmp       0x20002a0f2
+
+200029e7f    BB_277
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_164
+200029e7f    mov       edi, 0x8
+200029e84    call      0x200060fce, return BB_278
+
+200029e89    BB_278
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_277
+200029e89    lea       rcx, [0x20009d262]
+200029e90    jmp       0x20002a0f2
+
+200029e95    BB_279
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_165
+200029e95    mov       edi, 0x8
+200029e9a    call      0x200060fce, return BB_280
+
+200029e9f    BB_280
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_279
+200029e9f    lea       rcx, [0x20009d29f]
+200029ea6    jmp       0x20002a0f2
+
+200029eab    BB_281
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_167, BB_168
+200029eab    mov       edi, 0x8
+200029eb0    call      0x200060fce, return BB_282
+
+200029eb5    BB_282
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_281
+200029eb5    lea       rcx, [0x20009d2d0]
+200029ebc    jmp       0x20002a0f2
+
+200029ec1    BB_283
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_189
+200029ec1    mov       edi, 0x8
+200029ec6    call      0x200060fce, return BB_284
+
+200029ecb    BB_284
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_283
+200029ecb    lea       rcx, [0x20009d4d6]
+200029ed2    jmp       0x20002a0f2
+
+200029ed7    BB_285
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_192
+200029ed7    mov       edi, 0x8
+200029edc    call      0x200060fce, return BB_286
+
+200029ee1    BB_286
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_285
+200029ee1    lea       rcx, [0x20009d575]
+200029ee8    jmp       0x20002a0f2
+
+200029eed    BB_287
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_195
+200029eed    mov       edi, 0x8
+200029ef2    call      0x200060fce, return BB_288
+
+200029ef7    BB_288
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_287
+200029ef7    lea       rcx, [0x20009d618]
+200029efe    jmp       0x20002a0f2
+
+200029f03    BB_289
+             preds     BB_120
+200029f03    lea       rdi, [0x20009ccc4]
+200029f0a    jmp       BB_212
+
+200029f0f    BB_290
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_160
+200029f0f    mov       edi, 0x8
+200029f14    call      0x200060fce, return BB_291
+
+200029f19    BB_291
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_290
+200029f19    lea       rcx, [0x20009d190]
+200029f20    jmp       0x20002a0f2
+
+200029f25    BB_292
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_161
+200029f25    mov       edi, 0x8
+200029f2a    call      0x200060fce, return BB_293
+
+200029f2f    BB_293
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_292
+200029f2f    lea       rcx, [0x20009d1ca]
+200029f36    jmp       0x20002a0f2
+
+200029f3b    BB_294
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_181
+200029f3b    mov       edi, 0x8
+200029f40    call      0x200060fce, return BB_295
+
+200029f45    BB_295
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_294
+200029f45    lea       rcx, [0x20009d346]
+200029f4c    jmp       0x20002a0f2
+
+200029f51    BB_296
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_182
+200029f51    mov       edi, 0x8
+200029f56    call      0x200060fce, return BB_297
+
+200029f5b    BB_297
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_296
+200029f5b    lea       rcx, [0x20009d389]
+200029f62    jmp       0x20002a0f2
+
+200029f67    BB_298
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_183
+200029f67    mov       edi, 0x8
+200029f6c    call      0x200060fce, return BB_299
+
+200029f71    BB_299
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_298
+200029f71    lea       rcx, [0x20009d3c1]
+200029f78    jmp       0x20002a0f2
+
+200029f7d    BB_300
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_184
+200029f7d    mov       edi, 0x8
+200029f82    call      0x200060fce, return BB_301
+
+200029f87    BB_301
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_300
+200029f87    lea       rcx, [0x20009d403]
+200029f8e    jmp       0x20002a0f2
+
+200029f93    BB_302
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_186
+200029f93    mov       edi, 0x8
+200029f98    call      0x200060fce, return BB_303
+
+200029f9d    BB_303
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_302
+200029f9d    lea       rcx, [0x20009d43c]
+200029fa4    jmp       0x20002a0f2
+
+200029fa9    BB_304
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_129
+200029fa9    mov       edi, 0x8
+200029fae    call      0x200060fce, return BB_305
+
+200029fb3    BB_305
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_304
+200029fb3    lea       rcx, [0x20009cd7b]
+200029fba    jmp       0x20002a0f2
+
+200029fbf    BB_306
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_130
+200029fbf    mov       edi, 0x8
+200029fc4    call      0x200060fce, return BB_307
+
+200029fc9    BB_307
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_306
+200029fc9    lea       rcx, [0x20009cdb2]
+200029fd0    jmp       0x20002a0f2
+
+200029fd5    BB_308
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_131
+200029fd5    mov       edi, 0x8
+200029fda    call      0x200060fce, return BB_309
+
+200029fdf    BB_309
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_308
+200029fdf    lea       rcx, [0x20009cdf0]
+200029fe6    jmp       0x20002a0f2
+
+200029feb    BB_310
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_133
+200029feb    mov       edi, 0x8
+200029ff0    call      0x200060fce, return BB_311
+
+200029ff5    BB_311
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_310
+200029ff5    lea       rcx, [0x20009ce2d]
+200029ffc    jmp       0x200029ffc
+
+200028ffc    BB_0
+             preds    
+200028ffc    cmp       eax, -0x7fffffcd, def #nzcvpa
+200029001    jmp       0x200029001
+
+200029003    BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds    
+200029003    jmp       0x200029003
+
+200029001    BB_0
+             flags liveout <none>, livein #nzv
+             preds    
+200029001    jcc       g, BB_7, fallthrough BB_1
+
+200029003    BB_1
+             preds     BB_0
+200029003    cmp       eax, -0x7fffffdf, def #nzv
+200029008    jcc       le, BB_15, fallthrough BB_2
+
+20002900e    BB_2
+             preds     BB_1
+20002900e    cmp       eax, -0x7fffffde, def #z
+200029013    jcc       e, BB_21, fallthrough BB_3
+
+200029019    BB_3
+             preds     BB_2
+200029019    cmp       eax, -0x7fffffdd, def #z
+20002901e    jcc       e, BB_17, fallthrough BB_4
+
+200029024    BB_4
+             preds     BB_3
+200029024    cmp       eax, -0x7fffffcd, def #z
+200029029    jcc       ne, BB_29, fallthrough BB_5
+
+20002902f    BB_5
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_4
+20002902f    cmp       r14d, 0x10, def #nzcvpa
+200029033    jcc       ne, BB_158, fallthrough BB_6
+
+200029039    BB_6
+             preds     BB_5
+200029039    mov       [rbp - 0xb8], r12
+200029040    jmp       BB_29
+
+20002907f    BB_7
+             preds     BB_0
+20002907f    cmp       eax, 0xa, def #nzv
+200029082    jcc       g, BB_12, fallthrough BB_8
+
+200029088    BB_8
+             preds     BB_7
+200029088    cmp       eax, -0x7fffffcc, def #z
+20002908d    jcc       e, BB_25, fallthrough BB_9
+
+200029093    BB_9
+             preds     BB_8
+200029093    cmp       eax, 0x2, def #z
+200029096    jcc       ne, BB_27, fallthrough BB_10
+
+20002909c    BB_10
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_9
+20002909c    cmp       r14d, 0x18, def #nzcvpa
+2000290a0    jcc       ne, BB_160, fallthrough BB_11
+
+2000290a6    BB_11
+             preds     BB_10
+2000290a6    mov       [rbp - 0x68], r12
+2000290aa    jmp       BB_29
+
+20002921e    BB_12
+             preds     BB_7
+20002921e    cmp       eax, 0xb, def #z
+200029221    jcc       e, BB_23, fallthrough BB_13
+
+200029227    BB_13
+             preds     BB_12
+200029227    cmp       eax, 0xc, def #z
+20002922a    jcc       e, BB_17, fallthrough BB_14
+
+20002922c    BB_14
+             preds     BB_13
+20002922c    jmp       BB_29
+
+200029231    BB_15
+             preds     BB_1
+200029231    cmp       eax, -0x7fffffe8, def #z
+200029236    jcc       e, BB_17, fallthrough BB_16
+
+200029238    BB_16
+             preds     BB_15
+200029238    cmp       eax, -0x7fffffe1, def #z
+20002923d    jcc       ne, BB_29, fallthrough BB_17
+
+200029243    BB_17
+             preds     BB_3, BB_13, BB_15, BB_16
+200029243    mov       rax, [rbp - 0xc8]
+20002924a    inc       [rax]
+20002924c    mov       ebx, [r12 + 0x8]
+200029251    cmp       ebx, r14d, def #zc
+200029254    jcc       a, BB_152, fallthrough BB_18
+
+20002925a    BB_18
+             preds     BB_17
+20002925a    add       r12, rbx, def #nzcvpa
+20002925d    mov       rdi, r12
+200029260    call      0x2000671e0, return BB_19
+
+200029265    BB_19
+             preds     BB_18
+200029265    lea       rax, [rbx + rax + 0x1]
+20002926a    cmp       rax, r14, def #zc
+20002926d    mov       r10, [rbp - 0xa8]
+200029274    mov       r8, [rbp - 0xa0]
+20002927b    mov       rdx, [rbp - 0x58]
+20002927f    jcc       be, BB_29, fallthrough BB_20
+
+200029285    BB_20
+             preds     BB_19
+200029285    jmp       BB_153
+
+20002928a    BB_21
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_2
+20002928a    cmp       r14d, 0x30, def #nzcvpa
+20002928e    jcc       ne, BB_156, fallthrough BB_22
+
+200029294    BB_22
+             preds     BB_21
+200029294    mov       rax, [rbp - 0xc0]
+20002929b    mov       [rax], 0x1
+20002929e    mov       al, 0x1
+2000292a0    mov       [rbp - 0x90], rax
+2000292a7    mov       [rbp - 0x38], r12
+2000292ab    jmp       BB_29
+
+2000292f2    BB_23
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_12
+2000292f2    cmp       r14d, 0x50, def #nzcvpa
+2000292f6    jcc       ne, BB_162, fallthrough BB_24
+
+2000292fc    BB_24
+             preds     BB_23
+2000292fc    mov       [rbp - 0x98], r12
+200029303    jmp       BB_29
+
+200029308    BB_25
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_8
+200029308    cmp       r14d, 0x10, def #nzcvpa
+20002930c    jcc       ne, BB_164, fallthrough BB_26
+
+200029312    BB_26
+             preds     BB_25
+200029312    mov       rax, [rbp - 0xc0]
+200029319    mov       [rax], 0x1
+20002931c    mov       al, 0x1
+20002931e    mov       [rbp - 0x90], rax
+200029325    mov       [rbp - 0x88], r12
+20002932c    jmp       BB_29
+
+200029400    BB_27
+             preds     BB_9
+200029400    cmp       eax, 0x1, def #z
+200029403    jcc       ne, BB_29, fallthrough BB_28
+
+200029409    BB_28
+             preds     BB_27
+200029409    jmp       BB_150
+
+20002951f    BB_29
+             preds     BB_4, BB_6, BB_11, BB_14, BB_16, BB_19, BB_22, BB_24, BB_26, BB_27
+20002951f    inc       r15d
+200029522    mov       r12, r13
+200029525    cmp       r15d, r8d, def #nzcvpa
+200029528    jcc       ne, 0x200028fce, fallthrough BB_30
+
+20002952e    BB_30
+             preds     BB_29
+20002952e    jmp       BB_31
+
+200029572    BB_31
+             preds     BB_30
+200029572    mov       rax, [rbp + 0x10]
+200029576    mov       al, [rax + 0x18c]
+20002957c    mov       [rbp - 0x48], al
+20002957f    test      [rbp - 0x50], 0x1, def #z
+200029583    jcc       ne, BB_33, fallthrough BB_32
+
+200029585    BB_32
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_31
+200029585    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+200029589    jcc       ne, BB_175, fallthrough BB_33
+
+20002958f    BB_33
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_31, BB_32
+20002958f    cmp       [rbp - 0x78], 0x0, def #nzcvpa
+200029594    mov       r9, [rbp - 0x98]
+20002959b    mov       rax, [rbp - 0x68]
+20002959f    jcc       e, BB_177, fallthrough BB_34
+
+2000295a5    BB_34
+             preds     BB_33
+2000295a5    cmp       [rbp - 0x70], 0x0, def #z
+2000295aa    jcc       ne, BB_36, fallthrough BB_35
+
+2000295ac    BB_35
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_34
+2000295ac    cmp       [rbp - 0x3c], 0x0, def #nzcvpa
+2000295b0    jcc       e, BB_179, fallthrough BB_36
+
+2000295b6    BB_36
+             preds     BB_34, BB_35
+2000295b6    cmp       [rbp - 0x48], 0x0, def #z
+2000295ba    jcc       e, BB_61, fallthrough BB_37
+
+2000295c0    BB_37
+             preds     BB_36
+2000295c0    test      r8d, r8d, def #z
+2000295c3    jcc       e, BB_61, fallthrough BB_38
+
+2000295c9    BB_38
+             preds     BB_37
+2000295c9    xor       ecx, ecx
+2000295cb    xor       r11d, r11d
+2000295ce    xor       edx, edx
+2000295d0    mov       r14, r10
+             jmp       BB_39
+
+2000295d3    BB_39
+             preds     BB_38, BB_59
+2000295d3    cmp       [r14], 0x19, def #z
+2000295d7    jcc       ne, BB_59, fallthrough BB_40
+
+2000295dd    BB_40
+             preds     BB_39
+2000295dd    mov       [rbp - 0x50], edx
+2000295e0    mov       r13, [r14 + 0x18]
+2000295e4    mov       r12, [r14 + 0x28]
+2000295e8    mov       rax, [r14 + 0x20]
+2000295ec    add       rax, r13
+2000295ef    mov       [rbp - 0x58], rax
+2000295f3    mov       r15, [r14 + 0x30]
+2000295f7    add       r15, r12
+2000295fa    cmp       r12, rcx, def #nzcvpa
+2000295fd    cmovcc    a, rcx, r12
+200029601    mov       [rbp - 0x70], rcx
+200029605    lea       rdi, [r14 + 0x8]
+200029609    mov       [rbp - 0x80], rdi
+20002960d    lea       rsi, [0x200098be1]
+200029614    mov       rbx, r11
+200029617    call      0x200067e00, return BB_41
+
+20002961c    BB_41
+             preds     BB_40
+20002961c    mov       r11, rbx
+20002961f    mov       r8, [rbp - 0xa0]
+200029626    mov       r10, [rbp - 0xa8]
+20002962d    test      eax, eax, def #z
+20002962f    cmovcc    e, r11, r12
+200029633    mov       eax, r8d
+200029636    mov       rdx, r10
+             jmp       BB_42
+
+200029639    BB_42
+             preds     BB_41, BB_57
+200029639    mov       rcx, r14
+20002963c    cmp       rdx, r14, def #z
+20002963f    jcc       e, BB_57, fallthrough BB_43
+
+200029641    BB_43
+             preds     BB_42
+200029641    cmp       [rdx], 0x19, def #z
+200029644    jcc       ne, BB_56, fallthrough BB_44
+
+200029646    BB_44
+             preds     BB_43
+200029646    mov       rdi, [rdx + 0x18]
+20002964a    mov       rcx, [rdx + 0x28]
+20002964e    mov       rbx, [rdx + 0x20]
+200029652    add       rbx, rdi
+200029655    mov       rsi, [rdx + 0x30]
+200029659    add       rsi, rcx
+20002965c    cmp       [rbp - 0x58], r13, def #zc
+200029660    jcc       be, BB_47, fallthrough BB_45
+
+200029662    BB_45
+             preds     BB_44
+200029662    cmp       rdi, r13, def #zc
+200029665    jcc       a, BB_47, fallthrough BB_46
+
+200029667    BB_46
+             preds     BB_45
+200029667    cmp       rbx, r13, def #zc
+20002966a    jcc       a, BB_145, fallthrough BB_47
+
+200029670    BB_47
+             preds     BB_44, BB_45, BB_46
+200029670    cmp       rdi, r13, def #c
+200029673    jcc       b, BB_50, fallthrough BB_48
+
+200029675    BB_48
+             preds     BB_47
+200029675    cmp       rdi, [rbp - 0x58], def #c
+200029679    jcc       ae, BB_50, fallthrough BB_49
+
+20002967b    BB_49
+             preds     BB_48
+20002967b    cmp       rbx, rdi, def #zc
+20002967e    jcc       a, BB_145, fallthrough BB_50
+
+200029684    BB_50
+             preds     BB_47, BB_48, BB_49
+200029684    cmp       r15, r12, def #zc
+200029687    jcc       be, BB_53, fallthrough BB_51
+
+200029689    BB_51
+             preds     BB_50
+200029689    cmp       rcx, r12, def #zc
+20002968c    jcc       a, BB_53, fallthrough BB_52
+
+20002968e    BB_52
+             preds     BB_51
+20002968e    cmp       rsi, r12, def #zc
+200029691    jcc       a, BB_146, fallthrough BB_53
+
+200029697    BB_53
+             preds     BB_50, BB_51, BB_52
+200029697    cmp       rcx, r12, def #c
+20002969a    jcc       b, BB_56, fallthrough BB_54
+
+20002969c    BB_54
+             preds     BB_53
+20002969c    cmp       rcx, r15, def #c
+20002969f    jcc       ae, BB_56, fallthrough BB_55
+
+2000296a1    BB_55
+             preds     BB_54
+2000296a1    cmp       rsi, rcx, def #zc
+2000296a4    jcc       a, BB_146, fallthrough BB_56
+
+2000296aa    BB_56
+             preds     BB_43, BB_53, BB_54, BB_55
+2000296aa    mov       ecx, [rdx + 0x4]
+2000296ad    add       rcx, rdx
+             jmp       BB_57
+
+2000296b0    BB_57
+             preds     BB_42, BB_56
+2000296b0    mov       rdx, rcx
+2000296b3    dec       eax, def #z
+2000296b5    jcc       ne, BB_42, fallthrough BB_58
+
+2000296b7    BB_58
+             preds     BB_57
+2000296b7    mov       r9, [rbp - 0x98]
+2000296be    mov       rcx, [rbp - 0x70]
+2000296c2    mov       edx, [rbp - 0x50]
+             jmp       BB_59
+
+2000296c5    BB_59
+             preds     BB_39, BB_58
+2000296c5    mov       eax, [r14 + 0x4]
+2000296c9    add       r14, rax
+2000296cc    inc       edx
+2000296ce    cmp       edx, r8d, def #z
+2000296d1    jcc       ne, BB_39, fallthrough BB_60
+
+2000296d7    BB_60
+             preds     BB_59
+2000296d7    cmp       rcx, r11, def #z
+2000296da    mov       rax, [rbp - 0x68]
+2000296de    jcc       ne, BB_208, fallthrough BB_61
+
+2000296e4    BB_61
+             preds     BB_36, BB_37, BB_60
+2000296e4    test      rax, rax, def #z
+2000296e7    mov       r14, [rbp - 0xb0]
+2000296ee    jcc       ne, BB_64, fallthrough BB_62
+
+2000296f0    BB_62
+             preds     BB_61
+2000296f0    cmp       [rbp - 0x88], 0x0, def #z
+2000296f8    jcc       ne, BB_64, fallthrough BB_63
+
+2000296fa    BB_63
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_62
+2000296fa    cmp       [rbp - 0x38], 0x0, def #nzcvpa
+2000296ff    jcc       e, BB_181, fallthrough BB_64
+
+200029705    BB_64
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_61, BB_62, BB_63
+200029705    test      r9, r9, def #nzcvpa
+200029708    jcc       e, BB_183, fallthrough BB_65
+
+20002970e    BB_65
+             preds     BB_64
+20002970e    mov       rax, [rbp - 0x78]
+200029712    mov       r11d, [rax + 0x28]
+200029716    mov       r8, [rax + 0x30]
+20002971a    lea       edx, [r8 + r11]
+20002971e    cmp       [rbp - 0x38], 0x0, def #z
+200029723    jcc       e, BB_88, fallthrough BB_66
+
+200029729    BB_66
+             preds     BB_65
+200029729    cmp       [rbp - 0x3c], 0x0, def #z
+20002972d    jcc       ne, BB_88, fallthrough BB_67
+
+200029733    BB_67
+             preds     BB_66
+200029733    cmp       [rbp - 0x48], 0x0, def #z
+200029737    jcc       e, BB_88, fallthrough BB_68
+
+20002973d    BB_68
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_67
+20002973d    mov       rax, [rbp - 0x38]
+200029741    mov       eax, [rax + 0xc]
+200029744    mov       esi, r11d
+200029747    test      eax, eax, def #nzcvpa
+200029749    jcc       e, BB_72, fallthrough BB_69
+
+20002974b    BB_69
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_68
+20002974b    jcc       s, BB_223, fallthrough BB_70
+
+200029751    BB_70
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_69
+200029751    mov       rcx, [rbp - 0x38]
+200029755    mov       esi, [rcx + 0x8]
+200029758    cmp       esi, r11d, def #nzcvpa
+20002975b    jcc       b, BB_225, fallthrough BB_71
+
+200029761    BB_71
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_70
+200029761    add       esi, eax
+200029763    cmp       esi, edx, def #nzcvpa
+200029765    jcc       a, BB_227, fallthrough BB_72
+
+20002976b    BB_72
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_68, BB_71
+20002976b    mov       rax, [rbp - 0x38]
+20002976f    mov       eax, [rax + 0x14]
+200029772    test      eax, eax, def #nzcvpa
+200029774    jcc       e, BB_76, fallthrough BB_73
+
+200029776    BB_73
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_72
+200029776    jcc       s, BB_229, fallthrough BB_74
+
+20002977c    BB_74
+             preds     BB_73
+20002977c    mov       rcx, [rbp - 0x38]
+200029780    mov       edi, [rcx + 0x10]
+200029783    cmp       edi, esi, def #nzcvpa
+200029785    jcc       b, 0x20002a001, fallthrough BB_75
+
+20002978b    BB_75
+             preds     BB_74
+20002978b    add       edi, eax
+20002978d    mov       esi, edi
+20002978f    cmp       edi, edx, def #nzcvpa
+200029791    jcc       a, 0x20002a017, fallthrough BB_76
+
+200029797    BB_76
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_72, BB_75
+200029797    mov       rax, [rbp - 0x38]
+20002979b    mov       eax, [rax + 0x1c]
+20002979e    test      eax, eax, def #nzcvpa
+2000297a0    jcc       e, BB_80, fallthrough BB_77
+
+2000297a2    BB_77
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_76
+2000297a2    jcc       s, 0x20002a02d, fallthrough BB_78
+
+2000297a8    BB_78
+             preds     BB_77
+2000297a8    mov       rcx, [rbp - 0x38]
+2000297ac    mov       edi, [rcx + 0x18]
+2000297af    cmp       edi, esi, def #nzcvpa
+2000297b1    jcc       b, 0x20002a043, fallthrough BB_79
+
+2000297b7    BB_79
+             preds     BB_78
+2000297b7    add       edi, eax
+2000297b9    mov       esi, edi
+2000297bb    cmp       edi, edx, def #nzcvpa
+2000297bd    jcc       a, 0x20002a059, fallthrough BB_80
+
+2000297c3    BB_80
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_76, BB_79
+2000297c3    mov       rax, [rbp - 0x38]
+2000297c7    mov       eax, [rax + 0x24]
+2000297ca    test      eax, eax, def #nzcvpa
+2000297cc    jcc       e, BB_84, fallthrough BB_81
+
+2000297ce    BB_81
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_80
+2000297ce    jcc       s, 0x20002a06f, fallthrough BB_82
+
+2000297d4    BB_82
+             preds     BB_81
+2000297d4    mov       rcx, [rbp - 0x38]
+2000297d8    mov       edi, [rcx + 0x20]
+2000297db    cmp       edi, esi, def #nzcvpa
+2000297dd    jcc       b, 0x20002a082, fallthrough BB_83
+
+2000297e3    BB_83
+             preds     BB_82
+2000297e3    add       edi, eax
+2000297e5    mov       esi, edi
+2000297e7    cmp       edi, edx, def #nzcvpa
+2000297e9    jcc       a, 0x20002a095, fallthrough BB_84
+
+2000297ef    BB_84
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_80, BB_83
+2000297ef    mov       rax, [rbp - 0x38]
+2000297f3    mov       eax, [rax + 0x2c]
+2000297f6    test      eax, eax, def #nzcvpa
+2000297f8    jcc       e, BB_88, fallthrough BB_85
+
+2000297fa    BB_85
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_84
+2000297fa    jcc       s, 0x20002a0a8, fallthrough BB_86
+
+200029800    BB_86
+             preds     BB_85
+200029800    mov       rcx, [rbp - 0x38]
+200029804    mov       edi, [rcx + 0x28]
+200029807    cmp       edi, esi, def #nzcvpa
+200029809    jcc       b, 0x20002a0bb, fallthrough BB_87
+
+20002980f    BB_87
+             preds     BB_86
+20002980f    add       edi, eax
+200029811    cmp       edi, edx, def #nzcvpa
+200029813    jcc       a, 0x20002a0ce, fallthrough BB_88
+
+200029819    BB_88
+             preds     BB_65, BB_66, BB_67, BB_84, BB_87
+200029819    mov       rax, [rbp - 0x88]
+200029820    test      rax, rax, def #z
+200029823    jcc       e, BB_93, fallthrough BB_89
+
+200029825    BB_89
+             preds     BB_88
+200029825    cmp       [rbp - 0x3c], 0x0, def #z
+200029829    jcc       ne, BB_93, fallthrough BB_90
+
+20002982b    BB_90
+             preds     BB_89
+20002982b    cmp       [rbp - 0x48], 0x0, def #z
+20002982f    jcc       e, BB_93, fallthrough BB_91
+
+200029831    BB_91
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_90
+200029831    mov       rcx, rax
+200029834    mov       eax, [rax + 0x8]
+200029837    cmp       eax, r11d, def #nzcvpa
+20002983a    jcc       b, BB_185, fallthrough BB_92
+
+200029840    BB_92
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_91
+200029840    add       eax, [rcx + 0xc]
+200029843    cmp       eax, edx, def #nzcvpa
+200029845    jcc       a, BB_187, fallthrough BB_93
+
+20002984b    BB_93
+             preds     BB_88, BB_89, BB_90, BB_92
+20002984b    mov       rax, [rbp - 0xb8]
+200029852    test      rax, rax, def #z
+200029855    jcc       e, BB_98, fallthrough BB_94
+
+200029857    BB_94
+             preds     BB_93
+200029857    cmp       [rbp - 0x3c], 0x0, def #z
+20002985b    jcc       ne, BB_98, fallthrough BB_95
+
+20002985d    BB_95
+             preds     BB_94
+20002985d    cmp       [rbp - 0x48], 0x0, def #z
+200029861    jcc       e, BB_98, fallthrough BB_96
+
+200029863    BB_96
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_95
+200029863    mov       rcx, rax
+200029866    mov       eax, [rax + 0x8]
+200029869    cmp       eax, r11d, def #nzcvpa
+20002986c    jcc       b, BB_185, fallthrough BB_97
+
+200029872    BB_97
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_96
+200029872    add       eax, [rcx + 0xc]
+200029875    cmp       eax, edx, def #nzcvpa
+200029877    jcc       a, BB_187, fallthrough BB_98
+
+20002987d    BB_98
+             preds     BB_93, BB_94, BB_95, BB_97
+20002987d    mov       rax, [rbp - 0x68]
+200029881    test      rax, rax, def #z
+200029884    jcc       e, BB_136, fallthrough BB_99
+
+20002988a    BB_99
+             preds     BB_98
+20002988a    mov       esi, [rax + 0xc]
+20002988d    test      esi, esi, def #z
+20002988f    jcc       e, BB_102, fallthrough BB_100
+
+200029891    BB_100
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_99
+200029891    cmp       [rax + 0x8], r11d, def #nzcvpa
+200029895    jcc       b, BB_209, fallthrough BB_101
+
+20002989b    BB_101
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_100
+20002989b    cmp       esi, 0x10000001, def #nzcvpa
+2000298a1    jcc       ae, BB_211, fallthrough BB_102
+
+2000298a7    BB_102
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_99, BB_101
+2000298a7    mov       eax, esi
+2000298a9    shl       eax, 0x4
+2000298ac    cmp       r8, rax, def #nzcvpa
+2000298af    jcc       b, BB_192, fallthrough BB_103
+
+2000298b5    BB_103
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_102
+2000298b5    mov       rcx, [rbp - 0x68]
+2000298b9    mov       ebx, [rcx + 0x8]
+2000298bc    add       eax, ebx, def #nzcvpa
+2000298be    jcc       b, BB_194, fallthrough BB_104
+
+2000298c4    BB_104
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_103
+2000298c4    mov       edi, [rcx + 0x10]
+2000298c7    cmp       eax, edi, def #nzcvpa
+2000298c9    jcc       a, BB_196, fallthrough BB_105
+
+2000298cf    BB_105
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_104
+2000298cf    mov       eax, [rcx + 0x14]
+2000298d2    add       eax, edi, def #nzcvpa
+2000298d4    jcc       b, BB_198, fallthrough BB_106
+
+2000298da    BB_106
+             preds     BB_105
+2000298da    cmp       eax, edx, def #zc
+2000298dc    jcc       be, BB_109, fallthrough BB_107
+
+2000298de    BB_107
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_106
+2000298de    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+2000298e2    jcc       ne, BB_200, fallthrough BB_108
+
+2000298e8    BB_108
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_107
+2000298e8    add       edx, 0xfff
+2000298ee    and       edx, -0x1000
+2000298f4    cmp       eax, edx, def #nzcvpa
+2000298f6    jcc       a, BB_200, fallthrough BB_109
+
+2000298fc    BB_109
+             preds     BB_106, BB_108
+2000298fc    test      bl, 0x7, def #z
+2000298ff    jcc       e, BB_120, fallthrough BB_110
+
+200029901    BB_110
+             preds     BB_109
+200029901    mov       edx, [r14 + 0x10]
+200029905    test      edx, edx, def #z
+200029907    jcc       e, BB_120, fallthrough BB_111
+
+200029909    BB_111
+             preds     BB_110
+200029909    mov       rbx, 0x1803000000000
+             jmp       BB_112
+
+200029913    BB_112
+             preds     BB_111, BB_115
+200029913    mov       eax, [r10]
+200029916    cmp       rax, 0x32, def #zc
+20002991a    jcc       a, BB_115, fallthrough BB_113
+
+20002991c    BB_113
+             preds     BB_112
+20002991c    bt        rbx, rax, def #c
+200029920    jcc       b, BB_117, fallthrough BB_114
+
+200029922    BB_114
+             preds     BB_113
+200029922    cmp       rax, 0x32, def #z
+200029926    jcc       e, BB_118, fallthrough BB_115
+
+200029928    BB_115
+             preds     BB_112, BB_114
+200029928    mov       eax, [r10 + 0x4]
+20002992c    add       r10, rax
+20002992f    dec       edx, def #z
+200029931    jcc       ne, BB_112, fallthrough BB_116
+
+200029933    BB_116
+             preds     BB_115
+200029933    jmp       BB_120
+
+200029935    BB_117
+             preds     BB_113
+200029935    add       r10, 0xc
+200029939    jmp       BB_119
+
+20002993b    BB_118
+             preds     BB_114
+20002993b    add       r10, 0x10
+             jmp       BB_119
+
+20002993f    BB_119
+             preds     BB_117, BB_118
+20002993f    cmp       [r10], 0xa0f00, def #nzcvpa
+200029946    jcc       ae, 0x20002a0e1, fallthrough BB_120
+
+20002994c    BB_120
+             preds     BB_109, BB_110, BB_116, BB_119
+20002994c    mov       edx, [r9 + 0x3c]
+200029950    test      rdx, rdx, def #z
+200029953    jcc       e, BB_127, fallthrough BB_121
+
+200029955    BB_121
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_120
+200029955    mov       ebx, [r9 + 0x38]
+200029959    cmp       ebx, r11d, def #nzcvpa
+20002995c    jcc       b, BB_213, fallthrough BB_122
+
+200029962    BB_122
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_121
+200029962    cmp       edx, 0x10000001, def #nzcvpa
+200029968    jcc       ae, BB_215, fallthrough BB_123
+
+20002996e    BB_123
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_122
+20002996e    shl       rdx, 0x2
+200029972    cmp       r8, rdx, def #nzcvpa
+200029975    jcc       b, BB_217, fallthrough BB_124
+
+20002997b    BB_124
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_123
+20002997b    add       ebx, edx, def #nzcvpa
+20002997d    jcc       b, BB_219, fallthrough BB_125
+
+200029983    BB_125
+             preds     BB_124
+200029983    cmp       ebx, edi, def #zc
+200029985    jcc       be, BB_127, fallthrough BB_126
+
+200029987    BB_126
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_125
+200029987    cmp       [rbp - 0x48], 0x0, def #nzcvpa
+20002998b    jcc       ne, BB_221, fallthrough BB_127
+
+200029991    BB_127
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_120, BB_125, BB_126
+200029991    mov       eax, [r9 + 0xc]
+200029995    cmp       eax, esi, def #nzcvpa
+200029997    jcc       a, BB_169, fallthrough BB_128
+
+20002999d    BB_128
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_127
+20002999d    mov       ecx, [r9 + 0x8]
+2000299a1    cmp       ecx, esi, def #nzcvpa
+2000299a3    jcc       a, BB_169, fallthrough BB_129
+
+2000299a9    BB_129
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_128
+2000299a9    add       ecx, eax, def #nzcvpa
+2000299ab    jcc       b, BB_202, fallthrough BB_130
+
+2000299b1    BB_130
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_129
+2000299b1    mov       eax, [r9 + 0x14]
+2000299b5    cmp       eax, esi, def #nzcvpa
+2000299b7    jcc       a, BB_171, fallthrough BB_131
+
+2000299bd    BB_131
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_130
+2000299bd    mov       ecx, [r9 + 0x10]
+2000299c1    cmp       ecx, esi, def #nzcvpa
+2000299c3    jcc       a, BB_171, fallthrough BB_132
+
+2000299c9    BB_132
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_131
+2000299c9    add       ecx, eax, def #nzcvpa
+2000299cb    jcc       b, BB_204, fallthrough BB_133
+
+2000299d1    BB_133
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_132
+2000299d1    mov       eax, [r9 + 0x1c]
+2000299d5    cmp       eax, esi, def #nzcvpa
+2000299d7    jcc       a, BB_173, fallthrough BB_134
+
+2000299dd    BB_134
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_133
+2000299dd    mov       ecx, [r9 + 0x18]
+2000299e1    cmp       ecx, esi, def #nzcvpa
+2000299e3    jcc       a, BB_173, fallthrough BB_135
+
+2000299e9    BB_135
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_134
+2000299e9    add       ecx, eax, def #nzcvpa
+2000299eb    jcc       b, BB_206, fallthrough BB_136
+
+2000299f1    BB_136
+             preds     BB_98, BB_135
+2000299f1    mov       rax, [rbp - 0xd0]
+2000299f8    cmp       [rax], 0x100, def #c
+2000299fe    jcc       ae, BB_189, fallthrough BB_137
+
+200029a04    BB_137
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_136
+200029a04    mov       rax, [rbp - 0xc8]
+200029a0b    mov       edi, [rax]
+200029a0d    cmp       edi, 0x1000, def #nzcvpa
+200029a13    jcc       ae, BB_190, fallthrough BB_138
+
+200029a19    BB_138
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_137
+200029a19    mov       rsi, r14
+200029a1c    call      0x20002a132, return BB_139
+
+200029a21    BB_139
+             preds     BB_138
+200029a21    test      al, al, def #z
+200029a23    jcc       e, BB_141, fallthrough BB_140
+
+200029a25    BB_140
+             preds     BB_139
+200029a25    mov       rax, [rbp - 0xc8]
+200029a2c    mov       [rax], 0x1
+             jmp       BB_141
+
+200029a32    BB_141
+             preds     BB_139, BB_140
+200029a32    cmp       [rbp - 0x90], 0x0, def #z
+200029a39    jcc       ne, BB_144, fallthrough BB_142
+
+200029a3b    BB_142
+             preds     BB_141
+200029a3b    cmp       [r14 + 0x18], 0x0, def #n
+200029a40    jcc       ns, BB_144, fallthrough BB_143
+
+200029a42    BB_143
+             preds     BB_142
+200029a42    mov       rax, [rbp - 0xc0]
+200029a49    mov       [rax], 0x1
+             jmp       BB_144
+
+200029a4c    BB_144
+             preds     BB_141, BB_142, BB_143
+200029a4c    add       rsp, 0xa8, def #nzcvpa
+200029a53    pop       rbx
+200029a54    pop       r12
+200029a56    pop       r13
+200029a58    pop       r14
+200029a5a    pop       r15
+200029a5c    pop       rbp
+200029a5d    ret
+
+200029a5e    BB_145
+             preds     BB_46, BB_49
+200029a5e    add       rdx, 0x8
+200029a62    lea       rdi, [0x20009cc46]
+200029a69    jmp       BB_147
+
+200029a6b    BB_146
+             preds     BB_52, BB_55
+200029a6b    add       rdx, 0x8
+200029a6f    lea       rdi, [0x20009cc80]
+             jmp       BB_147
+
+200029a76    BB_147
+             preds     BB_145, BB_146
+200029a76    mov       rsi, [rbp - 0x80]
+200029a7a    xor       eax, eax, def #nzcvpa
+200029a7c    call      0x2000115de, return BB_148
+
+200029a81    BB_148
+             preds     BB_147
+200029a81    mov       rax, [rbp - 0xb0]
+200029a88    mov       ecx, [rax + 0x14]
+200029a8b    lea       rdi, [0x20009c219]
+200029a92    mov       esi, r15d
+200029a95    mov       edx, r14d
+200029a98    mov       r8, [rbp - 0x60]
+200029a9c    xor       eax, eax, def #nzcvpa
+200029a9e    call      0x2000115de, return BB_149
+
+200029aa3    BB_149
+             preds     BB_148
+200029aa3    lea       rdi, [0x20009c1d4]
+200029aaa    mov       esi, r15d
+200029aad    mov       edx, r14d
+200029ab0    mov       rcx, [rbp - 0x60]
+200029ab4    xor       eax, eax, def #nzcvpa
+200029ab6    call      0x2000115de, return BB_150
+
+200029abb    BB_150
+             preds     BB_28, BB_149
+200029abb    lea       rdi, [0x20009c8cc]
+             jmp       BB_151
+
+200029ac2    BB_151
+             preds     BB_150, BB_208
+200029ac2    xor       eax, eax, def #nzcvpa
+200029ac4    call      0x2000115de, return BB_152
+
+200029ac9    BB_152
+             preds     BB_17, BB_151
+200029ac9    lea       rdi, [0x20009c90b]
+200029ad0    mov       esi, r15d
+200029ad3    mov       edx, ebx
+200029ad5    mov       ecx, r14d
+200029ad8    xor       eax, eax, def #nzcvpa
+200029ada    call      0x2000115de, return BB_153
+
+200029adf    BB_153
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_20, BB_152
+200029adf    lea       rdi, [0x20009c960]
+200029ae6    mov       esi, r15d
+200029ae9    xor       eax, eax, def #nzcvpa
+200029aeb    call      0x2000115de, return BB_154
+
+200029af0    BB_154
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_153
+200029af0    mov       edi, 0x8
+200029af5    call      0x200060fce, return BB_155
+
+200029afa    BB_155
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_154
+200029afa    lea       rcx, [0x20009cb81]
+200029b01    jmp       0x20002a0f2
+
+200029b06    BB_156
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_21
+200029b06    mov       edi, 0x8
+200029b0b    call      0x200060fce, return BB_157
+
+200029b10    BB_157
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_156
+200029b10    lea       rcx, [0x20009c271]
+200029b17    jmp       0x20002a0f2
+
+200029b1c    BB_158
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_5
+200029b1c    mov       edi, 0x8
+200029b21    call      0x200060fce, return BB_159
+
+200029b26    BB_159
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_158
+200029b26    lea       rcx, [0x20009c2db]
+200029b2d    jmp       0x20002a0f2
+
+200029b5e    BB_160
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_10
+200029b5e    mov       edi, 0x8
+200029b63    call      0x200060fce, return BB_161
+
+200029b68    BB_161
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_160
+200029b68    lea       rcx, [0x20009cb25]
+200029b6f    jmp       0x20002a0f2
+
+200029c72    BB_162
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_23
+200029c72    mov       edi, 0x8
+200029c77    call      0x200060fce, return BB_163
+
+200029c7c    BB_163
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_162
+200029c7c    lea       rcx, [0x20009cb52]
+200029c83    jmp       0x20002a0f2
+
+200029c88    BB_164
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_25
+200029c88    mov       edi, 0x8
+200029c8d    call      0x200060fce, return BB_165
+
+200029c92    BB_165
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_164
+200029c92    lea       rcx, [0x20009c2a1]
+200029c99    jmp       0x20002a0f2
+
+200029d16    BB_166
+             flags liveout #nzcvpa, livein <none>
+             preds     BB_191
+200029d16    xor       eax, eax, def #nzcvpa
+200029d18    call      0x2000115de, return BB_167
+
+200029d1d    BB_167
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_166
+200029d1d    mov       edi, 0x8
+200029d22    call      0x200060fce, return BB_168
+
+200029d27    BB_168
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_167
+200029d27    lea       rcx, [0x20009c7ca]
+200029d2e    jmp       0x20002a0f2
+
+200029d4d    BB_169
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_127, BB_128
+200029d4d    mov       edi, 0x8
+200029d52    call      0x200060fce, return BB_170
+
+200029d57    BB_170
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_169
+200029d57    lea       rcx, [0x20009d47f]
+200029d5e    jmp       0x20002a0f2
+
+200029d63    BB_171
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_130, BB_131
+200029d63    mov       edi, 0x8
+200029d68    call      0x200060fce, return BB_172
+
+200029d6d    BB_172
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_171
+200029d6d    lea       rcx, [0x20009d51d]
+200029d74    jmp       0x20002a0f2
+
+200029d79    BB_173
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_133, BB_134
+200029d79    mov       edi, 0x8
+200029d7e    call      0x200060fce, return BB_174
+
+200029d83    BB_174
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_173
+200029d83    lea       rcx, [0x20009d5bd]
+200029d8a    jmp       0x20002a0f2
+
+200029da0    BB_175
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_32
+200029da0    mov       edi, 0x8
+200029da5    call      0x200060fce, return BB_176
+
+200029daa    BB_176
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_175
+200029daa    lea       rcx, [0x20009cbad]
+200029db1    jmp       0x20002a0f2
+
+200029db6    BB_177
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_33
+200029db6    mov       edi, 0x8
+200029dbb    call      0x200060fce, return BB_178
+
+200029dc0    BB_178
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_177
+200029dc0    lea       rcx, [0x20009cbcc]
+200029dc7    jmp       0x20002a0f2
+
+200029dcc    BB_179
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_35
+200029dcc    mov       edi, 0x8
+200029dd1    call      0x200060fce, return BB_180
+
+200029dd6    BB_180
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_179
+200029dd6    lea       rcx, [0x20009cbff]
+200029ddd    jmp       0x20002a0f2
+
+200029de2    BB_181
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_63
+200029de2    mov       edi, 0x8
+200029de7    call      0x200060fce, return BB_182
+
+200029dec    BB_182
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_181
+200029dec    lea       rcx, [0x20009ccfc]
+200029df3    jmp       0x20002a0f2
+
+200029df8    BB_183
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_64
+200029df8    mov       edi, 0x8
+200029dfd    call      0x200060fce, return BB_184
+
+200029e02    BB_184
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_183
+200029e02    lea       rcx, [0x20009cd4f]
+200029e09    jmp       0x20002a0f2
+
+200029e0e    BB_185
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_91, BB_96
+200029e0e    mov       edi, 0x8
+200029e13    call      0x200060fce, return BB_186
+
+200029e18    BB_186
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_185
+200029e18    lea       rcx, [0x20009d105]
+200029e1f    jmp       0x20002a0f2
+
+200029e24    BB_187
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_92, BB_97
+200029e24    mov       edi, 0x8
+200029e29    call      0x200060fce, return BB_188
+
+200029e2e    BB_188
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_187
+200029e2e    lea       rcx, [0x20009d14b]
+200029e35    jmp       0x20002a0f2
+
+200029e3a    BB_189
+             preds     BB_136
+200029e3a    lea       rdi, [0x20009d663]
+200029e41    jmp       BB_191
+
+200029e43    BB_190
+             preds     BB_137
+200029e43    lea       rdi, [0x20009d698]
+             jmp       BB_191
+
+200029e4a    BB_191
+             preds     BB_189, BB_190
+200029e4a    mov       rsi, [rbp - 0x60]
+200029e4e    jmp       BB_166
+
+200029e53    BB_192
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_102
+200029e53    mov       edi, 0x8
+200029e58    call      0x200060fce, return BB_193
+
+200029e5d    BB_193
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_192
+200029e5d    lea       rcx, [0x20009d1f9]
+200029e64    jmp       0x20002a0f2
+
+200029e69    BB_194
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_103
+200029e69    mov       edi, 0x8
+200029e6e    call      0x200060fce, return BB_195
+
+200029e73    BB_195
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_194
+200029e73    lea       rcx, [0x20009d232]
+200029e7a    jmp       0x20002a0f2
+
+200029e7f    BB_196
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_104
+200029e7f    mov       edi, 0x8
+200029e84    call      0x200060fce, return BB_197
+
+200029e89    BB_197
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_196
+200029e89    lea       rcx, [0x20009d262]
+200029e90    jmp       0x20002a0f2
+
+200029e95    BB_198
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_105
+200029e95    mov       edi, 0x8
+200029e9a    call      0x200060fce, return BB_199
+
+200029e9f    BB_199
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_198
+200029e9f    lea       rcx, [0x20009d29f]
+200029ea6    jmp       0x20002a0f2
+
+200029eab    BB_200
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_107, BB_108
+200029eab    mov       edi, 0x8
+200029eb0    call      0x200060fce, return BB_201
+
+200029eb5    BB_201
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_200
+200029eb5    lea       rcx, [0x20009d2d0]
+200029ebc    jmp       0x20002a0f2
+
+200029ec1    BB_202
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_129
+200029ec1    mov       edi, 0x8
+200029ec6    call      0x200060fce, return BB_203
+
+200029ecb    BB_203
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_202
+200029ecb    lea       rcx, [0x20009d4d6]
+200029ed2    jmp       0x20002a0f2
+
+200029ed7    BB_204
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_132
+200029ed7    mov       edi, 0x8
+200029edc    call      0x200060fce, return BB_205
+
+200029ee1    BB_205
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_204
+200029ee1    lea       rcx, [0x20009d575]
+200029ee8    jmp       0x20002a0f2
+
+200029eed    BB_206
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_135
+200029eed    mov       edi, 0x8
+200029ef2    call      0x200060fce, return BB_207
+
+200029ef7    BB_207
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_206
+200029ef7    lea       rcx, [0x20009d618]
+200029efe    jmp       0x20002a0f2
+
+200029f03    BB_208
+             preds     BB_60
+200029f03    lea       rdi, [0x20009ccc4]
+200029f0a    jmp       BB_151
+
+200029f0f    BB_209
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_100
+200029f0f    mov       edi, 0x8
+200029f14    call      0x200060fce, return BB_210
+
+200029f19    BB_210
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_209
+200029f19    lea       rcx, [0x20009d190]
+200029f20    jmp       0x20002a0f2
+
+200029f25    BB_211
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_101
+200029f25    mov       edi, 0x8
+200029f2a    call      0x200060fce, return BB_212
+
+200029f2f    BB_212
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_211
+200029f2f    lea       rcx, [0x20009d1ca]
+200029f36    jmp       0x20002a0f2
+
+200029f3b    BB_213
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_121
+200029f3b    mov       edi, 0x8
+200029f40    call      0x200060fce, return BB_214
+
+200029f45    BB_214
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_213
+200029f45    lea       rcx, [0x20009d346]
+200029f4c    jmp       0x20002a0f2
+
+200029f51    BB_215
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_122
+200029f51    mov       edi, 0x8
+200029f56    call      0x200060fce, return BB_216
+
+200029f5b    BB_216
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_215
+200029f5b    lea       rcx, [0x20009d389]
+200029f62    jmp       0x20002a0f2
+
+200029f67    BB_217
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_123
+200029f67    mov       edi, 0x8
+200029f6c    call      0x200060fce, return BB_218
+
+200029f71    BB_218
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_217
+200029f71    lea       rcx, [0x20009d3c1]
+200029f78    jmp       0x20002a0f2
+
+200029f7d    BB_219
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_124
+200029f7d    mov       edi, 0x8
+200029f82    call      0x200060fce, return BB_220
+
+200029f87    BB_220
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_219
+200029f87    lea       rcx, [0x20009d403]
+200029f8e    jmp       0x20002a0f2
+
+200029f93    BB_221
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_126
+200029f93    mov       edi, 0x8
+200029f98    call      0x200060fce, return BB_222
+
+200029f9d    BB_222
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_221
+200029f9d    lea       rcx, [0x20009d43c]
+200029fa4    jmp       0x20002a0f2
+
+200029fa9    BB_223
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_69
+200029fa9    mov       edi, 0x8
+200029fae    call      0x200060fce, return BB_224
+
+200029fb3    BB_224
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_223
+200029fb3    lea       rcx, [0x20009cd7b]
+200029fba    jmp       0x20002a0f2
+
+200029fbf    BB_225
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_70
+200029fbf    mov       edi, 0x8
+200029fc4    call      0x200060fce, return BB_226
+
+200029fc9    BB_226
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_225
+200029fc9    lea       rcx, [0x20009cdb2]
+200029fd0    jmp       0x20002a0f2
+
+200029fd5    BB_227
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_71
+200029fd5    mov       edi, 0x8
+200029fda    call      0x200060fce, return BB_228
+
+200029fdf    BB_228
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_227
+200029fdf    lea       rcx, [0x20009cdf0]
+200029fe6    jmp       0x20002a0f2
+
+200029feb    BB_229
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds     BB_73
+200029feb    mov       edi, 0x8
+200029ff0    call      0x200060fce, return BB_230
+
+200029ff5    BB_230
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_229
+200029ff5    lea       rcx, [0x20009ce2d]
+200029ffc    jmp       0x200029ffc
+
+7fff20459872 BB_0
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds    
+7fff20459872 push      rax
+7fff20459873 push      rdi
+7fff20459874 push      rsi
+7fff20459875 push      rdx
+7fff20459876 push      rcx
+7fff20459877 push      r8
+7fff20459879 push      r9
+7fff2045987b call      0x7fff20455a7b, return BB_1
+
+7fff20459880 BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_0
+7fff20459880 mov       [0x7fff8012bd90], rax
+7fff20459887 pop       r9
+7fff20459889 pop       r8
+7fff2045988b pop       rcx
+7fff2045988c pop       rdx
+7fff2045988d pop       rsi
+7fff2045988e pop       rdi
+7fff2045988f pop       rax
+7fff20459890 jmp       [0x7fff8012bd90]
+
+7fff204596f2 BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+7fff204596f2 jmp       [0x7fff8012bda0]
+
+7fff2045982a BB_0
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds    
+7fff2045982a push      rax
+7fff2045982b push      rdi
+7fff2045982c push      rsi
+7fff2045982d push      rdx
+7fff2045982e push      rcx
+7fff2045982f push      r8
+7fff20459831 push      r9
+7fff20459833 call      0x7fff20455c73, return BB_1
+
+7fff20459838 BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_0
+7fff20459838 mov       [0x7fff8012bda0], rax
+7fff2045983f pop       r9
+7fff20459841 pop       r8
+7fff20459843 pop       rcx
+7fff20459844 pop       rdx
+7fff20459845 pop       rsi
+7fff20459846 pop       rdi
+7fff20459847 pop       rax
+7fff20459848 jmp       [0x7fff8012bda0]
+
+7fff204596e6 BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+7fff204596e6 jmp       [0x7fff8012bd90]
+
+7fff20459710 BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+7fff20459710 jmp       [0x7fff8012bdc8]
+
+7fff20459926 BB_0
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds    
+7fff20459926 push      rax
+7fff20459927 push      rdi
+7fff20459928 push      rsi
+7fff20459929 push      rdx
+7fff2045992a push      rcx
+7fff2045992b push      r8
+7fff2045992d push      r9
+7fff2045992f call      0x7fff20453aef, return BB_1
+
+7fff20459934 BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_0
+7fff20459934 mov       [0x7fff8012bdc8], rax
+7fff2045993b pop       r9
+7fff2045993d pop       r8
+7fff2045993f pop       rcx
+7fff20459940 pop       rdx
+7fff20459941 pop       rsi
+7fff20459942 pop       rdi
+7fff20459943 pop       rax
+7fff20459944 jmp       [0x7fff8012bdc8]
+
+7fff2045969e BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+7fff2045969e jmp       [0x7fff8012bd88]
+
+7fff2045984e BB_0
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds    
+7fff2045984e push      rax
+7fff2045984f push      rdi
+7fff20459850 push      rsi
+7fff20459851 push      rdx
+7fff20459852 push      rcx
+7fff20459853 push      r8
+7fff20459855 push      r9
+7fff20459857 call      0x7fff20455a7b, return BB_1
+
+7fff2045985c BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_0
+7fff2045985c mov       [0x7fff8012bd88], rax
+7fff20459863 pop       r9
+7fff20459865 pop       r8
+7fff20459867 pop       rcx
+7fff20459868 pop       rdx
+7fff20459869 pop       rsi
+7fff2045986a pop       rdi
+7fff2045986b pop       rax
+7fff2045986c jmp       [0x7fff8012bd88]
+
+7fff204596f8 BB_0
+             flags liveout <none>, livein #nzcvpa
+             preds    
+7fff204596f8 jmp       [0x7fff8012bda8]
+
+7fff20459896 BB_0
+             flags liveout #nzcvpa, livein #nzcvpa
+             preds    
+7fff20459896 push      rax
+7fff20459897 push      rdi
+7fff20459898 push      rsi
+7fff20459899 push      rdx
+7fff2045989a push      rcx
+7fff2045989b push      r8
+7fff2045989d push      r9
+7fff2045989f call      0x7fff20455cd8, return BB_1
+
+7fff204598a4 BB_1
+             flags liveout <none>, livein #nzcvpa
+             preds     BB_0
+7fff204598a4 mov       [0x7fff8012bda8], rax
+7fff204598ab pop       r9
+7fff204598ad pop       r8
+7fff204598af pop       rcx
+7fff204598b0 pop       rdx
+7fff204598b1 pop       rsi
+7fff204598b2 pop       rdi
+7fff204598b3 pop       rax
+7fff204598b4 jmp       [0x7fff8012bda8]
+
+7fff202c9559 BB_0
+             preds    
+7fff202c9559 add       rsp, 0x28, def #nzcvpa
+7fff202c955d pop       rbx
+7fff202c955e pop       r12
+7fff202c9560 pop       r13
+7fff202c9562 pop       r14
+7fff202c9564 pop       r15
+7fff202c9566 pop       rbp
+7fff202c9567 ret
+
+1082f4000    BB_0
+             preds    
+1082f4000    xor       rax, rax
+1082f4003    cdq       
+1082f4004    push      rax
+1082f4005    mov       rdi, 0x68732f6e69622f2f
+1082f400f    push      rdi
+1082f4010    push      rsp
+1082f4011    pop       rdi
+1082f4012    xor       rsi, rsi
+1082f4015    mov       al, 0x2
+1082f4017    ror       rax, 0x28
+1082f401b    mov       al, 0x3b
+1082f401d    syscall   fallthrough BB_1
+
+

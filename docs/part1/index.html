@@ -98,6 +98,19 @@
     </div>
     
     
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/FFRI/ProjectChampollion/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
   </nav>
 </header>
     
@@ -129,6 +142,19 @@
     </a>
     Project Champollion
   </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/FFRI/ProjectChampollion/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -544,6 +570,10 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
+                
+                  <a href="https://github.com/FFRI/ProjectChampollion/edit/master/docs/part1.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
                 
                 
                 <h1 id="reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime">Reverse-engineering Rosetta 2 part1: Analyzing AOT files and the Rosetta 2 <code>runtime</code></h1>
@@ -1059,7 +1089,7 @@ If found, <code>find_translation_in_tree_x86</code> updates the contents of <cod
 
 <p>If not found, <code>find_translation_in_tree_x86</code> returns 0. In this case, <code>translate</code> (<code>0x00028954+runtime</code>) function is called in the <code>FUN_00011a54</code> function (Figure 16).</p>
 <p>The <code>translate</code> function, which will be explained in detail in the next section, translates x86_64 code into arm64 code in JIT and returning the result.
-The <code>translate</code> function is probably called when calling a function of a shared library that does not have an AOT file at the time of execution.</p>
+The <code>translate</code> function is probably called when calling a function in a shared library that does not have an AOT file at the time of execution.</p>
 <p>Finally, <code>resolve_x64_addr</code> assigns the return value to x22, and goes back to the AOT file.</p>
 <h3 id="jit-binary-translation-of-rosetta-2-runtime-translate-function">JIT binary translation of Rosetta 2 <code>runtime</code>: <code>translate</code> function</h3>
 <p>I mentioned the <code>translate</code> function at the end of the previous section.
@@ -1082,6 +1112,24 @@ typedef int (*sc)();
 
 char shellcode[] =
 &quot;\x48\x31\xc0\x99\x50\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x57\x54\x5f\x48\x31\xf6\xb0\x02\x48\xc1\xc8\x28\xb0\x3b\x0f\x05&quot;;
+/*
+section .text
+global start
+start:
+    ; execve(&quot;//bin/sh&quot;, 0, 0)
+    xor  rax, rax
+    cdq
+    push rax
+    mov  rdi, 0x68732f6e69622f2f
+    push rdi
+    push rsp
+    pop  rdi
+    xor  rsi, rsi
+    mov  al, 0x2
+    ror  rax, 0x28
+    mov  al, 0x3b
+    syscall
+*/
 
 int main(int argc, char **argv) {
     void *ptr = mmap(0, 0x22, PROT_EXEC | PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -1173,12 +1221,12 @@ We hope that this article will lead to further analysis of Rosetta 2 and reveal 
 <li>The ability to query <code>oahd</code> for the existence of AOT files via Mach IPC</li>
 </ul>
 </li>
-<li>Debugging features included in Rosetta 2 <code>runtime</code><ul>
+<li>Debug modes included in Rosetta 2 <code>runtime</code><ul>
 <li>Tracing of JIT translations (<code>ROSETTA_PRINT_IR</code>)</li>
 <li>Printing the information on segments mapped onto the memory (<code>ROSETTA_PRINT_SEGMENTS</code>)</li>
 </ul>
 </li>
-<li>AOT_METADATA load command included in an AOT file</li>
+<li><code>LC_AOT_METADATA</code> load command included in an AOT file</li>
 <li>Speeding up the loading process with AOT shared cache files</li>
 <li>Introduction to the AOT shared cache file structure and the parser<ul>
 <li>The parser of AOT shared cache files is available <a href="https://github.com/FFRI/ProjectChampollion/tree/main/AotSharedCacheExtractor">here</a>.</li>

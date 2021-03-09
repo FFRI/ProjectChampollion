@@ -182,7 +182,7 @@ def dump(aot_shared_cache_path: str) -> None:
 
         typer.echo(header)
 
-        code_seg_beg = header.mapping[1].address
+        aot_seg_beg = header.mapping[2].file_offset
         metadata_seg_beg = header.offset_to_metadata_seg
         typer.echo(f"metadata segment starts from {hex(metadata_seg_beg)}")
         cur_seek = header.offset_to_metadata_seg
@@ -213,7 +213,7 @@ def dump(aot_shared_cache_path: str) -> None:
                 insn_map_beg, insn_map_end = cur_seek, cur_seek + entry.size_of_insn_map
                 cur_seek += entry.size_of_insn_map
 
-                arm64_code_beg = code_seg_beg + entry.offset_to_arm64_code
+                arm64_code_beg = aot_seg_beg + entry.offset_to_arm64_code
                 cache_code_end = arm64_code_beg + entry.size_of_arm64_code
 
                 typer.echo(
@@ -226,7 +226,7 @@ def dump(aot_shared_cache_path: str) -> None:
                     f"\tinstruction map: [{hex(insn_map_beg)}, {hex(insn_map_end)}]"
                 )
             elif entry.type == 1:
-                runtime_begin = code_seg_beg + entry.offset_to_arm64_code
+                runtime_begin = aot_seg_beg + entry.offset_to_arm64_code
                 runtime_end = runtime_begin + entry.size_of_arm64_code
                 typer.echo(
                     f"[{hex(runtime_begin)}, {hex(runtime_end)}] RuntimeRoutines"

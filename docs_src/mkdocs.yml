@@ -8,6 +8,8 @@ nav:
   - 'Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 runtime and AOT shared cache files': 'part2.md'
   - Appendix: 'appendix.md'
 
+repo_url: https://github.com/FFRI/ProjectChampollion
+
 theme:
   name: material
 

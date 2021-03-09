@@ -577,7 +577,7 @@ If found, `find_translation_in_tree_x86` updates the contents of `__stubs_sh`, a
 If not found, `find_translation_in_tree_x86` returns 0. In this case, `translate` (`0x00028954+runtime`) function is called in the `FUN_00011a54` function (Figure 16).
 
 The `translate` function, which will be explained in detail in the next section, translates x86\_64 code into arm64 code in JIT and returning the result.
-The `translate` function is probably called when calling a function of a shared library that does not have an AOT file at the time of execution.
+The `translate` function is probably called when calling a function in a shared library that does not have an AOT file at the time of execution.
 
 Finally, `resolve_x64_addr` assigns the return value to x22, and goes back to the AOT file.
 
@@ -611,6 +611,24 @@ typedef int (*sc)();
 
 char shellcode[] =
 "\x48\x31\xc0\x99\x50\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x57\x54\x5f\x48\x31\xf6\xb0\x02\x48\xc1\xc8\x28\xb0\x3b\x0f\x05";
+/*
+section .text
+global start
+start:
+    ; execve("//bin/sh", 0, 0)
+    xor  rax, rax
+    cdq
+    push rax
+    mov  rdi, 0x68732f6e69622f2f
+    push rdi
+    push rsp
+    pop  rdi
+    xor  rsi, rsi
+    mov  al, 0x2
+    ror  rax, 0x28
+    mov  al, 0x3b
+    syscall
+*/
 
 int main(int argc, char **argv) {
     void *ptr = mmap(0, 0x22, PROT_EXEC | PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -711,10 +729,10 @@ The following points will be introduced in part2 and beyond. I will publish thes
 - Other features of Rosetta 2 `runtime`
     - Loading of AOT files
     - The ability to query `oahd` for the existence of AOT files via Mach IPC
-- Debugging features included in Rosetta 2 `runtime`
+- Debug modes included in Rosetta 2 `runtime`
     - Tracing of JIT translations (`ROSETTA_PRINT_IR`)
     - Printing the information on segments mapped onto the memory (`ROSETTA_PRINT_SEGMENTS`)
-- AOT\_METADATA load command included in an AOT file
+- `LC_AOT_METADATA` load command included in an AOT file
 - Speeding up the loading process with AOT shared cache files
 - Introduction to the AOT shared cache file structure and the parser
     - The parser of AOT shared cache files is available [here](https://github.com/FFRI/ProjectChampollion/tree/main/AotSharedCacheExtractor).
