@@ -76,9 +76,8 @@ code_sig: Mac OS X Detached Code Signature (non-executable) - 20217867 bytes
 ## Notes about [`aot_mapped_module_names`](./aot_mapped_module_names) file
 
 [`aot_mapped_module_names`](./aot_mapped_module_names) contains the list of module names in the AOT shared cache file for macOS Bug Sur version 11.1.
-The reason for providing this file is that aot\_shared\_cache does not include a list of module name information.
+The reason for providing this file is that `aot_shared_cache` does not include a list of module name information.
 
 The information in the module name may depend on the version of macOS.
 
-If you want to create `aot_mapped_module_names` for your environment, you can create it by enabling the Rosetta 2 `runtime` debugging feature (`ROSETTA_PRINT_SEGMENTS`). For more details, I will explain it in the article.
-
+If you want to create `aot_mapped_module_names` for your environment, you can get the list of module names by enabling the Rosetta 2 `runtime` debugging feature (`ROSETTA_PRINT_SEGMENTS`). For more details, see [here](https://ffri.github.io/ProjectChampollion/part2/#rosetta_print_segments).
