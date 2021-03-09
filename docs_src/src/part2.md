@@ -566,7 +566,7 @@ Recently, Arm processors have been adopted for laptop and server applications, n
 In this processor transition, two different emulation technologies have been introduced by Microsoft and Apple.
 In the past, Apple has introduced Rosetta, but this is the first time that several different OS vendors have introduced similar emulation technology at the same time.
 
-As briefly discussed in this article (["Communication with `oahd`"](#communication-with-oahd)), there are some differences between the two technologies.
+As briefly discussed in this article (["Feature of Rosetta 2 `runtime`: communicating with `oahd`"](#feature-of-rosetta-2-runtime-communicating-with-oahd)), there are some differences between the two technologies.
 Examining the differences between the two technologies can provide useful insights for future developers of similar emulation technologies.
 
 I hope that this article will lead to further analysis of Rosetta 2 and research on how it differs from the Windows 10 on Arm x86 emulation.
