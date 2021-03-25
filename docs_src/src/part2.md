@@ -16,7 +16,7 @@ I will then introduce an AOT shared cache file, which plays a similar role to th
 
 ## Features of Rosetta 2 `runtime`
 
-In the ["Roles of oahd and oahd-helper" section of part1](https://ffri.github.io/ProjectChampollion/part1/#roles-of-oahd-and-oahd-helper), I explained that `oahd` checks for AOT files and runs `oahd-helper` to create AOT files if needed.
+In the ["Roles of oahd and oahd-helper" section of part1](part1.md#roles-of-oahd-and-oahd-helper), I explained that `oahd` checks for AOT files and runs `oahd-helper` to create AOT files if needed.
 However, the [logs of EventMonitor](./assets/event.jsonl) do not contain detailed information on how `oahd` obtains x86\_64 executables to be translated.
 Moreover, we could not figure out how emulation process gets the AOT files required for the execution.
 Such information was missing because we could not get some parts of the inter-process communication (IPC) through the Endpoint Security Framework.
@@ -172,7 +172,7 @@ In this article, I will discuss the `ROSETTA_PRINT_IR` and `ROSETTA_PRINT_SEGMEN
 ### `ROSETTA_PRINT_IR`
 
 `ROSETTA_PRINT_IR` is a debugging feature to show the x86\_64 code being translated to the standard error output.
-If the flag is enabled, the `show_log` (defined at `runtime+0x57694`) function will be called in the `translate` function described in [part1](https://ffri.github.io/ProjectChampollion/part1/#jit-binary-translation-of-rosetta-2-runtime-translate-function) to display the x86\_64 code being translated (Figure 9).
+If the flag is enabled, the `show_log` (defined at `runtime+0x57694`) function will be called in the `translate` function described in [part1](part1.md#jit-binary-translation-of-rosetta-2-runtime-translate-function) to display the x86\_64 code being translated (Figure 9).
 
 <figure>
     <img src="../assets/print_ir_in_translate.png" />
@@ -180,7 +180,7 @@ If the flag is enabled, the `show_log` (defined at `runtime+0x57694`) function w
 </figure>
 
 Let me show you an example output by `show_log`.
-Let's take the program executing the [shellcode in part1](https://ffri.github.io/ProjectChampollion/part1/#target-application), and check the output when the `ROSETTA_PRINT_IR` function is enabled.
+Let's take the program executing the [shellcode in part1](part1.md#target-application), and check the output when the `ROSETTA_PRINT_IR` function is enabled.
 Start LLDB, write 1 to the `ROSETTA_PRINT_IR` flag, and execute the program.
 
 ```
@@ -251,7 +251,7 @@ Next, look at the disassembly result around 0x1082f4000.
 1082f401d    syscall   fallthrough BB_1
 ```
 
-You can see that this is the JIT-executed x86_64 code in the [sample in part1](https://ffri.github.io/ProjectChampollion/part1/#target-application).
+You can see that this is the JIT-executed x86_64 code in the [sample in part1](part1.md#target-application).
 The `ROSETTA_PRINT_IR` debugging feature can likely be used to trace the translated x86\_64 code.
 
 ### `ROSETTA_PRINT_SEGMENTS`

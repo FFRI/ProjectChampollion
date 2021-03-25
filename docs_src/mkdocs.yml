@@ -9,9 +9,18 @@ nav:
   - Appendix: 'appendix.md'
 
 repo_url: https://github.com/FFRI/ProjectChampollion
+edit_uri: edit/main/docs_src/src/
 
 theme:
   name: material
+
+markdown_extensions:
+  - codehilite
+  - footnotes
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.magiclink
 
 plugins:
   - exclude:

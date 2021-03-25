@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-setup-analysis-tools" class="md-skip">
+        <a href="#appendix" class="md-skip">
           Skip to content
         </a>
       
@@ -219,9 +219,126 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Appendix
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-an-x86_64-emulation-process-at-the-arm64-instruction-level" class="md-nav__link">
+    Debugging an x86_64 emulation process at the arm64 instruction-level
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-ghidra-for-analyzing-aot-files" class="md-nav__link">
+    Customizing Ghidra for analyzing AOT files
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Ghidra for analyzing AOT files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-instruction-to-ghidras-disassembly-engine" class="md-nav__link">
+    Adding a new instruction to Ghidra's disassembly engine
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new instruction to Ghidra's disassembly engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduction-to-p-code-and-sleigh" class="md-nav__link">
+    Introduction to P-Code and SLEIGH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-cfinv-instruction-to-the-arm64-ghidras-sleigh-file" class="md-nav__link">
+    Adding the cfinv instruction to the arm64 Ghidra's SLEIGH file
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-calling-convention" class="md-nav__link">
+    Adding a new calling convention
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new calling convention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compiler-specification-cspec" class="md-nav__link">
+    Compiler specification (CSPEC)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-of-cspec" class="md-nav__link">
+    Example of CSPEC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data_organization" class="md-nav__link">
+    data_organization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype" class="md-nav__link">
+    prototype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aarch64_aotcspec-cspec-for-analyzing-aot-files" class="md-nav__link">
+    AARCH64_aot.cspec: CSPEC for analyzing AOT files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -245,6 +362,109 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-an-x86_64-emulation-process-at-the-arm64-instruction-level" class="md-nav__link">
+    Debugging an x86_64 emulation process at the arm64 instruction-level
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-ghidra-for-analyzing-aot-files" class="md-nav__link">
+    Customizing Ghidra for analyzing AOT files
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Ghidra for analyzing AOT files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-instruction-to-ghidras-disassembly-engine" class="md-nav__link">
+    Adding a new instruction to Ghidra's disassembly engine
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new instruction to Ghidra's disassembly engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduction-to-p-code-and-sleigh" class="md-nav__link">
+    Introduction to P-Code and SLEIGH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-the-cfinv-instruction-to-the-arm64-ghidras-sleigh-file" class="md-nav__link">
+    Adding the cfinv instruction to the arm64 Ghidra's SLEIGH file
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-calling-convention" class="md-nav__link">
+    Adding a new calling convention
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a new calling convention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compiler-specification-cspec" class="md-nav__link">
+    Compiler specification (CSPEC)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-of-cspec" class="md-nav__link">
+    Example of CSPEC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data_organization" class="md-nav__link">
+    data_organization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype" class="md-nav__link">
+    prototype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aarch64_aotcspec-cspec-for-analyzing-aot-files" class="md-nav__link">
+    AARCH64_aot.cspec: CSPEC for analyzing AOT files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -255,13 +475,362 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/FFRI/ProjectChampollion/edit/master/docs/appendix.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/FFRI/ProjectChampollion/edit/main/docs_src/src/appendix.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="how-to-setup-analysis-tools">How to setup analysis tools</h1>
-<p>Comming soon...</p>
+                <h1 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">&para;</a></h1>
+<p>In Appendix, I will give you some tips for analyzing Rosetta 2.</p>
+<h2 id="debugging-an-x86_64-emulation-process-at-the-arm64-instruction-level">Debugging an x86_64 emulation process at the arm64 instruction-level<a class="headerlink" href="#debugging-an-x86_64-emulation-process-at-the-arm64-instruction-level" title="Permanent link">&para;</a></h2>
+<p>When analyzing Rosetta 2 with LLDB, we need to trace its behavior at the arm64 instruction-level.
+However, if you naively start LLDB and run an x86_64 executable, you will find that you can only debug at the x86_64 instruction-level*.</p>
+<div class="codehilite"><pre><span></span><code>$ cat test.c
+<span class="c1">#include &lt;stdio.h&gt;</span>
+
+int main<span class="o">()</span> <span class="o">{</span>
+    puts<span class="o">(</span><span class="s2">&quot;Hello World&quot;</span><span class="o">)</span><span class="p">;</span>
+<span class="o">}</span>
+$ clang -arch x86_64 test.c -o test.out
+$ lldb test.out
+<span class="o">(</span>lldb<span class="o">)</span> target create <span class="s2">&quot;test.out&quot;</span>
+Current executable <span class="nb">set</span> to <span class="s1">&#39;test.out&#39;</span> <span class="o">(</span>x86_64<span class="o">)</span>.
+<span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> -n main
+Breakpoint <span class="m">1</span>: <span class="nv">where</span> <span class="o">=</span> test.out<span class="sb">`</span>main, <span class="nv">address</span> <span class="o">=</span> 0x0000000100003f60
+<span class="o">(</span>lldb<span class="o">)</span> r
+Process <span class="m">63236</span> launched: <span class="s1">&#39;/Users/konakagawa.ffri/Documents/ProjectChampollion/test.out&#39;</span> <span class="o">(</span>x86_64<span class="o">)</span>
+Process <span class="m">63236</span> stopped
+* thread <span class="c1">#1, queue = &#39;com.apple.main-thread&#39;, stop reason = breakpoint 1.1</span>
+    frame <span class="c1">#0: 0x0000000100003f60 test.out`main</span>
+test.out<span class="sb">`</span>main:
+-&gt;  0x100003f60 &lt;+0&gt;: pushq  %rbp             <span class="p">;</span> &lt;--- <span class="o">(</span>x86_64 instructions are displayed<span class="o">)</span>
+    0x100003f61 &lt;+1&gt;: movq   %rsp, %rbp
+    0x100003f64 &lt;+4&gt;: subq   <span class="nv">$0</span>x10, %rsp
+    0x100003f68 &lt;+8&gt;: leaq   0x33<span class="o">(</span>%rip<span class="o">)</span>, %rdi
+Target <span class="m">0</span>: <span class="o">(</span>test.out<span class="o">)</span> stopped.
+</code></pre></div>
+
+<blockquote>
+<p>* Note that tracing tools such as DTrace does not support x86_64 emulation process tracing. For example, DTrace only displays "DTrace cannot instrument translated processes" and cannot trace the execution flow of an x86_64 emulation process.</p>
+</blockquote>
+<p>How can we debug these x86_64 emulation processes at the arm64 instruction-level?</p>
+<p>We can resolve this problem using the following program (<code>runner.c</code>), which only takes command-line arguments and calls <code>execve</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// runner.c</span>
+<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">execve</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Build <code>runner.c</code> with <code>clang -arch arm64 runner.c -o runner.out</code>.
+Then, run the x86_64 executable <code>test.out</code> by specifying it as a command-line argument of <code>runner.out</code>.</p>
+<div class="codehilite"><pre><span></span><code>$ clang -arch arm64 runner.c -o runner.out
+$ lldb runner.out test.out
+<span class="o">(</span>lldb<span class="o">)</span> target create <span class="s2">&quot;./runner.out&quot;</span>
+Current executable <span class="nb">set</span> to <span class="s1">&#39;/Users/konakagawa.ffri/Documents/ProjectChampollion/runner.out&#39;</span> <span class="o">(</span>arm64<span class="o">)</span>.
+<span class="o">(</span>lldb<span class="o">)</span> settings <span class="nb">set</span> -- target.run-args  <span class="s2">&quot;test.out&quot;</span>
+</code></pre></div>
+
+<p>After continuing the execution, this program stops at the entry point of the Rosetta 2 <code>runtime</code>.
+Then, we can continue debugging this program at the arm64 instruction-level.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">r</span>
+<span class="nf">Process</span> <span class="mi">64284</span> <span class="n">launched</span><span class="o">:</span> <span class="s">&#39;/Users/konakagawa.ffri/Documents/ProjectChampollion/runner.out&#39;</span> <span class="p">(</span><span class="n">arm64</span><span class="p">)</span>
+<span class="nf">Process</span> <span class="mi">64284</span> <span class="n">stopped</span>
+<span class="o">*</span> <span class="n">thread</span> <span class="err">#</span><span class="mi">2</span><span class="p">,</span> <span class="n">stop</span> <span class="n">reason</span> <span class="o">=</span> <span class="n">exec</span>
+    <span class="n">frame</span> <span class="err">#</span><span class="mi">0</span><span class="o">:</span> <span class="mh">0x00007ffdfff7a46c</span> <span class="n">runtime</span><span class="err">`</span><span class="n">_mh_execute_header</span> <span class="o">+</span> <span class="mi">9324</span>
+<span class="n">runtime</span><span class="err">`</span><span class="n">_mh_execute_header</span><span class="o">:</span>
+<span class="o">-&gt;</span>  <span class="mh">0x7ffdfff7a46c</span> <span class="o">&lt;+</span><span class="mi">9324</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="n">x19</span><span class="p">,</span> <span class="n">sp</span>
+    <span class="mh">0x7ffdfff7a470</span> <span class="o">&lt;+</span><span class="mi">9328</span><span class="o">&gt;:</span> <span class="kr">and</span>    <span class="n">sp</span><span class="p">,</span> <span class="n">x19</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xfffffffffffffff0</span>
+    <span class="mh">0x7ffdfff7a474</span> <span class="o">&lt;+</span><span class="mi">9332</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="n">x29</span><span class="p">,</span> <span class="n">sp</span>
+    <span class="mh">0x7ffdfff7a478</span> <span class="o">&lt;+</span><span class="mi">9336</span><span class="o">&gt;:</span> <span class="n">ldr</span>    <span class="n">x20</span><span class="p">,</span> <span class="p">[</span><span class="n">x19</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x20</span><span class="p">]</span>
+<span class="n">Target</span> <span class="mi">0</span><span class="o">:</span> <span class="p">(</span><span class="n">runtime</span><span class="p">)</span> <span class="n">stopped</span><span class="p">.</span>
+</code></pre></div>
+
+<p>Why can we debug it at the arm64 instruction-level when we execute it via <code>runner.out</code>?
+It seems to be related to the fact that <code>debugserver</code> binaries are different between <code>lldb runner.out test.out</code> and <code>lldb test.out</code>.</p>
+<p>If you simply run <code>lldb test.out</code>, the process tree will look like this.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|-+=</span> <span class="mh">03574</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">lldb</span> <span class="n">test</span><span class="p">.</span><span class="n">out</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="n">\-+=</span> <span class="mh">03581</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Apple</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="n">debugserver</span> <span class="o">--</span><span class="n">fd</span><span class="o">=</span><span class="mh">7</span> <span class="o">--</span><span class="n">native</span><span class="o">-</span><span class="n">regs</span> <span class="o">--</span><span class="n">setsid</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span>   <span class="n">\--=</span> <span class="mh">03580</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">out</span>
+<span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+</code></pre></div>
+
+<p>In this case, you can see that the <code>/Library/Apple/usr/libexec/oah/debugserver</code> (called oah debug server in the following) process is running as a child process of <code>lldb test.out</code>.</p>
+<p>On the other hand, when you run it through <code>lldb runner.out test.out</code>, the process tree looks like this.</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|-+=</span> <span class="mh">64282</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">lldb</span> <span class="p">.</span><span class="o">/</span><span class="n">runner</span><span class="p">.</span><span class="n">out</span> <span class="n">test</span><span class="p">.</span><span class="n">out</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="n">\-+=</span> <span class="mh">64285</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">SharedFrameworks</span><span class="o">/</span><span class="n">LLDB</span><span class="p">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Resources</span><span class="o">/</span><span class="n">debugserver</span> <span class="o">--</span><span class="n">fd</span><span class="o">=</span><span class="mh">7</span> <span class="o">--</span><span class="n">native</span><span class="o">-</span><span class="n">regs</span>
+ <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span>   <span class="n">\--=</span> <span class="mh">64284</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="p">(</span><span class="n">test</span><span class="p">.</span><span class="n">out</span><span class="p">)</span>
+<span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+</code></pre></div>
+
+<p>In this case, you can see that <code>/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Resources/debugserver</code> (hereinafter this is referred to as the native debugger) is running.</p>
+<p>In summary, LLDB uses: </p>
+<ul>
+<li><code>/Library/Apple/usr/libexec/oah/debugserver</code> as a debug server in the execution via <code>runner.out</code></li>
+<li>Otherwise, <code>/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Resources/debugserver</code> as a debug server</li>
+</ul>
+<p>The oah debug server is supposed to be a debug server created specifically for debugging the x86_64 emulation process.
+This debug server probably translates LLDB x86_64 instruction-level commands (e.g., stepping and setting breakpoints) to arm64 instruction-level commands.
+Therefore, executions at the arm64 instruction-level seem to be completely transparent to LLDB.</p>
+<p>On the other hand, when you run <code>test.out</code> via <code>runner.out</code>, the native debugger will be launched because <code>runner.out</code> is an arm64 executable.
+Internally, the <code>execve</code> is called to execute the x86_64 code, but the native debugger is still used, which enables us to debug at the arm64 instruction-level.</p>
+<h2 id="customizing-ghidra-for-analyzing-aot-files">Customizing Ghidra for analyzing AOT files<a class="headerlink" href="#customizing-ghidra-for-analyzing-aot-files" title="Permanent link">&para;</a></h2>
+<p>In part1, <a href="../part1/#problems-in-analysis-with-ghidra">I mentioned that I modified Ghidra for analyzing AOT files</a> to:</p>
+<ul>
+<li>Enable Ghidra to disassemble <code>cfinv</code> instruction, which is not supported in Ghidra 9.2.1</li>
+<li>Improve decompilation results for the proprietary calling convention used in AOT files</li>
+</ul>
+<p>In this section, I will introduce how to customize Ghidra for analyzing AOT files.</p>
+<h3 id="adding-a-new-instruction-to-ghidras-disassembly-engine">Adding a new instruction to Ghidra's disassembly engine<a class="headerlink" href="#adding-a-new-instruction-to-ghidras-disassembly-engine" title="Permanent link">&para;</a></h3>
+<p>Firstly, I will explain how to add <code>cfinv</code> instruction to Ghidra's disassembly engine.</p>
+<h4 id="introduction-to-p-code-and-sleigh">Introduction to P-Code and SLEIGH<a class="headerlink" href="#introduction-to-p-code-and-sleigh" title="Permanent link">&para;</a></h4>
+<p>To add a new instruction to Ghidra, we need to edit the SLEIGH file of the target processor.</p>
+<p>Before explaining SLEIGH, let me briefly explain P-Code.</p>
+<p>P-Code is a language for describing the behavior of processors in a generic way.
+In Ghidra, each instruction is converted to one or multiple P-Code operations during the disassembly process, so that processor-independent analysis can be performed internally.
+You can check the converted P-Code by editing the "Edit Listing Field."</p>
+<p>Let's look at a simple example. Consider the following arm64 instructions.</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">1000170</span><span class="n">dc</span> <span class="n">ldr</span> <span class="n">x8</span><span class="p">,</span><span class="n">DAT_100054450</span>
+<span class="mf">1000170</span><span class="n">e0</span> <span class="n">cbz</span> <span class="n">x8</span><span class="p">,</span><span class="n">LAB_100017174</span>
+<span class="mf">1000170</span><span class="n">e4</span> <span class="n">mov</span> <span class="n">w20</span><span class="p">,</span><span class="err">#</span><span class="mf">0</span><span class="n">x2</span>
+</code></pre></div>
+
+<p>The P-Code operations corresponding to these three instructions are as follows. The corresponding arm64 instructions are shown together as comments.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">LOAD</span><span class="w"> </span><span class="n">ram</span><span class="p">(</span><span class="mh">0x100054450</span><span class="err">:</span><span class="mi">8</span><span class="p">)</span><span class="w">          </span><span class="p">;</span><span class="w"> </span><span class="n">ldr</span><span class="w"> </span><span class="n">x8</span><span class="p">,</span><span class="n">DAT_100054450</span><span class="w"></span>
+<span class="err">$</span><span class="nl">U31f0</span><span class="p">:</span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INT_EQUAL</span><span class="w"> </span><span class="n">x8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="err">:</span><span class="mi">8</span><span class="w">          </span><span class="p">;</span><span class="w"> </span><span class="n">cbz</span><span class="w"> </span><span class="n">x8</span><span class="p">,</span><span class="n">LAB_100017174</span><span class="w"></span>
+<span class="n">CBRANCH</span><span class="w"> </span><span class="o">*[</span><span class="n">ram</span><span class="o">]</span><span class="mh">0x100017174</span><span class="err">:</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="nl">U31f0</span><span class="p">:</span><span class="mi">1</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">cbz</span><span class="w"> </span><span class="n">x8</span><span class="p">,</span><span class="n">LAB_100017174</span><span class="w"></span>
+<span class="n">x20</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">COPY</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="mi">8</span><span class="w">                        </span><span class="p">;</span><span class="w"> </span><span class="n">mov</span><span class="w"> </span><span class="n">w20</span><span class="p">,</span><span class="n">#0x2</span><span class="w"></span>
+</code></pre></div>
+
+<p>The <code>ldr</code> and <code>mov</code> instructions correspond to the <code>LOAD</code> and <code>COPY</code> operations, respectively.
+You can also see that the <code>cbz</code> instruction corresponds to two P-Code operations, <code>INT_EQUAL</code> and <code>CBRANCH</code>.</p>
+<p>Now, how does Ghidra define the relation between these instructions and P-Code operations?
+To define this, Ghidra has a domain-specific language, which is called SLEIGH.</p>
+<p>Let's look at the description of the SLEIGH file for arm64.
+The SLEIGH file for arm64 is located in the folder <code>${GHIDRA_INSTALL_DIR}/Ghidra/Processors/AARCH64/data/languages/</code>.</p>
+<div class="codehilite"><pre><span></span><code>$ ls Ghidra/Processors/AARCH64/data/languages
+AARCH64.cspec                AARCH64.sla                  AARCH64_base_PACoptions.sinc AARCH64neon.sinc
+AARCH64.dwarf                AARCH64.slaspec              AARCH64_win.cspec            AARCH64sve.sinc
+AARCH64.ldefs                AARCH64BE.sla                AARCH64base.sinc
+AARCH64.opinion              AARCH64BE.slaspec            AARCH64instructions.sinc
+AARCH64.pspec                AARCH64ldst.sinc
+</code></pre></div>
+
+<p>Open the <code>AARCH64base.sinc</code> file and look at the portion of this file defining the <code>cbz</code> instruction as follows.
+The definition consists of several sections:</p>
+<ul>
+<li>Display section: it describes how to display this instruction in the disassembled listings.</li>
+<li>Bit pattern sections: they describe the bit pattern encoding of this instruction.</li>
+<li>Semantics actions section: it describes the semantics of the instruction in C-like syntax (eventually converted to P-Code operations by the SLEIGH compiler)<ul>
+<li>In the example above, the conditional expression <code>Rt_GPR64 == 0</code> is converted to <code>INT_EQUAL</code> and <code>if (...) goto</code> is converted to <code>CBRANCH</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+
+<span class="o">:</span><span class="n">cbz</span> <span class="n">Rt_GPR64</span><span class="p">,</span> <span class="n">Addr19</span> <span class="c1">// &lt;-- The display section describes how to display this instruction and define local identifiers used in the semantics actions section</span>
+<span class="n">is</span> <span class="n">sf</span><span class="o">=</span><span class="mh">1</span> <span class="o">&amp;</span> <span class="n">b_2530</span><span class="o">=</span><span class="mh">0</span><span class="n">x1a</span> <span class="o">&amp;</span> <span class="n">cmpr_op</span><span class="o">=</span><span class="mh">0</span> <span class="o">&amp;</span> <span class="n">Addr19</span> <span class="o">&amp;</span> <span class="n">Rt_GPR64</span> <span class="c1">// &lt;-- The bit pattern sections describe how this instruction is encoded</span>
+<span class="p">{</span>
+    <span class="c1">// The semantics actions section</span>
+    <span class="c1">// Rt_GPR64 is a general purpose register</span>
+    <span class="c1">// Addr19 is a jump address when the condition is met</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Rt_GPR64</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)</span> <span class="n">goto</span> <span class="n">Addr19</span><span class="p">;</span> <span class="c1">// &lt;-- It describes the semantics of this instruction</span>
+<span class="p">}</span>
+
+<span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
+</code></pre></div>
+
+<p>Please refer to the HTML files under <code>${GHIDRA_INSTALL_DIR}/docs/languages</code> for more information on the syntax of SLEIGH.</p>
+<h4 id="adding-the-cfinv-instruction-to-the-arm64-ghidras-sleigh-file">Adding the <code>cfinv</code> instruction to the arm64 Ghidra's SLEIGH file<a class="headerlink" href="#adding-the-cfinv-instruction-to-the-arm64-ghidras-sleigh-file" title="Permanent link">&para;</a></h4>
+<p>Let's add the <code>cfinv</code> instruction to the arm64 Ghidra's SLEIGH file.
+According to the <a href="https://developer.arm.com/documentation/ddi0487/ga">Arm® Architecture Reference Manual</a>, we can find the description of <code>cfinv</code> as shown in Figure 1.</p>
+<figure>
+    <img src="../assets/cfinv.png" />
+    <figcaption>Figure 1 Specification of <code>cfinv</code>.</figcaption>
+</figure>
+
+<p>You can find that its encoding is 0xd500401f, and it inverts the value of <code>PSTATE.C</code>.
+From this, we can define the <code>cfinv</code> instruction as follows.</p>
+<div class="codehilite"><pre><span></span><code>:cfinv
+is b_0031=0xd500401f
+{
+    CY = !CY;
+}
+</code></pre></div>
+
+<p>First, in the display section, <code>cfinv</code> does not take any operands.
+So, you can simply write <code>cfinv</code> for this section.
+In the bit pattern sections, we need to write that <code>b_0031=0xd500401f</code>*, which indicates the bit encoding of this instruction is 0xd500401f.
+Finally, in the semantics actions section, we describe the operation of the <code>cfinv</code> instruction.
+<code>PSTATE.C</code> is modeled by a variable named <code>CY</code> in SLEIGH, so here we can write the operation inverting <code>PSTATE.C</code> value with the ! operator and reassigning it to <code>CY</code>.</p>
+<blockquote>
+<p>* <code>b0031</code> is called "token" in SLEIGH, which is used for modeling byte sequences building machine code.</p>
+</blockquote>
+<h3 id="adding-a-new-calling-convention">Adding a new calling convention<a class="headerlink" href="#adding-a-new-calling-convention" title="Permanent link">&para;</a></h3>
+<p>Next, I will explain how to add a new calling convention used in AOT files to Ghidra.</p>
+<h4 id="compiler-specification-cspec">Compiler specification (CSPEC)<a class="headerlink" href="#compiler-specification-cspec" title="Permanent link">&para;</a></h4>
+<p>To add a new calling convention to Ghidra, we need to edit the CSPEC file of the target processor.</p>
+<p>CSPEC is one of the language modules used in Ghidra for supporting disassembly and analysis of a particular processor.
+Its purpose is to describe an Application Binary Interface (ABI) of a compiler generating target binaries.</p>
+<p>CSPEC is just an XML file that defines:</p>
+<ul>
+<li>Calling conventions</li>
+<li>Data sizes of primitive data types (e.g., the width of <code>wchar_t</code> and <code>void*</code>, which vary depending on platforms and compilers)</li>
+</ul>
+<p>For more details, see <a href="https://github.com/NationalSecurityAgency/ghidra/tree/master/Ghidra/Features/Decompiler/src/main/doc">the documentation of Ghidra decompiler</a>*.</p>
+<blockquote>
+<p>* Since only the source code of the Ghidra decompiler documentation is provided by default, you need to create HTML files following <a href="https://github.com/NationalSecurityAgency/ghidra/issues/472#issuecomment-485831705">this procedure</a>.</p>
+</blockquote>
+<p>In this section, let me explain the overview of CSPEC by taking a look at the CSPEC file for x86_64 executables built by GCC.
+Then, I will introduce the CSPEC file for the AOT file analysis.</p>
+<h4 id="example-of-cspec">Example of CSPEC<a class="headerlink" href="#example-of-cspec" title="Permanent link">&para;</a></h4>
+<p>The CSPEC file for analyzing x86_64 binaries compiled with GCC is located at <code>${GHIDRA_INSTALL_DIR}/Ghidra/Processors/x86/data/languages/x86-64-gcc.cspec</code>.
+I show the part of this file as follows.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;compiler_spec&gt;</span>
+  <span class="nt">&lt;data_organization&gt;</span>
+     <span class="nt">&lt;absolute_max_alignment</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;machine_alignment</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;default_alignment</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;default_pointer_alignment</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;pointer_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;wchar_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;short_size</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;integer_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;long_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;long_long_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;float_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;double_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;long_double_size</span> <span class="na">value=</span><span class="s">&quot;16&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;size_alignment_map&gt;</span>
+          <span class="nt">&lt;entry</span> <span class="na">size=</span><span class="s">&quot;1&quot;</span> <span class="na">alignment=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;entry</span> <span class="na">size=</span><span class="s">&quot;2&quot;</span> <span class="na">alignment=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;entry</span> <span class="na">size=</span><span class="s">&quot;4&quot;</span> <span class="na">alignment=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;entry</span> <span class="na">size=</span><span class="s">&quot;8&quot;</span> <span class="na">alignment=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;/size_alignment_map&gt;</span>
+  <span class="nt">&lt;/data_organization&gt;</span>
+
+...(snip)...
+
+<span class="nt">&lt;compiler_spec&gt;</span>
+</code></pre></div>
+
+<p>CSPEC always has <code>&lt;compiler_spec&gt;</code> as the root XML tag, and compiler features are described as child elements of this tag.
+Here, I will explain two typical elements <code>&lt;data_organization&gt;</code> and <code>&lt;prototype&gt;</code>.</p>
+<h4 id="data_organization"><code>data_organization</code><a class="headerlink" href="#data_organization" title="Permanent link">&para;</a></h4>
+<p>This element is used to define the memory alignment and the data sizes of primitive types.</p>
+<p>In the above example, the pointer size is 8 bytes because the CSPEC is for x86_64 binaries.
+You can find the following element specifying the pointer size as follows.</p>
+<div class="codehilite"><pre><span></span><code>  <span class="nt">&lt;data_organization&gt;</span>
+...(snip)...
+     <span class="nt">&lt;pointer_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+...(snip)...
+  <span class="nt">&lt;/data_organization&gt;</span>
+</code></pre></div>
+
+<p>For the data sizes of primitive types, you can find the following descriptions defining these sizes.</p>
+<div class="codehilite"><pre><span></span><code>  <span class="nt">&lt;data_organization&gt;</span>
+...(snip)...
+     <span class="nt">&lt;wchar_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;short_size</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;integer_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;long_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;long_long_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;float_size</span> <span class="na">value=</span><span class="s">&quot;4&quot;</span> <span class="nt">/&gt;</span>
+     <span class="nt">&lt;double_size</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span> <span class="nt">/&gt;</span>
+...(snip)...
+  <span class="nt">&lt;/data_organization&gt;</span>
+</code></pre></div>
+
+<h4 id="prototype"><code>prototype</code><a class="headerlink" href="#prototype" title="Permanent link">&para;</a></h4>
+<p>This element is used to define calling conventions.</p>
+<p>Let's take a look at the description of <code>__stdcall</code> defined in <code>x86-64-gcc.cspec</code>.</p>
+<div class="codehilite"><pre><span></span><code>...(snip)...
+    <span class="nt">&lt;prototype</span> <span class="na">name=</span><span class="s">&quot;__stdcall&quot;</span> <span class="na">extrapop=</span><span class="s">&quot;8&quot;</span> <span class="na">stackshift=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+      <span class="c">&lt;!-- Derived from &quot;System V Application Binary Interface AMD64 Architecture Processor Supplement&quot; April 2016 --&gt;</span>
+      <span class="nt">&lt;input&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;4&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span> <span class="na">metatype=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;XMM0_Qa&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;4&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span> <span class="na">metatype=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;XMM1_Qa&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+...(snip)...
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RDI&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RSI&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RDX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RCX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R8&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R9&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;500&quot;</span> <span class="na">align=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;addr</span> <span class="na">offset=</span><span class="s">&quot;8&quot;</span> <span class="na">space=</span><span class="s">&quot;stack&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+      <span class="nt">&lt;/input&gt;</span>
+      <span class="nt">&lt;output&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;4&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span> <span class="na">metatype=</span><span class="s">&quot;float&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;XMM0_Qa&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;1&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;8&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RAX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+        <span class="nt">&lt;pentry</span> <span class="na">minsize=</span><span class="s">&quot;9&quot;</span> <span class="na">maxsize=</span><span class="s">&quot;16&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;addr</span> <span class="na">space=</span><span class="s">&quot;join&quot;</span> <span class="na">piece1=</span><span class="s">&quot;RDX&quot;</span> <span class="na">piece2=</span><span class="s">&quot;RAX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/pentry&gt;</span>
+      <span class="nt">&lt;/output&gt;</span>
+      <span class="nt">&lt;killedbycall&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RAX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RDX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;XMM0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/killedbycall&gt;</span>
+      <span class="nt">&lt;unaffected&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RBX&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RSP&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;RBP&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R12&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R13&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R14&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;register</span> <span class="na">name=</span><span class="s">&quot;R15&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/unaffected&gt;</span>
+    <span class="nt">&lt;/prototype&gt;</span>
+...(snip)...
+</code></pre></div>
+
+<p>You can see that the following child elements of the <code>prototype</code> are defined:</p>
+<ul>
+<li><code>input</code>: it specifies how to pass parameters to a function (e.g., through registers or stack).</li>
+<li><code>output</code>: it specifies a storage area for a return value of a function.</li>
+<li><code>killedbycall</code>: it describes registers that are destroyed by a function call.</li>
+<li><code>unaffected</code>: it describes registers that are preserved across a function call.</li>
+</ul>
+<p>For example, the registers specified for <code>unaffected</code> in the above example are RBX, RSP, RBP, R12, R13, R14, and R15.
+According to table 3.4 in <a href="https://software.intel.com/sites/default/files/article/402129/mpx-linux64-abi.pdf">System V Application Binary Interface AMD64 Architecture Processor Supplement</a>, these registers are specified as "Yes" in the "Preserved across function calls" column.
+You can figure out that the description in CSPEC consistent with the System V ABI calling conventions.
+The same is true for the elements, such as <code>killedbycall</code>, <code>input</code>, and <code>output</code>.</p>
+<h4 id="aarch64_aotcspec-cspec-for-analyzing-aot-files"><code>AARCH64_aot.cspec</code>: CSPEC for analyzing AOT files<a class="headerlink" href="#aarch64_aotcspec-cspec-for-analyzing-aot-files" title="Permanent link">&para;</a></h4>
+<p>As mentioned in part1, a proprietary calling convention is used for function calls in AOT files.
+This calling convention is based on the System V ABI calling convention with the x86_64 registers converted to arm64 registers according to <a href="../part1/#analyzing-the-code-in-aot-files-calling-conventions">the table in part1</a>.
+So, we can make a CSPEC file for analyzing AOT files by changing the registers of <code>x86-64-gcc.cspec</code> based on the table.
+You can find the CSPEC file I created at <a href="https://github.com/FFRI/ProjectChampollion/tree/main/ghidra">the GitHub repository</a>.</p>
                 
               
               

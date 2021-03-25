@@ -571,15 +571,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/FFRI/ProjectChampollion/edit/master/docs/part1.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/FFRI/ProjectChampollion/edit/main/docs_src/src/part1.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime">Reverse-engineering Rosetta 2 part1: Analyzing AOT files and the Rosetta 2 <code>runtime</code></h1>
+                <h1 id="reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime">Reverse-engineering Rosetta 2 part1: Analyzing AOT files and the Rosetta 2 <code>runtime</code><a class="headerlink" href="#reverse-engineering-rosetta-2-part1-analyzing-aot-files-and-the-rosetta-2-runtime" title="Permanent link">&para;</a></h1>
 <p>date: 2021/2/19</p>
 <p>author: Koh M. Nakagawa</p>
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>Apple announced that it would be moving from Intel processors to Arm-based Apple Silicon CPUs for Macs at WWDC 2020.
 The Apple Silicon-based Mac Book Air and Pro were released in October 2020 with great fanfare.</p>
 <p>One of the issues that arise with the CPU transition is application compatibility.
@@ -615,7 +615,7 @@ This research encourages me to examine whether similar code injection techniques
 <li>arm64: The architecture specified when generating binaries to run on an Apple Silicon Mac</li>
 <li>x86_64: The architecture specified when generating binaries to run on an Intel-based Mac</li>
 </ul>
-<h2 id="setting-up-the-analysis-environment">Setting up the analysis environment</h2>
+<h2 id="setting-up-the-analysis-environment">Setting up the analysis environment<a class="headerlink" href="#setting-up-the-analysis-environment" title="Permanent link">&para;</a></h2>
 <p>First, I show you how to set up the analysis environment.</p>
 <p>Rosetta 2 is not installed by default on an Apple Silicon Mac.
 So, you need to install it following the pop-up that appears when you run an x86_64 code for the first time.</p>
@@ -642,30 +642,33 @@ This is because the folder that contains the translated binaries is protected by
 <li>Restart the OS again</li>
 </ul>
 <p>In addition to this, please install Xcode and Command Line Tools for Xcode to use Clang and LLDB.</p>
-<h2 id="roles-of-oahd-and-oahd-helper">Roles of <code>oahd</code> and <code>oahd-helper</code></h2>
+<h2 id="roles-of-oahd-and-oahd-helper">Roles of <code>oahd</code> and <code>oahd-helper</code><a class="headerlink" href="#roles-of-oahd-and-oahd-helper" title="Permanent link">&para;</a></h2>
 <p>First, let's create a command line application built for x86_64 and monitor system events (e.g., process creation, file-system activities, and memory mapping) when the x86_64 application runs.</p>
-<pre><code>$ cat hello.c
-#include &lt;stdio.h&gt;
-int main() {
-    puts(&quot;Hello World&quot;);
-    return 0;
-}
-$ clang -arch x86_64 hello.c -o hello.out # specify x86_64 as the target architecture
+<div class="codehilite"><pre><span></span><code>$ cat hello.c
+<span class="c1">#include &lt;stdio.h&gt;</span>
+int main<span class="o">()</span> <span class="o">{</span>
+    puts<span class="o">(</span><span class="s2">&quot;Hello World&quot;</span><span class="o">)</span><span class="p">;</span>
+    <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+<span class="o">}</span>
+$ clang -arch x86_64 hello.c -o hello.out <span class="c1"># specify x86_64 as the target architecture</span>
 $ file hello.out
-hello.out: Mach-O 64-bit executable x86_64
-</code></pre>
+hello.out: Mach-O <span class="m">64</span>-bit executable x86_64
+</code></pre></div>
+
 <p>To obtain several system events, I used EventMonitor created using the <a href="https://developer.apple.com/documentation/endpointsecurity">Endpoint Security Framework</a>.
 I will release EventMonitor as an OSS soon.</p>
 <p>Start EventMonitor and run <code>hello.out</code>.
 The following jsonl file contains logs obtained by EventMonitor. The only events related to Rosetta 2 are extracted.</p>
 <p><a href="../assets/event.jsonl">event.jsonl</a></p>
 <p>When you look at the first line of the logs, you can see an event where <code>/bin/zsh</code> executes <code>hello.out</code>.</p>
-<pre><code class="language-json">{&quot;event&quot;:{&quot;log&quot;:{&quot;args&quot;:[&quot;.\/hello.out&quot;],&quot;cwd&quot;:{&quot;path&quot;:&quot;\/Users\/konakagawa.ffri&quot;,&quot;path_truncated&quot;:false},&quot;last_fd&quot;:4,&quot;target&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}},&quot;type&quot;:&quot;exec&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/bin\/zsh&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;args&quot;</span><span class="p">:[</span><span class="s2">&quot;.\/hello.out&quot;</span><span class="p">],</span><span class="nt">&quot;cwd&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Users\/konakagawa.ffri&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&quot;last_fd&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Users\/konakagawa.ffri\/hello.out&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">48492</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">48491</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;exec&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/bin\/zsh&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">48492</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">48491</span><span class="p">}}</span>
+</code></pre></div>
+
 <p>After the exec system call, <code>oahd</code> daemon checks for the file <code>/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot</code>.</p>
-<pre><code class="language-json">... (the oahd checks for the AOT file)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;relative_target&quot;:&quot;var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;source_dir&quot;:{&quot;path&quot;:&quot;\/&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;lookup&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="err">...</span> <span class="err">(</span><span class="kc">t</span><span class="err">he</span> <span class="err">oahd</span> <span class="err">checks</span> <span class="kc">f</span><span class="err">or</span> <span class="kc">t</span><span class="err">he</span> <span class="err">AOT</span> <span class="kc">f</span><span class="err">ile)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;relative_target&quot;</span><span class="p">:</span><span class="s2">&quot;var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;</span><span class="p">,</span><span class="nt">&quot;source_dir&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+</code></pre></div>
+
 <p>The file with the extension <code>.aot</code> contains the result of the translation from x86_64 to arm64.
 We refer to this file as the AOT file.
 The name <code>.aot</code> comes from Ahead-Of-Time, which means that the translation is performed before a thread actually starts.
@@ -677,75 +680,80 @@ This folder has a <code>Oah.version</code> file at the top, which is supposed to
 Also, this folder has <code>16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</code> folder.
 We can see that multiple folders are containing AOT files in it.
 The names of these folders are SHA-256 hash values that are calculated from both the contents of the file in x86_64 code and the path where it was executed.</p>
-<pre><code># /var/db/oah contains the Oah.version file and 16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00 folder
-$ ls -l /var/db/oah
-total 8
-drwxr-xr-x  6528 _oahd  _oahd  208896  2 13 22:22 16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00
--rw-------     1 _oahd  _oahd      32  1 27 14:44 Oah.version
-# show some AOT files
-$ ls -l /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/* | head -n 10
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/00088a4116103832383ae2866e61d745d3d0013c5073ed032dabf6a785611db9:
-total 40
--rwxr-xr-x  1 _oahd  _oahd  17656  1 27 14:45 FlashlightModule.aot
+<div class="codehilite"><pre><span></span><code><span class="c1"># /var/db/oah contains the Oah.version file and 16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00 folder</span>
+<span class="o">$</span> <span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span>
+<span class="n">total</span> <span class="mi">8</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">6528</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">208896</span>  <span class="mi">2</span> <span class="mi">13</span> <span class="mi">22</span><span class="p">:</span><span class="mi">22</span> <span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-------</span>     <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>      <span class="mi">32</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">44</span> <span class="n">Oah</span><span class="o">.</span><span class="n">version</span>
+<span class="c1"># show some AOT files</span>
+<span class="o">$</span> <span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/*</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="mi">00088</span><span class="n">a4116103832383ae2866e61d745d3d0013c5073ed032dabf6a785611db9</span><span class="p">:</span>
+<span class="n">total</span> <span class="mi">40</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">17656</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">45</span> <span class="n">FlashlightModule</span><span class="o">.</span><span class="n">aot</span>
 
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/0008a5059fda4b8aee7110b04a3e65f175a80ea55a64129a7660c7d3ed77a9d5:
-total 56
--rwxr-xr-x  1 _oahd  _oahd  25928  1 27 14:47 libswiftAccelerate.dylib.aot
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="mi">0008</span><span class="n">a5059fda4b8aee7110b04a3e65f175a80ea55a64129a7660c7d3ed77a9d5</span><span class="p">:</span>
+<span class="n">total</span> <span class="mi">56</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">25928</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">47</span> <span class="n">libswiftAccelerate</span><span class="o">.</span><span class="n">dylib</span><span class="o">.</span><span class="n">aot</span>
 
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/00091f4ca51a770fa7a398f4320efe920fa8c3fc611247dcf55ca025f22301d4:
-total 600
--rwxr-xr-x  1 _oahd  _oahd  304536  1 27 14:45 AirPlayRoutePrediction.aot
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="mi">00091</span><span class="n">f4ca51a770fa7a398f4320efe920fa8c3fc611247dcf55ca025f22301d4</span><span class="p">:</span>
+<span class="n">total</span> <span class="mi">600</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">304536</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">45</span> <span class="n">AirPlayRoutePrediction</span><span class="o">.</span><span class="n">aot</span>
 
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/000a1ab017d7e24b25cd58739ae01120b8a6d3a9cff37235156dced0123f2c3c:
-total 24
--rwxr-xr-x  1 _oahd  _oahd  12280  1 27 14:46 NanoNewsComplications.aot
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="mi">000</span><span class="n">a1ab017d7e24b25cd58739ae01120b8a6d3a9cff37235156dced0123f2c3c</span><span class="p">:</span>
+<span class="n">total</span> <span class="mi">24</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">12280</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">46</span> <span class="n">NanoNewsComplications</span><span class="o">.</span><span class="n">aot</span>
 
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/001dac33f82e558695268fb4a4285f47e9806766e7398e377d9dff59235399f5:
-total 1192
--rwxr-xr-x  1 _oahd  _oahd  606347  1 27 14:46 TSCoreSOS.aot
-</code></pre>
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="mi">001</span><span class="n">dac33f82e558695268fb4a4285f47e9806766e7398e377d9dff59235399f5</span><span class="p">:</span>
+<span class="n">total</span> <span class="mi">1192</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">_oahd</span>  <span class="n">_oahd</span>  <span class="mi">606347</span>  <span class="mi">1</span> <span class="mi">27</span> <span class="mi">14</span><span class="p">:</span><span class="mi">46</span> <span class="n">TSCoreSOS</span><span class="o">.</span><span class="n">aot</span>
+</code></pre></div>
+
 <p>Note that the folders and files under <code>/var/db/oah</code> are protected by SIP, so we cannot access even with admin privileges.
 After disabling SIP, we can access these folders and files with admin privileges.</p>
 <p>Now, back to the analysis of the logs.
 <code>oahd</code> checks for the AOT file, and if not found, it runs <code>oahd-helper</code> to create a new AOT file.</p>
-<pre><code class="language-json">... (oahd creates hello.out.aot.in_progress file)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;dest_path&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false},&quot;dest_type&quot;:0,&quot;filename&quot;:null},&quot;type&quot;:&quot;create&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
-... (creates a child process)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;child&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}},&quot;type&quot;:&quot;fork&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;args&quot;:[&quot;oahd-helper&quot;,&quot;3&quot;,&quot;4&quot;],&quot;cwd&quot;:{&quot;path&quot;:&quot;\/&quot;,&quot;path_truncated&quot;:false},&quot;last_fd&quot;:4,&quot;target&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}},&quot;type&quot;:&quot;exec&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="err">...</span> <span class="err">(oahd</span> <span class="err">crea</span><span class="kc">tes</span> <span class="err">hello.ou</span><span class="kc">t</span><span class="err">.ao</span><span class="kc">t</span><span class="err">.i</span><span class="kc">n</span><span class="err">_progress</span> <span class="kc">f</span><span class="err">ile)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;dest_path&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&quot;dest_type&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;create&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="err">...</span> <span class="err">(crea</span><span class="kc">tes</span> <span class="err">a</span> <span class="err">child</span> <span class="err">process)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;child&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;fork&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;args&quot;</span><span class="p">:[</span><span class="s2">&quot;oahd-helper&quot;</span><span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">],</span><span class="nt">&quot;cwd&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&quot;last_fd&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;exec&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+</code></pre></div>
+
 <p>The <code>oahd-helper</code> takes two file descriptors (the x86_64 code and the AOT file to write to) as command-line arguments, translates x86_64 code into arm64 code, and saves the result as an AOT file.</p>
 <p>When <code>oahd-helper</code> writes the result, it temporarily creates a file with the extension <code>aot.in_progress</code> and renames it to a file with the extension <code>aot</code>.
 The reason for making the file <code>aot.in_progress</code> once is probably to avoid using the AOT file if the same application starts in the middle of writing the translated result.</p>
-<pre><code class="language-json">... (oahd-helper writes the translated result)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-{&quot;event&quot;:{&quot;log&quot;:{&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;write&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-... (closes file descriptor)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;modified&quot;:true,&quot;target&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;close&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:54133,&quot;ppid&quot;:426,&quot;session_id&quot;:426}}
-... (renames)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;destination_type&quot;:1,&quot;dir&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0&quot;,&quot;path_truncated&quot;:false},&quot;filename&quot;:&quot;hello.out.aot&quot;,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;rename&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;,&quot;group_id&quot;:426,&quot;pid&quot;:426,&quot;ppid&quot;:1,&quot;session_id&quot;:426}}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="err">...</span> <span class="err">(oahd</span><span class="mi">-</span><span class="err">helper</span> <span class="err">wri</span><span class="kc">tes</span> <span class="kc">t</span><span class="err">he</span> <span class="kc">translate</span><span class="err">d</span> <span class="err">resul</span><span class="kc">t</span><span class="err">)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;write&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="err">...</span> <span class="err">(closes</span> <span class="kc">f</span><span class="err">ile</span> <span class="err">descrip</span><span class="kc">t</span><span class="err">or)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;modified&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="nt">&quot;target&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;close&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd-helper&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54133</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+<span class="err">...</span> <span class="err">(re</span><span class="kc">na</span><span class="err">mes)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;destination_type&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;dir&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">},</span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="s2">&quot;hello.out.aot&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot.in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;rename&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Library\/Apple\/usr\/libexec\/oah\/oahd&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">426</span><span class="p">}}</span>
+</code></pre></div>
+
 <p>Finally, this AOT file is mapped onto the memory of the <code>hello.out</code> process.</p>
-<pre><code class="language-json">... (a segment of the AOT file is mapped onto the memory with PROT_READ | PROT_WRITE | PROT_EXEC protection)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;file_pos&quot;:0,&quot;flags&quot;:131090,&quot;max_protection&quot;:7,&quot;protection&quot;:5,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;mmap&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
-... (a segment of the AOT file is mapped onto the memory with PROT_READ protection)
-{&quot;event&quot;:{&quot;log&quot;:{&quot;file_pos&quot;:8192,&quot;flags&quot;:18,&quot;max_protection&quot;:7,&quot;protection&quot;:1,&quot;source&quot;:{&quot;path&quot;:&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;,&quot;path_truncated&quot;:false}},&quot;type&quot;:&quot;mmap&quot;},&quot;target_process&quot;:{&quot;executable_path&quot;:&quot;\/Users\/konakagawa.ffri\/hello.out&quot;,&quot;group_id&quot;:54132,&quot;pid&quot;:54132,&quot;ppid&quot;:48492,&quot;session_id&quot;:48491}}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="err">...</span> <span class="err">(a</span> <span class="err">segme</span><span class="kc">nt</span> <span class="err">o</span><span class="kc">f</span> <span class="kc">t</span><span class="err">he</span> <span class="err">AOT</span> <span class="kc">f</span><span class="err">ile</span> <span class="err">is</span> <span class="err">mapped</span> <span class="err">o</span><span class="kc">nt</span><span class="err">o</span> <span class="kc">t</span><span class="err">he</span> <span class="err">memory</span> <span class="err">wi</span><span class="kc">t</span><span class="err">h</span> <span class="err">PROT_READ</span> <span class="err">|</span> <span class="err">PROT_WRITE</span> <span class="err">|</span> <span class="err">PROT_EXEC</span> <span class="err">pro</span><span class="kc">te</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;file_pos&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="mi">131090</span><span class="p">,</span><span class="nt">&quot;max_protection&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&quot;protection&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;mmap&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Users\/konakagawa.ffri\/hello.out&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">48492</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">48491</span><span class="p">}}</span>
+<span class="err">...</span> <span class="err">(a</span> <span class="err">segme</span><span class="kc">nt</span> <span class="err">o</span><span class="kc">f</span> <span class="kc">t</span><span class="err">he</span> <span class="err">AOT</span> <span class="kc">f</span><span class="err">ile</span> <span class="err">is</span> <span class="err">mapped</span> <span class="err">o</span><span class="kc">nt</span><span class="err">o</span> <span class="kc">t</span><span class="err">he</span> <span class="err">memory</span> <span class="err">wi</span><span class="kc">t</span><span class="err">h</span> <span class="err">PROT_READ</span> <span class="err">pro</span><span class="kc">te</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">)</span>
+<span class="p">{</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;log&quot;</span><span class="p">:{</span><span class="nt">&quot;file_pos&quot;</span><span class="p">:</span><span class="mi">8192</span><span class="p">,</span><span class="nt">&quot;flags&quot;</span><span class="p">:</span><span class="mi">18</span><span class="p">,</span><span class="nt">&quot;max_protection&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="nt">&quot;protection&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:{</span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="s2">&quot;\/private\/var\/db\/oah\/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00\/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0\/hello.out.aot&quot;</span><span class="p">,</span><span class="nt">&quot;path_truncated&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">}},</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;mmap&quot;</span><span class="p">},</span><span class="nt">&quot;target_process&quot;</span><span class="p">:{</span><span class="nt">&quot;executable_path&quot;</span><span class="p">:</span><span class="s2">&quot;\/Users\/konakagawa.ffri\/hello.out&quot;</span><span class="p">,</span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;pid&quot;</span><span class="p">:</span><span class="mi">54132</span><span class="p">,</span><span class="nt">&quot;ppid&quot;</span><span class="p">:</span><span class="mi">48492</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="mi">48491</span><span class="p">}}</span>
+</code></pre></div>
+
 <p>You can see that <code>PROT_EXEC</code> protection is granted when looking at the first event of <code>mmap</code>.
 From this, we can infer that the executable code is contained in the AOT file.</p>
 <p>Next, let's dig into the AOT files.</p>
-<h2 id="analyzing-aot-files">Analyzing AOT files</h2>
-<h3 id="problems-in-analysis-with-ghidra">Problems in analysis with Ghidra</h3>
+<h2 id="analyzing-aot-files">Analyzing AOT files<a class="headerlink" href="#analyzing-aot-files" title="Permanent link">&para;</a></h2>
+<h3 id="problems-in-analysis-with-ghidra">Problems in analysis with Ghidra<a class="headerlink" href="#problems-in-analysis-with-ghidra" title="Permanent link">&para;</a></h3>
 <p>First, let's check the file type.</p>
-<pre><code>$ file /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot 
-/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot: Mach-O 64-bit executable arm64
-</code></pre>
+<div class="codehilite"><pre><span></span><code>$ file /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot 
+/var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/065b3f057e68a5474d378306e41d8b1e3e8e612b9cf9010b76449e02b607d7f0/hello.out.aot: Mach-O <span class="m">64</span>-bit executable arm64
+</code></pre></div>
+
 <p><code>file</code> command says that the AOT file is just a Mach-O file, so it can be analyzed using the existing disassembler.
 Let's import it with Ghidra version 9.2.1 (Figure 3).</p>
 <figure>
@@ -768,13 +776,13 @@ Let's import it with Ghidra version 9.2.1 (Figure 3).</p>
 <p>The end of the <code>main</code> function is expected to be a branch instruction such as the <code>ret</code> instruction, but it is ended by the <code>adds x4, x4, #0x10</code> instruction.
 When you look at the decompilation, you can see that it ends at the function call <code>halt_baddata();</code> with the comment "WARNING: Bad instruction - Truncating control flow here."
 It seems that the disassembly was interrupted in the middle because it contains instructions that Ghidra does not support.
-The instruction displayed as "Bad instruction" is <a href="https://developer.arm.com/documentation/ddi0596/2020-12/Base-Instructions/CFINV--Invert-Carry-Flag-?lang=en">cfinv instruction introduced in Armv8.4</a>, which is not yet supported in Ghidra version 9.2.1.</p>
+The instruction displayed as "Bad instruction" is <a href="https://developer.arm.com/documentation/ddi0596/2020-12/Base-Instructions/CFINV--Invert-Carry-Flag-?lang=en"><code>cfinv</code> instruction introduced in Armv8.4</a>, which is not yet supported in Ghidra version 9.2.1.</p>
 <p>You can see that <code>in_*</code> variables in the decompilation.
 <code>in_*</code> is a variable seen when a read occurs before a write to a register that is not passed as an argument under the function's calling convention.
 In general, if you see a lot of such variables in the decompilation of Ghidra, there is a high possibility that the calling convention specified at the decompiling time does not match the actual calling convention.
 In this case, Ghidra decompiled the <code>main</code> function assuming the AArch64 ABI calling convention specified by default, but other proprietary calling conventions are likely being used.</p>
 <p>We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.</p>
-<p>The details will be presented later in a separate article. I solved these issues <a href="https://github.com/NationalSecurityAgency/ghidra/issues/2710">by fixing the SLEIGH file</a> and the compiler specification (cspec) file. The patch is available from <a href="https://github.com/FFRI/ProjectChampollion/tree/main/ghidra">here</a>.</p>
+<p>The details will be presented later in a separate article. I solved these issues <a href="https://github.com/NationalSecurityAgency/ghidra/issues/2710">by fixing the SLEIGH file</a> and the compiler specification (CSPEC) file. The patch is available from <a href="https://github.com/FFRI/ProjectChampollion/tree/main/ghidra">here</a>.</p>
 <p>After fixing Ghidra, the entire <code>main</code> function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.</p>
 <figure>
     <img src="../assets/disas_result_ghidra2.png" width="500" />
@@ -786,7 +794,7 @@ In this case, Ghidra decompiled the <code>main</code> function assuming the AArc
     <figcaption>Figure 7 Decompilation of <code>main</code> function after modifying Ghidra.</figcaption>
 </figure>
 
-<h3 id="analyzing-the-code-in-aot-files-calling-conventions">Analyzing the code in AOT files: calling conventions</h3>
+<h3 id="analyzing-the-code-in-aot-files-calling-conventions">Analyzing the code in AOT files: calling conventions<a class="headerlink" href="#analyzing-the-code-in-aot-files-calling-conventions" title="Permanent link">&para;</a></h3>
 <p>Now that the analysis environment is in place, we can move on to the detailed analysis of the code contained in AOT files.</p>
 <p>I mentioned earlier that a proprietary ABI is used in AOT files.
 Specifically, the System V AMD64 ABI is used, with the x86_64 registers converted to arm64 registers according to the following table.</p>
@@ -869,24 +877,25 @@ Specifically, the System V AMD64 ABI is used, with the x86_64 registers converte
 </tbody>
 </table>
 <p>Let's look at an example to see the calling convention. The AOT file built from the following source code is used for the analysis.</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-__attribute__((noinline))
-int int_arguments(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12) {
-    return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10 + a11 + a12;
-}
+<span class="n">__attribute__</span><span class="p">((</span><span class="n">noinline</span><span class="p">))</span>
+<span class="kt">int</span> <span class="n">int_arguments</span><span class="p">(</span><span class="kt">int</span> <span class="n">a1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a2</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a3</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a4</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a5</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a6</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a7</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a8</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a9</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a10</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a11</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a12</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span> <span class="o">+</span> <span class="n">a3</span> <span class="o">+</span> <span class="n">a4</span> <span class="o">+</span> <span class="n">a5</span> <span class="o">+</span> <span class="n">a6</span> <span class="o">+</span> <span class="n">a7</span> <span class="o">+</span> <span class="n">a8</span> <span class="o">+</span> <span class="n">a9</span> <span class="o">+</span> <span class="n">a10</span> <span class="o">+</span> <span class="n">a11</span> <span class="o">+</span> <span class="n">a12</span><span class="p">;</span>
+<span class="p">}</span>
 
-__attribute__((noinline))
-double double_arguments(double a1, double a2, double a3, double a4, double a5, double a6, double a7, double a8, double a9, double a10, double a11, double a12) {
-    return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10 + a11 + a12;
-}
+<span class="n">__attribute__</span><span class="p">((</span><span class="n">noinline</span><span class="p">))</span>
+<span class="kt">double</span> <span class="n">double_arguments</span><span class="p">(</span><span class="kt">double</span> <span class="n">a1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a3</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a4</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a5</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a6</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a7</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a8</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a9</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a10</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a11</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a12</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span> <span class="o">+</span> <span class="n">a3</span> <span class="o">+</span> <span class="n">a4</span> <span class="o">+</span> <span class="n">a5</span> <span class="o">+</span> <span class="n">a6</span> <span class="o">+</span> <span class="n">a7</span> <span class="o">+</span> <span class="n">a8</span> <span class="o">+</span> <span class="n">a9</span> <span class="o">+</span> <span class="n">a10</span> <span class="o">+</span> <span class="n">a11</span> <span class="o">+</span> <span class="n">a12</span><span class="p">;</span>
+<span class="p">}</span>
 
-int main() {
-    const int sum_int = int_arguments(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
-    const double sum_double = double_arguments(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
-    printf(&quot;%f %d\n&quot;, sum_double, sum_int);
-}
-</code></pre>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">sum_int</span> <span class="o">=</span> <span class="n">int_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">sum_double</span> <span class="o">=</span> <span class="n">double_arguments</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%f %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">sum_double</span><span class="p">,</span> <span class="n">sum_int</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>Here are the disassembly listings of the AOT file corresponding to the <code>int_arguments</code> (Figure 8) and <code>double_arguments</code> calls (Figure 9).</p>
 <figure>
     <img src="../assets/systemv_abi_calling_convention_int.png" />
@@ -904,7 +913,7 @@ We check the corresponding registers of arm64 according to the table shown earli
 Consequently, we figure out that the arguments are passed through the x7, x6, x2, x1, x8, and x9 registers, and when there are more arguments, they are passed through the stack (note that x4 register specifies the top of the stack).
 You can easily understand that the left disassembly listing of Figure 8. follows such a calling convention.</p>
 <p>In the same manner, you can understand the calling convention for float arguments (Figure 9).</p>
-<h3 id="analyzing-the-code-in-aot-files-references-to-the-x86_64-executable">Analyzing the code in AOT files: references to the x86_64 executable</h3>
+<h3 id="analyzing-the-code-in-aot-files-references-to-the-x86_64-executable">Analyzing the code in AOT files: references to the x86_64 executable<a class="headerlink" href="#analyzing-the-code-in-aot-files-references-to-the-x86_64-executable" title="Permanent link">&para;</a></h3>
 <p>When you analyze AOT files with Ghidra, you will see that several references do not exist in the program memory.
 As shown in Figure 10, the <code>DAT_ffffffffffff8000</code> and <code>SUB_00002064</code> in red letters indicate that the reference does not exist in the program memory.</p>
 <figure>
@@ -919,26 +928,27 @@ As shown in Figure 10, the <code>DAT_ffffffffffff8000</code> and <code>SUB_00002
 </ul>
 <p>In fact, these files are mapped onto the memory, and references to functions and variables are resolved correctly.
 Let's check this by looking at the memory map of the emulation process using <code>vmmap</code> command.</p>
-<pre><code>==== Non-writable regions for process 70817
-REGION TYPE                 START - END       [ VSIZE  RSDNT  DIRTY   SWAP] PRT/MAX SHRMOD PURGE REGION DETAIL
-(__TEXT segment of x86_64 code)
-__TEXT                   100000000-100003000  [   12K    12K     0K     0K] r-x/r-x SM=COW       /Users/USER/Documents/*/check_calling_convention.out
-__TEXT                   100003000-100004000  [    4K     4K     4K     0K] r-x/rwx SM=COW       /Users/USER/Documents/*/check_calling_convention.out
-__DATA_CONST             100004000-100008000  [   16K    16K    16K     0K] r--/rw- SM=COW       /Users/USER/Documents/*/check_calling_convention.out
-__LINKEDIT               10000c000-10000d000  [    4K     4K     0K     0K] r--/r-- SM=COW       /Users/USER/Documents/*/check_calling_convention.out
-__LINKEDIT               10000d000-100010000  [   12K     0K     0K     0K] r--/r-- SM=NUL       /Users/USER/Documents/*/check_calling_convention.out
-(__TEXT segment of the AOT file)
-mapped file              100010000-100012000  [    8K     8K     0K     0K] r-x/rwx SM=COW       /private/var/db/*/check_calling_convention.out.aot
-(Rosetta 2 runtime)
-mapped file              100012000-100016000  [   16K    16K     0K     0K] r-x/r-x SM=COW       /Library/Apple/*/runtime
-(__LINKEDIT segment of the AOT file)
-mapped file              100017000-100018000  [    4K     4K     0K     0K] r--/rwx SM=COW       /private/var/db/*/check_calling_convention.out.aot
-(Rosetta 2 runtime)
-mapped file              100020000-100024000  [   16K    16K     0K     0K] r-x/r-x SM=COW       /Library/Apple/*/runtime
-Rosetta Thread Context   108023000-108024000  [    4K     0K     0K     0K] ---/rwx SM=NUL
-Rosetta Return Stack     108028000-108029000  [    4K     0K     0K     0K] ---/rwx SM=NUL
-...
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="o">====</span> <span class="n">Non</span><span class="o">-</span><span class="n">writable</span> <span class="n">regions</span> <span class="k">for</span> <span class="n">process</span> <span class="mi">70817</span>
+<span class="n">REGION</span> <span class="n">TYPE</span>                 <span class="n">START</span> <span class="o">-</span> <span class="n">END</span>       <span class="p">[</span> <span class="n">VSIZE</span>  <span class="n">RSDNT</span>  <span class="n">DIRTY</span>   <span class="n">SWAP</span><span class="p">]</span> <span class="n">PRT</span><span class="o">/</span><span class="n">MAX</span> <span class="n">SHRMOD</span> <span class="n">PURGE</span> <span class="n">REGION</span> <span class="n">DETAIL</span>
+<span class="p">(</span><span class="n">__TEXT</span> <span class="n">segment</span> <span class="n">of</span> <span class="n">x86_64</span> <span class="n">code</span><span class="p">)</span>
+<span class="n">__TEXT</span>                   <span class="mi">100000000</span><span class="o">-</span><span class="mi">100003000</span>  <span class="p">[</span>   <span class="mi">12</span><span class="n">K</span>    <span class="mi">12</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">r</span><span class="o">-</span><span class="n">x</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">USER</span><span class="o">/</span><span class="n">Documents</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span>
+<span class="n">__TEXT</span>                   <span class="mi">100003000</span><span class="o">-</span><span class="mi">100004000</span>  <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">4</span><span class="n">K</span>     <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">USER</span><span class="o">/</span><span class="n">Documents</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span>
+<span class="n">__DATA_CONST</span>             <span class="mi">100004000</span><span class="o">-</span><span class="mi">100008000</span>  <span class="p">[</span>   <span class="mi">16</span><span class="n">K</span>    <span class="mi">16</span><span class="n">K</span>    <span class="mi">16</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">--/</span><span class="n">rw</span><span class="o">-</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">USER</span><span class="o">/</span><span class="n">Documents</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span>
+<span class="n">__LINKEDIT</span>               <span class="mi">10000</span><span class="n">c000</span><span class="o">-</span><span class="mi">10000</span><span class="n">d000</span>  <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">--/</span><span class="n">r</span><span class="o">--</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">USER</span><span class="o">/</span><span class="n">Documents</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span>
+<span class="n">__LINKEDIT</span>               <span class="mi">10000</span><span class="n">d000</span><span class="o">-</span><span class="mi">100010000</span>  <span class="p">[</span>   <span class="mi">12</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">--/</span><span class="n">r</span><span class="o">--</span> <span class="n">SM</span><span class="o">=</span><span class="n">NUL</span>       <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">USER</span><span class="o">/</span><span class="n">Documents</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span>
+<span class="p">(</span><span class="n">__TEXT</span> <span class="n">segment</span> <span class="n">of</span> <span class="n">the</span> <span class="n">AOT</span> <span class="n">file</span><span class="p">)</span>
+<span class="n">mapped</span> <span class="n">file</span>              <span class="mi">100010000</span><span class="o">-</span><span class="mi">100012000</span>  <span class="p">[</span>    <span class="mi">8</span><span class="n">K</span>     <span class="mi">8</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span>
+<span class="p">(</span><span class="n">Rosetta</span> <span class="mi">2</span> <span class="n">runtime</span><span class="p">)</span>
+<span class="n">mapped</span> <span class="n">file</span>              <span class="mi">100012000</span><span class="o">-</span><span class="mi">100016000</span>  <span class="p">[</span>   <span class="mi">16</span><span class="n">K</span>    <span class="mi">16</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">r</span><span class="o">-</span><span class="n">x</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Apple</span><span class="o">/*/</span><span class="n">runtime</span>
+<span class="p">(</span><span class="n">__LINKEDIT</span> <span class="n">segment</span> <span class="n">of</span> <span class="n">the</span> <span class="n">AOT</span> <span class="n">file</span><span class="p">)</span>
+<span class="n">mapped</span> <span class="n">file</span>              <span class="mi">100017000</span><span class="o">-</span><span class="mi">100018000</span>  <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">--/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/*/</span><span class="n">check_calling_convention</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span>
+<span class="p">(</span><span class="n">Rosetta</span> <span class="mi">2</span> <span class="n">runtime</span><span class="p">)</span>
+<span class="n">mapped</span> <span class="n">file</span>              <span class="mi">100020000</span><span class="o">-</span><span class="mi">100024000</span>  <span class="p">[</span>   <span class="mi">16</span><span class="n">K</span>    <span class="mi">16</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">r</span><span class="o">-</span><span class="n">x</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>       <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Apple</span><span class="o">/*/</span><span class="n">runtime</span>
+<span class="n">Rosetta</span> <span class="n">Thread</span> <span class="n">Context</span>   <span class="mi">108023000</span><span class="o">-</span><span class="mi">108024000</span>  <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="o">---/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">NUL</span>
+<span class="n">Rosetta</span> <span class="n">Return</span> <span class="n">Stack</span>     <span class="mi">108028000</span><span class="o">-</span><span class="mi">108029000</span>  <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="o">---/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">NUL</span>
+<span class="o">...</span>
+</code></pre></div>
+
 <p>You can see that the x86_64 executable and the <code>runtime</code> binary are mapped onto the areas before and after the AOT file, respectively.</p>
 <p>So, in what cases do references to x86_64 or <code>runtime</code> from AOT files exist?</p>
 <p>A typical case is when there is a reference to a global variable or constant in the x86_64 executable.
@@ -962,7 +972,7 @@ So, let's change the base address to 0x100010000 where the AOT file is mapped, a
 However, in the past transition from PowerPC to Intel, the endianness change was required before referencing constants.
 Since changing the endianness at runtime has a large overhead, the AOT file probably also contained the data after the endianness was changed.</p>
 <p>The cases where references to <code>runtime</code> exist will be discussed in the next section, along with explaining the reverse-engineering results of <code>runtime</code>.</p>
-<h2 id="analyzing-rosetta-2-runtime">Analyzing Rosetta 2 <code>runtime</code></h2>
+<h2 id="analyzing-rosetta-2-runtime">Analyzing Rosetta 2 <code>runtime</code><a class="headerlink" href="#analyzing-rosetta-2-runtime" title="Permanent link">&para;</a></h2>
 <p>The Rosetta 2 <code>runtime</code> is the binary that initializes the emulation process, maps the AOT file onto the memory, and performs JIT translation.
 When an x86_64 emulation process starts, <code>runtime</code> is mapped onto the memory, and the program counter is set to the entry point of <code>runtime</code>.</p>
 <p>One interesting point is that <code>runtime</code> is <strong>not</strong> a dynamic link library.
@@ -977,18 +987,19 @@ In the case of <code>xtajit.dll</code>, it is loaded as a DLL <a href="https://w
 </ol>
 <p>In this article, I will discuss the features of 1. and 2.
 The features of 3. and 4. will be covered in the next article.</p>
-<h3 id="x86_64-address-resolution-and-lazy-binding">X86_64 address resolution and lazy binding</h3>
+<h3 id="x86_64-address-resolution-and-lazy-binding">X86_64 address resolution and lazy binding<a class="headerlink" href="#x86_64-address-resolution-and-lazy-binding" title="Permanent link">&para;</a></h3>
 <p>Firstly, let's discuss the feature 1 by considering the AOT file of the following source code.</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-int main() {
-    puts(&quot;Hello World&quot;);
-    puts(&quot;Hello World Again&quot;);
-    puts(&quot;Hello World Again Again&quot;);
-}
-</code></pre>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">puts</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">);</span>
+    <span class="n">puts</span><span class="p">(</span><span class="s">&quot;Hello World Again&quot;</span><span class="p">);</span>
+    <span class="n">puts</span><span class="p">(</span><span class="s">&quot;Hello World Again Again&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>We follow the execution flow around <code>puts</code> function call in the AOT file of the above program.</p>
-<h4 id="execution-flow-around-puts-function-call-in-the-aot-file">Execution flow around <code>puts</code> function call in the AOT file</h4>
+<h4 id="execution-flow-around-puts-function-call-in-the-aot-file">Execution flow around <code>puts</code> function call in the AOT file<a class="headerlink" href="#execution-flow-around-puts-function-call-in-the-aot-file" title="Permanent link">&para;</a></h4>
 <p>The disassembly listing near the <code>puts</code> function call in the AOT file is as follows (Figure 13).
 Note that the base address is set to 0x100010000 when opening this file with Ghidra.</p>
 <figure>
@@ -1012,28 +1023,30 @@ Since the resolved address is stored in the x22 register, the <code>puts</code> 
 Thus, the address of x86_64 passed to x22 register and the resolved address are stored in the <code>__stubs_sh</code> section.</p>
 <p>In this way, the lazy binding mechanism is also employed in the AOT file, so the address is not resolved until the function is called.</p>
 <p>In the following, we refer to the <code>SUB_100012064</code> function as <code>resolve_x64_addr</code>.</p>
-<h4 id="following-the-process-of-lazy-binding-in-the-aot-file">Following the process of lazy binding in the AOT file.</h4>
+<h4 id="following-the-process-of-lazy-binding-in-the-aot-file">Following the process of lazy binding in the AOT file.<a class="headerlink" href="#following-the-process-of-lazy-binding-in-the-aot-file" title="Permanent link">&para;</a></h4>
 <p>Let's follow the process of lazy binding in the AOT file with LLDB.</p>
 <p>Put a breakpoint and check the pointer values in <code>__la_symbol_ptr::puts</code> and <code>__stubs_sh</code> before calling the <code>puts</code> function.</p>
 <p><strong>Before the first call to the <code>puts</code> function</strong></p>
-<pre><code># reads the data in __la_symbol::puts
+<div class="codehilite"><pre><span></span><code># reads the data in __la_symbol::puts
 # 0x0000000100003f6c corresponds to the address of __stub_helper::_puts
 (lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
 0x100008000: {0x0000000100003f6c}
 # reads the data in __stubs_sh
 (lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
 0x100016000: {0x0000000000000000 0x0000000000000000}
-</code></pre>
+</code></pre></div>
+
 <p>You can see that <code>__stubs_sh</code> contains a value of 0 and <code>__la_symbol::puts</code> contains the pointer to <code>__stub_helper::puts</code>.</p>
 <p><strong>Before the second call to the <code>puts</code> function</strong></p>
-<pre><code># reads the data in __la_symbol::puts
+<div class="codehilite"><pre><span></span><code># reads the data in __la_symbol::puts
 # __la_symbol::puts is modified to 0x00007fff20324274 (the function address of puts in libsystem_c.dylib) by dynamic linker
 (lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
 0x100008000: {0x00007fff20324274}
 # reads the data in __stubs_sh
 (lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
 0x100016000: {0x0000000100003f6c 0x00000001000110f0}
-</code></pre>
+</code></pre></div>
+
 <p>Once the <code>puts</code> function is called, you see that the contents of <code>__la_symbol::puts</code> are overwritten and changed to 0x00007fff20324274, which is the address of the <code>puts</code> function in <code>libsystem_c.dylib</code>.
 This means that the first call to <code>puts</code> causes the dynamic linker to change the contents of <code>__la_symbol_ptr::puts</code> to point directly to the address of the <code>puts</code> function.</p>
 <p>On the other hand, you can see that <code>__stubs_sh</code> has been written to {0x0000000100003f6c 0x0000000110f0}.
@@ -1045,14 +1058,15 @@ This is because the <code>resolve_x64_addr</code> function was called with the f
 </figure>
 
 <p><strong>Before the third call to the <code>puts</code> function</strong></p>
-<pre><code># reads the data in __la_symbol::puts
+<div class="codehilite"><pre><span></span><code># reads the data in __la_symbol::puts
 # __la_symbol::puts is modified to 0x00007fff20324274 (puts function address of libsystem_c.dylib) by dynamic linker
 (lldb) memory read -f uint64_t[] -a 0x0000000100008000 -c 1 -s 8
 0x100008000: {0x00007fff20324274}
 # reads the data in __stubs_sh
 (lldb) memory read -f uint64_t[] -a 0x0000000100016000 -c 1 -s 16
 0x100016000: {0x00007fff20324274 0x00007ffe9664644c}
-</code></pre>
+</code></pre></div>
+
 <p>There is no change in the contents of <code>__la_symbol::puts</code>.
 On the contrary, you can see that <code>__stubs_sh</code> has been rewritten as {0x00007fff20324274, 0x00007ffe9664644c}.
 This is because the <code>resolve_x64_addr</code> function was called with the address of the <code>puts</code> in <code>libsystem_c.dylib</code> as an argument at the second call.
@@ -1064,7 +1078,7 @@ You can see that the resolved address is stored in <code>__stubs_sh</code>.</p>
 <li>Before the third call to the <code>puts</code> function: {address of the <code>puts</code> function in <code>libsystem_c.dylib</code>, address in the corresponding AOT file}</li>
 </ul>
 <p>After the second call to the <code>puts</code> function, the <code>puts</code> function is directly called without calling Rosetta 2 <code>runtime</code>'s <code>resolve_x64_addr</code>.</p>
-<h4 id="resolve_x64_addr-internal"><code>resolve_x64_addr</code> internal</h4>
+<h4 id="resolve_x64_addr-internal"><code>resolve_x64_addr</code> internal<a class="headerlink" href="#resolve_x64_addr-internal" title="Permanent link">&para;</a></h4>
 <p>Next, let's focus on the analysis of <code>resolve_x64_addr</code> function.</p>
 <p>When <code>resolve_x64_addr</code> is called, the currently running context is saved (Figure 15).</p>
 <figure>
@@ -1091,7 +1105,7 @@ If found, <code>find_translation_in_tree_x86</code> updates the contents of <cod
 <p>The <code>translate</code> function, which will be explained in detail in the next section, translates x86_64 code into arm64 code in JIT and returning the result.
 The <code>translate</code> function is probably called when calling a function in a shared library that does not have an AOT file at the time of execution.</p>
 <p>Finally, <code>resolve_x64_addr</code> assigns the return value to x22, and goes back to the AOT file.</p>
-<h3 id="jit-binary-translation-of-rosetta-2-runtime-translate-function">JIT binary translation of Rosetta 2 <code>runtime</code>: <code>translate</code> function</h3>
+<h3 id="jit-binary-translation-of-rosetta-2-runtime-translate-function">JIT binary translation of Rosetta 2 <code>runtime</code>: <code>translate</code> function<a class="headerlink" href="#jit-binary-translation-of-rosetta-2-runtime-translate-function" title="Permanent link">&para;</a></h3>
 <p>I mentioned the <code>translate</code> function at the end of the previous section.
 Rosetta 2 implements the logic for JIT code translation as well as AOT code translation.</p>
 <p>The logic for JIT translation is also needed is to support the execution of x86_64 applications that generate x86_64 code at runtime (e.g., JavaScript engine uses a JIT compiler).</p>
@@ -1099,49 +1113,50 @@ Rosetta 2 implements the logic for JIT code translation as well as AOT code tran
 In order to execute such an application, the x86_64 code generated at runtime must be translated into arm64 by the JIT translator.</p>
 <p>Rosetta 2 <code>runtime</code> is able to translate the x86_64 machine code in a heap to arm64 and then execute it.</p>
 <p>In this section, we will look at the JIT translation feature included in Rosetta 2 <code>runtime</code>.</p>
-<h4 id="target-application">Target application</h4>
+<h4 id="target-application">Target application<a class="headerlink" href="#target-application" title="Permanent link">&para;</a></h4>
 <p>Let's follow the process of JIT translation in Rosetta 2 <code>runtime</code> through the following source code example.</p>
-<pre><code class="language-c">// run_shellcode.c
-#include &lt;stdio.h&gt;
-#include &lt;sys/mman.h&gt;
-#include &lt;string.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;unistd.h&gt;
+<div class="codehilite"><pre><span></span><code><span class="c1">// run_shellcode.c</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
 
-typedef int (*sc)();
+<span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">sc</span><span class="p">)();</span>
 
-char shellcode[] =
-&quot;\x48\x31\xc0\x99\x50\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x57\x54\x5f\x48\x31\xf6\xb0\x02\x48\xc1\xc8\x28\xb0\x3b\x0f\x05&quot;;
-/*
-section .text
-global start
-start:
-    ; execve(&quot;//bin/sh&quot;, 0, 0)
-    xor  rax, rax
-    cdq
-    push rax
-    mov  rdi, 0x68732f6e69622f2f
-    push rdi
-    push rsp
-    pop  rdi
-    xor  rsi, rsi
-    mov  al, 0x2
-    ror  rax, 0x28
-    mov  al, 0x3b
-    syscall
-*/
+<span class="kt">char</span> <span class="n">shellcode</span><span class="p">[]</span> <span class="o">=</span>
+<span class="s">&quot;</span><span class="se">\x48\x31\xc0\x99\x50\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x57\x54\x5f\x48\x31\xf6\xb0\x02\x48\xc1\xc8\x28\xb0\x3b\x0f\x05</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="cm">/*</span>
+<span class="cm">section .text</span>
+<span class="cm">global start</span>
+<span class="cm">start:</span>
+<span class="cm">    ; execve(&quot;//bin/sh&quot;, 0, 0)</span>
+<span class="cm">    xor  rax, rax</span>
+<span class="cm">    cdq</span>
+<span class="cm">    push rax</span>
+<span class="cm">    mov  rdi, 0x68732f6e69622f2f</span>
+<span class="cm">    push rdi</span>
+<span class="cm">    push rsp</span>
+<span class="cm">    pop  rdi</span>
+<span class="cm">    xor  rsi, rsi</span>
+<span class="cm">    mov  al, 0x2</span>
+<span class="cm">    ror  rax, 0x28</span>
+<span class="cm">    mov  al, 0x3b</span>
+<span class="cm">    syscall</span>
+<span class="cm">*/</span>
 
-int main(int argc, char **argv) {
-    void *ptr = mmap(0, 0x22, PROT_EXEC | PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-    if (ptr == MAP_FAILED) {
-        perror(&quot;mmap&quot;);
-        exit(-1);
-    }
-    memcpy(ptr, shellcode, sizeof(shellcode));
-    ((sc)ptr)(); // &lt;----- run shellcode
-    return 0;
-}
-</code></pre>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">mmap</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x22</span><span class="p">,</span> <span class="n">PROT_EXEC</span> <span class="o">|</span> <span class="n">PROT_WRITE</span> <span class="o">|</span> <span class="n">PROT_READ</span><span class="p">,</span> <span class="n">MAP_ANON</span> <span class="o">|</span> <span class="n">MAP_PRIVATE</span><span class="p">,</span> <span class="mi">-1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ptr</span> <span class="o">==</span> <span class="n">MAP_FAILED</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">&quot;mmap&quot;</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">shellcode</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">));</span>
+    <span class="p">((</span><span class="n">sc</span><span class="p">)</span><span class="n">ptr</span><span class="p">)();</span> <span class="c1">// &lt;----- run shellcode</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>The above code is a modified version of <a href="https://www.exploit-db.com/exploits/38065">OSX/x86_64 - execve(/bin/sh) + Null-Free Shellcode (34 bytes)</a>.
 The process is as follows:</p>
 <ul>
@@ -1168,7 +1183,7 @@ The <code>FUN_00022ac0</code> function also first searches for results that have
     <figcaption>Figure 19 Decompilation of <code>FUN_00022ac0</code>.</figcaption>
 </figure>
 
-<h4 id="analyzing-the-x86_64-machine-code-decoding-process">Analyzing the x86_64 machine code decoding process</h4>
+<h4 id="analyzing-the-x86_64-machine-code-decoding-process">Analyzing the x86_64 machine code decoding process<a class="headerlink" href="#analyzing-the-x86_64-machine-code-decoding-process" title="Permanent link">&para;</a></h4>
 <p>Not surprisingly, the <code>translate</code> function is large, and the number of functions called in it is huge.
 For example, the following functions are called</p>
 <ul>
@@ -1197,7 +1212,7 @@ For example, the following functions are called</p>
 <p>You can also see the process of checking the lock prefix (0xf0), repne/repnz prefix (0xf2), rep/repe/repz prefix (0xf3).</p>
 <p>The result of checking the prefix byte is assigned to the structure specified by the first argument of <code>decode_opcode</code> (corresponds to the <code>param_1</code> variable in Figure 20).
 The prefix bytes seem to be assigned to a separate field for each group, as shown <a href="https://wiki.osdev.org/X86-64_Instruction_Encoding#Legacy_Prefixes">here</a>.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>In this article, I have reported on the following aspects of Rosetta 2.</p>
 <ul>
 <li>How <code>oahd</code> executes <code>oahd-helper</code> and creates the AOT file after starting the x86_64 process</li>
@@ -1213,7 +1228,7 @@ The prefix bytes seem to be assigned to a separate field for each group, as show
 </ul>
 <p>Rosetta 2 was reported to have a good score in <a href="https://9to5mac.com/2020/12/15/benchmarks-show-how-far-behind-windows-arm-machines-are-compared-to-m1-macs/">Geekbench 5</a>, so its design seems sophisticated.
 We hope that this article will lead to further analysis of Rosetta 2 and reveal its sophisticated design.</p>
-<h2 id="whats-next">What's next?</h2>
+<h2 id="whats-next">What's next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
 <p>The following points will be introduced in part2 and beyond. I will publish these results in a few weeks.</p>
 <ul>
 <li>Other features of Rosetta 2 <code>runtime</code><ul>

@@ -246,7 +246,7 @@ Unfortunately, there seems to be a problem with both the disassembly and decompi
 The end of the `main` function is expected to be a branch instruction such as the `ret` instruction, but it is ended by the `adds x4, x4, #0x10` instruction.
 When you look at the decompilation, you can see that it ends at the function call `halt_baddata();` with the comment "WARNING: Bad instruction - Truncating control flow here."
 It seems that the disassembly was interrupted in the middle because it contains instructions that Ghidra does not support.
-The instruction displayed as "Bad instruction" is [cfinv instruction introduced in Armv8.4](https://developer.arm.com/documentation/ddi0596/2020-12/Base-Instructions/CFINV--Invert-Carry-Flag-?lang=en), which is not yet supported in Ghidra version 9.2.1.
+The instruction displayed as "Bad instruction" is [`cfinv` instruction introduced in Armv8.4](https://developer.arm.com/documentation/ddi0596/2020-12/Base-Instructions/CFINV--Invert-Carry-Flag-?lang=en), which is not yet supported in Ghidra version 9.2.1.
 
 You can see that `in_*` variables in the decompilation.
 `in_*` is a variable seen when a read occurs before a write to a register that is not passed as an argument under the function's calling convention.
@@ -255,7 +255,7 @@ In this case, Ghidra decompiled the `main` function assuming the AArch64 ABI cal
 
 We can proceed with the analysis, but why not modifying Ghidra? Ghidra is an OSS disassembler, which is designed to be easily customized by users.
 
-The details will be presented later in a separate article. I solved these issues [by fixing the SLEIGH file](https://github.com/NationalSecurityAgency/ghidra/issues/2710) and the compiler specification (cspec) file. The patch is available from [here](https://github.com/FFRI/ProjectChampollion/tree/main/ghidra).
+The details will be presented later in a separate article. I solved these issues [by fixing the SLEIGH file](https://github.com/NationalSecurityAgency/ghidra/issues/2710) and the compiler specification (CSPEC) file. The patch is available from [here](https://github.com/FFRI/ProjectChampollion/tree/main/ghidra).
 
 After fixing Ghidra, the entire `main` function can be disassembled and decompiled, as shown in Figure 6 and Figure 7.
 

@@ -489,15 +489,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/FFRI/ProjectChampollion/edit/master/docs/part2.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/FFRI/ProjectChampollion/edit/main/docs_src/src/part2.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="reverse-engineering-rosetta-2-part2-analyzing-other-aspects-of-rosetta-2-runtime-and-aot-shared-cache-files">Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 <code>runtime</code> and AOT shared cache files</h1>
+                <h1 id="reverse-engineering-rosetta-2-part2-analyzing-other-aspects-of-rosetta-2-runtime-and-aot-shared-cache-files">Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 <code>runtime</code> and AOT shared cache files<a class="headerlink" href="#reverse-engineering-rosetta-2-part2-analyzing-other-aspects-of-rosetta-2-runtime-and-aot-shared-cache-files" title="Permanent link">&para;</a></h1>
 <p>date: 2021/3/4</p>
 <p>author: Koh M. Nakagawa</p>
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>In part2, I will discuss three features of the Rosetta 2 <code>runtime</code>:</p>
 <ul>
 <li>communicating with <code>oahd</code></li>
@@ -505,8 +505,8 @@
 <li>logging in debug mode</li>
 </ul>
 <p>I will then introduce an AOT shared cache file, which plays a similar role to the <code>dyld_shared_cache</code>.</p>
-<h2 id="features-of-rosetta-2-runtime">Features of Rosetta 2 <code>runtime</code></h2>
-<p>In the <a href="https://ffri.github.io/ProjectChampollion/part1/#roles-of-oahd-and-oahd-helper">"Roles of oahd and oahd-helper" section of part1</a>, I explained that <code>oahd</code> checks for AOT files and runs <code>oahd-helper</code> to create AOT files if needed.
+<h2 id="features-of-rosetta-2-runtime">Features of Rosetta 2 <code>runtime</code><a class="headerlink" href="#features-of-rosetta-2-runtime" title="Permanent link">&para;</a></h2>
+<p>In the <a href="../part1/#roles-of-oahd-and-oahd-helper">"Roles of oahd and oahd-helper" section of part1</a>, I explained that <code>oahd</code> checks for AOT files and runs <code>oahd-helper</code> to create AOT files if needed.
 However, the <a href="../assets/event.jsonl">logs of EventMonitor</a> do not contain detailed information on how <code>oahd</code> obtains x86_64 executables to be translated.
 Moreover, we could not figure out how emulation process gets the AOT files required for the execution.
 Such information was missing because we could not get some parts of the inter-process communication (IPC) through the Endpoint Security Framework.</p>
@@ -514,7 +514,7 @@ Such information was missing because we could not get some parts of the inter-pr
 Then, I will introduce <code>runtime</code>'s features of loading and parsing AOT files.
 During analyzing the parsing logic of AOT files in <code>runtime</code>, I found a new Mach-O command called <code>LC_AOT_METADATA</code>.
 So, I will mainly focus on the <code>LC_AOT_MEATADATA</code> command and its structure.</p>
-<h3 id="feature-of-rosetta-2-runtime-communicating-with-oahd">Feature of Rosetta 2 <code>runtime</code>: communicating with <code>oahd</code></h3>
+<h3 id="feature-of-rosetta-2-runtime-communicating-with-oahd">Feature of Rosetta 2 <code>runtime</code>: communicating with <code>oahd</code><a class="headerlink" href="#feature-of-rosetta-2-runtime-communicating-with-oahd" title="Permanent link">&para;</a></h3>
 <p><code>oahd</code> passes x86_64 executables and AOT files through inter-process communication with the Rosetta 2 <code>runtime</code>.
 This is achieved by passing these file descriptors through Mach IPC via the following two undocumented system calls.</p>
 <ul>
@@ -572,7 +572,7 @@ Therefore, in the case of Rosetta 2, if the size of the x86_64 code to be transl
 <p>On the other hand, in the case of Windows 10 on Arm, XTA cache files are created after (or while) an x86 executable runs.
 The XTA cache files are not used at the application's first launch.
 Therefore, although the startup itself is fast, the subsequent process tends to be slower because the x86 code is JIT-translated during the execution.</p>
-<h3 id="feature-of-rosetta-2-runtime-parsing-aot-files-a-new-command-lc_aot_metadata">Feature of Rosetta 2 <code>runtime</code>: parsing AOT files (a new command <code>LC_AOT_METADATA</code>)</h3>
+<h3 id="feature-of-rosetta-2-runtime-parsing-aot-files-a-new-command-lc_aot_metadata">Feature of Rosetta 2 <code>runtime</code>: parsing AOT files (a new command <code>LC_AOT_METADATA</code>)<a class="headerlink" href="#feature-of-rosetta-2-runtime-parsing-aot-files-a-new-command-lc_aot_metadata" title="Permanent link">&para;</a></h3>
 <p>As mentioned in part1, an AOT file itself is just a Mach-O file.
 So, AOT files pass the runtime information, such as addresses to be mapped and the entry points, to the loader through load commands.</p>
 <p>In the Rosetta 2 <code>runtime</code>, the <code>load_macho</code> function parses these load commands.
@@ -585,32 +585,34 @@ Notably, it parses a command called <code>LC_AOT_METADATA</code>, which is speci
 <p><code>LC_AOT_METADATA</code> is a load command with the 0xcacaca01 command number.
 The contents of the record cannot be displayed by <code>otool</code>.
 It is currently an undocumented load command.</p>
-<pre><code>$ otool -l hello.out.aot
-(...snip...)
-Load command 4
-      cmd ?(0xcacaca01) Unknown load command
-  cmdsize 32
-000000b8 00000021 000000e0 00000001 00003f60 00000000
-(...snip...)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="o">$</span> <span class="n">otool</span> <span class="o">-</span><span class="n">l</span> <span class="n">hello</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span>
+<span class="p">(</span><span class="o">...</span><span class="n">snip</span><span class="o">...</span><span class="p">)</span>
+<span class="n">Load</span> <span class="n">command</span> <span class="mi">4</span>
+      <span class="n">cmd</span> <span class="err">?</span><span class="p">(</span><span class="mh">0xcacaca01</span><span class="p">)</span> <span class="n">Unknown</span> <span class="nb">load</span> <span class="n">command</span>
+  <span class="n">cmdsize</span> <span class="mi">32</span>
+<span class="mi">000000</span><span class="n">b8</span> <span class="mi">00000021</span> <span class="mf">000000e0</span> <span class="mi">00000001</span> <span class="mi">00003</span><span class="n">f60</span> <span class="mi">00000000</span>
+<span class="p">(</span><span class="o">...</span><span class="n">snip</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+
 <p>The following is the reverse-engineering result of <code>LC_AOT_METADATA</code> command structure.
 It contains the information about the entry point and the offset to the path name of the x86_64 executable.</p>
-<pre><code class="language-c">struct lc_aot_metadata {
-    uint32_t cmd;                  // 0xcacaca01
-    uint32_t cmdsize;              // Always 32
-    uint32_t offset_to_image_path; // Offset to image path name of x86_64 executable from AOT file's __LINKEDIT segment
-    uint32_t image_path_length;    // Length of image path name
-    uint32_t field_0x10;           // unknown
-    uint32_t field_0x14;           // unknown (always 1, otherwise an x86_64 application will crash)
-    uint32_t x86_64_entry_rva;     // RVA of x86_64 entry point
-    uint32_t field_0x1c;           // unknown
-};
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="nc">lc_aot_metadata</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">cmd</span><span class="p">;</span>                  <span class="c1">// 0xcacaca01</span>
+    <span class="kt">uint32_t</span> <span class="n">cmdsize</span><span class="p">;</span>              <span class="c1">// Always 32</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_image_path</span><span class="p">;</span> <span class="c1">// Offset to image path name of x86_64 executable from AOT file&#39;s __LINKEDIT segment</span>
+    <span class="kt">uint32_t</span> <span class="n">image_path_length</span><span class="p">;</span>    <span class="c1">// Length of image path name</span>
+    <span class="kt">uint32_t</span> <span class="n">field_0x10</span><span class="p">;</span>           <span class="c1">// unknown</span>
+    <span class="kt">uint32_t</span> <span class="n">field_0x14</span><span class="p">;</span>           <span class="c1">// unknown (always 1, otherwise an x86_64 application will crash)</span>
+    <span class="kt">uint32_t</span> <span class="n">x86_64_entry_rva</span><span class="p">;</span>     <span class="c1">// RVA of x86_64 entry point</span>
+    <span class="kt">uint32_t</span> <span class="n">field_0x1c</span><span class="p">;</span>           <span class="c1">// unknown</span>
+<span class="p">};</span>
+</code></pre></div>
+
 <p>We can set the <code>x86_64_entry_rva</code> to an invalid value and still run the application without any problem.
 So, the information in the <code>LC_MAIN</code> command included in the x86_64 executable is referred to at runtime for getting the entry point.</p>
 <p>As for <code>image_path_length</code> and <code>offset_to_image_path</code>, if an integer overflow does not occur, they can be set to invalid values.
 These two records are probably used for debugging purposes.</p>
-<h2 id="rosetta-2-runtimes-debugging-features">Rosetta 2 <code>runtime</code>'s debugging features</h2>
+<h2 id="rosetta-2-runtimes-debugging-features">Rosetta 2 <code>runtime</code>'s debugging features<a class="headerlink" href="#rosetta-2-runtimes-debugging-features" title="Permanent link">&para;</a></h2>
 <p>The Rosetta 2 <code>runtime</code> retains some features that were probably used internally by Apple for debugging purposes.
 This can be enabled by passing strings starting with the prefix <code>ROSETTA_</code> as an environment variable*.
 If these strings are passed, the global variables that control debugging features will be set to 1.</p>
@@ -632,57 +634,59 @@ If these strings are passed, the global variables that control debugging feature
 <li><code>ROSETTA_AOT_ERRORS_ARE_FATAL</code></li>
 </ul>
 <p>In this article, I will discuss the <code>ROSETTA_PRINT_IR</code> and <code>ROSETTA_PRINT_SEGMENTS</code>.</p>
-<h3 id="rosetta_print_ir"><code>ROSETTA_PRINT_IR</code></h3>
+<h3 id="rosetta_print_ir"><code>ROSETTA_PRINT_IR</code><a class="headerlink" href="#rosetta_print_ir" title="Permanent link">&para;</a></h3>
 <p><code>ROSETTA_PRINT_IR</code> is a debugging feature to show the x86_64 code being translated to the standard error output.
-If the flag is enabled, the <code>show_log</code> (defined at <code>runtime+0x57694</code>) function will be called in the <code>translate</code> function described in <a href="https://ffri.github.io/ProjectChampollion/part1/#jit-binary-translation-of-rosetta-2-runtime-translate-function">part1</a> to display the x86_64 code being translated (Figure 9).</p>
+If the flag is enabled, the <code>show_log</code> (defined at <code>runtime+0x57694</code>) function will be called in the <code>translate</code> function described in <a href="../part1/#jit-binary-translation-of-rosetta-2-runtime-translate-function">part1</a> to display the x86_64 code being translated (Figure 9).</p>
 <figure>
     <img src="../assets/print_ir_in_translate.png" />
     <figcaption>Figure 9 <code>translate</code> in <code>runtime</code> calling <code>show_log</code> to show the translated x86_64 code.</figcaption>
 </figure>
 
 <p>Let me show you an example output by <code>show_log</code>.
-Let's take the program executing the <a href="https://ffri.github.io/ProjectChampollion/part1/#target-application">shellcode in part1</a>, and check the output when the <code>ROSETTA_PRINT_IR</code> function is enabled.
+Let's take the program executing the <a href="../part1/#target-application">shellcode in part1</a>, and check the output when the <code>ROSETTA_PRINT_IR</code> function is enabled.
 Start LLDB, write 1 to the <code>ROSETTA_PRINT_IR</code> flag, and execute the program.</p>
-<pre><code>(lldb) process launch --stdout out.log --stderr print_ir.log
-* thread #2, stop reason = exec
-    frame #0: 0x00007ffdfff7a46c runtime`_mh_execute_header + 9324
-runtime`_mh_execute_header:
--&gt;  0x7ffdfff7a46c &lt;+9324&gt;: mov    x19, sp
-    0x7ffdfff7a470 &lt;+9328&gt;: and    sp, x19, #0xfffffffffffffff0
-    0x7ffdfff7a474 &lt;+9332&gt;: mov    x29, sp
-    0x7ffdfff7a478 &lt;+9336&gt;: ldr    x20, [x19, #0x20]
-Target 0: (runtime) stopped.
-(lldb) memory write 0x7ffdfffeda4e 1
-(lldb) c
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="nf">process</span> <span class="n">launch</span> <span class="o">--</span><span class="n">stdout</span> <span class="n">out</span><span class="p">.</span><span class="nf">log</span> <span class="o">--</span><span class="n">stderr</span> <span class="n">print_ir</span><span class="p">.</span><span class="nf">log</span>
+<span class="o">*</span> <span class="n">thread</span> <span class="err">#</span><span class="mi">2</span><span class="p">,</span> <span class="n">stop</span> <span class="n">reason</span> <span class="o">=</span> <span class="n">exec</span>
+    <span class="n">frame</span> <span class="err">#</span><span class="mi">0</span><span class="o">:</span> <span class="mh">0x00007ffdfff7a46c</span> <span class="n">runtime</span><span class="err">`</span><span class="n">_mh_execute_header</span> <span class="o">+</span> <span class="mi">9324</span>
+<span class="n">runtime</span><span class="err">`</span><span class="n">_mh_execute_header</span><span class="o">:</span>
+<span class="o">-&gt;</span>  <span class="mh">0x7ffdfff7a46c</span> <span class="o">&lt;+</span><span class="mi">9324</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="n">x19</span><span class="p">,</span> <span class="n">sp</span>
+    <span class="mh">0x7ffdfff7a470</span> <span class="o">&lt;+</span><span class="mi">9328</span><span class="o">&gt;:</span> <span class="kr">and</span>    <span class="n">sp</span><span class="p">,</span> <span class="n">x19</span><span class="p">,</span> <span class="err">#</span><span class="mh">0xfffffffffffffff0</span>
+    <span class="mh">0x7ffdfff7a474</span> <span class="o">&lt;+</span><span class="mi">9332</span><span class="o">&gt;:</span> <span class="n">mov</span>    <span class="n">x29</span><span class="p">,</span> <span class="n">sp</span>
+    <span class="mh">0x7ffdfff7a478</span> <span class="o">&lt;+</span><span class="mi">9336</span><span class="o">&gt;:</span> <span class="n">ldr</span>    <span class="n">x20</span><span class="p">,</span> <span class="p">[</span><span class="n">x19</span><span class="p">,</span> <span class="err">#</span><span class="mh">0x20</span><span class="p">]</span>
+<span class="n">Target</span> <span class="mi">0</span><span class="o">:</span> <span class="p">(</span><span class="n">runtime</span><span class="p">)</span> <span class="n">stopped</span><span class="p">.</span>
+<span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">memory</span> <span class="n">write</span> <span class="mh">0x7ffdfffeda4e</span> <span class="mi">1</span>
+<span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">c</span>
+</code></pre></div>
+
 <p>After the execution, I got <a href="../assets/print_ir.log">a standard error output</a>.
 Here is the snippet of this log.</p>
-<pre><code>20002a939    BB_1
-             preds     BB_0
-20002a939    mov       eax, [r13 + 0x4]
-20002a93d    add       r13, rax
-20002a940    inc       ebx
-20002a942    cmp       ebx, esi, def #nzcvpa
-20002a944    jcc       ne, 0x20002a678, fallthrough BB_2
+<div class="codehilite"><pre><span></span><code><span class="mf">20002</span><span class="n">a939</span>    <span class="n">BB_1</span>
+             <span class="n">preds</span>     <span class="n">BB_0</span>
+<span class="mf">20002</span><span class="n">a939</span>    <span class="n">mov</span>       <span class="n">eax</span><span class="p">,</span> <span class="err">[</span><span class="n">r13</span> <span class="o">+</span> <span class="mf">0</span><span class="n">x4</span><span class="err">]</span>
+<span class="mf">20002</span><span class="n">a93d</span>    <span class="n">add</span>       <span class="n">r13</span><span class="p">,</span> <span class="n">rax</span>
+<span class="mf">20002</span><span class="n">a940</span>    <span class="n">inc</span>       <span class="n">ebx</span>
+<span class="mf">20002</span><span class="n">a942</span>    <span class="n">cmp</span>       <span class="n">ebx</span><span class="p">,</span> <span class="n">esi</span><span class="p">,</span> <span class="kd">def</span> <span class="err">#</span><span class="n">nzcvpa</span>
+<span class="mf">20002</span><span class="n">a944</span>    <span class="n">jcc</span>       <span class="n">ne</span><span class="p">,</span> <span class="mf">0</span><span class="n">x20002a678</span><span class="p">,</span> <span class="n">fallthrough</span> <span class="n">BB_2</span>
 
-20002a94a    BB_2
-             preds     BB_1
-20002a94a    jmp       BB_3
+<span class="mf">20002</span><span class="n">a94a</span>    <span class="n">BB_2</span>
+             <span class="n">preds</span>     <span class="n">BB_1</span>
+<span class="mf">20002</span><span class="n">a94a</span>    <span class="n">jmp</span>       <span class="n">BB_3</span>
 
-20002a96d    BB_3
-             flags liveout #nzcvpa, livein &lt;none&gt;
-             preds     BB_2
-20002a96d    cmp       [rbp - 0x40], 0x0, def #nzcvpa
-20002a972    jcc       ne, BB_13, fallthrough BB_4
+<span class="mf">20002</span><span class="n">a96d</span>    <span class="n">BB_3</span>
+             <span class="n">flags</span> <span class="n">liveout</span> <span class="err">#</span><span class="n">nzcvpa</span><span class="p">,</span> <span class="n">livein</span> <span class="o">&lt;</span><span class="n">none</span><span class="o">&gt;</span>
+             <span class="n">preds</span>     <span class="n">BB_2</span>
+<span class="mf">20002</span><span class="n">a96d</span>    <span class="n">cmp</span>       <span class="err">[</span><span class="n">rbp</span> <span class="o">-</span> <span class="mf">0</span><span class="n">x40</span><span class="err">]</span><span class="p">,</span> <span class="mf">0</span><span class="n">x0</span><span class="p">,</span> <span class="kd">def</span> <span class="err">#</span><span class="n">nzcvpa</span>
+<span class="mf">20002</span><span class="n">a972</span>    <span class="n">jcc</span>       <span class="n">ne</span><span class="p">,</span> <span class="n">BB_13</span><span class="p">,</span> <span class="n">fallthrough</span> <span class="n">BB_4</span>
 
-(...snip...) 
-</code></pre>
+<span class="p">(</span><span class="mf">...</span><span class="n">snip</span><span class="mf">...</span><span class="p">)</span> 
+</code></pre></div>
+
 <p>You can see that the leftmost column shows the address where the instruction exists, and the next column shows the corresponding x86_64 assembly.
 In addition, for each basic block, metadata such as <code>preds</code> and <code>flags</code> are listed.</p>
 <p>The <code>preds</code> points to the basic block from which the jump is made.</p>
 <p>The details about flags <code>liveout #nzcvpa and livein &lt;none&gt;</code> is currently unknown, but it probably indicates the flag register changes when these instructions are executed.</p>
 <p>Next, look at the disassembly result around 0x1082f4000.</p>
-<pre><code>(...snip...)
+<div class="codehilite"><pre><span></span><code>(...snip...)
 
 (JIT translated x86_64 code)
 1082f4000    BB_0
@@ -699,10 +703,11 @@ In addition, for each basic block, metadata such as <code>preds</code> and <code
 1082f4017    ror       rax, 0x28
 1082f401b    mov       al, 0x3b
 1082f401d    syscall   fallthrough BB_1
-</code></pre>
-<p>You can see that this is the JIT-executed x86_64 code in the <a href="https://ffri.github.io/ProjectChampollion/part1/#target-application">sample in part1</a>.
+</code></pre></div>
+
+<p>You can see that this is the JIT-executed x86_64 code in the <a href="../part1/#target-application">sample in part1</a>.
 The <code>ROSETTA_PRINT_IR</code> debugging feature can likely be used to trace the translated x86_64 code.</p>
-<h3 id="rosetta_print_segments"><code>ROSETTA_PRINT_SEGMENTS</code></h3>
+<h3 id="rosetta_print_segments"><code>ROSETTA_PRINT_SEGMENTS</code><a class="headerlink" href="#rosetta_print_segments" title="Permanent link">&para;</a></h3>
 <p><code>ROSETTA_PRINT_SEGMENTS</code> is a debugging feature that displays the map status of AOT files, Rosetta 2 <code>runtime</code>, and executable segments to the memory.
 As in the previous section, after running the program via LLDB, we can get the following logs by enabling <code>ROSETTA_PRINT_SEGMENTS</code>.</p>
 <ul>
@@ -710,20 +715,22 @@ As in the previous section, after running the program via LLDB, we can get the f
 <li><a href="../assets/print_segments_out.log">A standard output when <code>ROSETTA_PRINT_SEGMENTS</code> is enabled</a></li>
 </ul>
 <p>Firstly, let's look at the standard error.</p>
-<pre><code>runtime mapped at 0x7ffdfff78000
-segments for /var/db/oah/16c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00/b3690b640c30cc1cd5d018dfefc14f1069ab08653c96f0d1c1028c0088a7832e/run_shellcode.out.aot:
-    mapping __TEXT at [0x100010000, 0x1000111e8)
-    mapping RuntimeRoutines at [0x100012000, 0x100016000)
-    mapping __LINKEDIT at [0x100017000, 0x100017168)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">runtime</span> <span class="n">mapped</span> <span class="n">at</span> <span class="mh">0x7ffdfff78000</span>
+<span class="n">segments</span> <span class="k">for</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="mi">16</span><span class="n">c6785d8fdab5ee2435f23dc2962ceda2e76042ea2ad1517687c5bb7358bf00</span><span class="o">/</span><span class="n">b3690b640c30cc1cd5d018dfefc14f1069ab08653c96f0d1c1028c0088a7832e</span><span class="o">/</span><span class="n">run_shellcode</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span><span class="p">:</span>
+    <span class="n">mapping</span> <span class="n">__TEXT</span> <span class="n">at</span> <span class="p">[</span><span class="mh">0x100010000</span><span class="p">,</span> <span class="mh">0x1000111e8</span><span class="p">)</span>
+    <span class="n">mapping</span> <span class="n">RuntimeRoutines</span> <span class="n">at</span> <span class="p">[</span><span class="mh">0x100012000</span><span class="p">,</span> <span class="mh">0x100016000</span><span class="p">)</span>
+    <span class="n">mapping</span> <span class="n">__LINKEDIT</span> <span class="n">at</span> <span class="p">[</span><span class="mh">0x100017000</span><span class="p">,</span> <span class="mh">0x100017168</span><span class="p">)</span>
+</code></pre></div>
+
 <p>You can see that it shows the address that the Rosetta 2 <code>runtime</code> is mapped to, and where the segments of the AOT files are mapped to.</p>
 <p>Comparing this with the <code>vmmap</code> command result, we can see that it does indeed match.</p>
-<pre><code>mapped file                 100010000-100012000    [    8K     8K     0K     0K] r-x/rwx SM=COW          /private/var/db/*/run_shellcode.out.aot
-mapped file                 100012000-100016000    [   16K    16K     0K     0K] r-x/r-x SM=COW          /Library/Apple/*/runtime
-mapped file                 100017000-100018000    [    4K     4K     0K     0K] r--/rwx SM=COW          /private/var/db/*/run_shellcode.out.aot
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">mapped</span> <span class="n">file</span>                 <span class="mi">100010000</span><span class="o">-</span><span class="mi">100012000</span>    <span class="p">[</span>    <span class="mi">8</span><span class="n">K</span>     <span class="mi">8</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>          <span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/*/</span><span class="n">run_shellcode</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span>
+<span class="n">mapped</span> <span class="n">file</span>                 <span class="mi">100012000</span><span class="o">-</span><span class="mi">100016000</span>    <span class="p">[</span>   <span class="mi">16</span><span class="n">K</span>    <span class="mi">16</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">r</span><span class="o">-</span><span class="n">x</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>          <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Apple</span><span class="o">/*/</span><span class="n">runtime</span>
+<span class="n">mapped</span> <span class="n">file</span>                 <span class="mi">100017000</span><span class="o">-</span><span class="mi">100018000</span>    <span class="p">[</span>    <span class="mi">4</span><span class="n">K</span>     <span class="mi">4</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span>     <span class="mi">0</span><span class="n">K</span><span class="p">]</span> <span class="n">r</span><span class="o">--/</span><span class="n">rwx</span> <span class="n">SM</span><span class="o">=</span><span class="n">COW</span>          <span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">db</span><span class="o">/*/</span><span class="n">run_shellcode</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">aot</span>
+</code></pre></div>
+
 <p>Next, let's take a look at the standard output.</p>
-<pre><code>Re-using existing aot shared cache:
+<div class="codehilite"><pre><span></span><code>Re-using existing aot shared cache:
   [0x0, 0x106e0000) init_prot=1 max_prot=1
   [0x106e0000, 0x11138000) init_prot=3 max_prot=3
   [0x11138000, 0x9ae54000) init_prot=85 max_prot=85
@@ -735,10 +742,11 @@ mapped file                 100017000-100018000    [    4K     4K     0K     0K]
     [0x7ffe965031bc, 0x7ffe9653da4c] /usr/lib/system/libsystem_malloc.dylib
     (...snip...)
 (...snip...)
-</code></pre>
+</code></pre></div>
+
 <p>It likely shows a list of addresses where each dylib is mapped.
 Again, let's compare it with the result of <code>vmmap</code>.</p>
-<pre><code>(...snip...)
+<div class="codehilite"><pre><span></span><code>(...snip...)
 mapped file              7ffe852ac000-7ffe9598c000 [262.9M  32.8M     0K     0K] r--/r-- SM=COW          Object_id=8f689f0f
 mapped file              7ffe963e4000-7fff20100000 [  2.2G  59.4M     0K     0K] r-x/r-x SM=COW          Object_id=8f689f0f
 __TEXT                   7fff20146000-7fff20148000 [    8K     8K     0K     0K] r-x/r-x SM=COW          /usr/lib/system/libsystem_blocks.dylib
@@ -747,39 +755,43 @@ __TEXT                   7fff2017e000-7fff20196000 [   96K    80K     0K     0K]
 __TEXT                   7fff20196000-7fff20235000 [  636K   124K     0K     0K] r-x/r-x SM=COW          /usr/lib/system/libcorecrypto.dylib
 __TEXT                   7fff20235000-7fff20262000 [  180K   132K     0K     0K] r-x/r-x SM=COW          /usr/lib/system/libsystem_malloc.dylib
 (...snip...)
-</code></pre>
+</code></pre></div>
+
 <p>Oddly enough, there seems to be a discrepancy with the result of <code>ROSETTA_PRINT_SEGMENTS</code>.
 According to the <code>vmmap</code> result, <code>libsystem_blocks.dylib</code> is mapped to [0x7fff20146000, 0x7fff20148000].
 However, the results of <code>ROSETTA_PRINT_SEGMENTS</code> output says it is mapped to [0x7ffe963e75ac, 0x7ffe963e8594].</p>
 <p>Also, when you look at the addresses mapped by <code>ROSETTA_PRINT_SEGMENTS</code> in the <code>vmmap</code> command result, you can figure out that a single huge file of 2.2GB is mapped.</p>
-<pre><code>(...snip...)
+<div class="codehilite"><pre><span></span><code>(...snip...)
 mapped file              7ffe963e4000-7fff20100000 [  2.2G  59.4M     0K     0K] r-x/r-x SM=COW          Object_id=8f689f0f
 (...snip...)
-</code></pre>
+</code></pre></div>
+
 <p>What is this file?</p>
 <p>This is an AOT shared cache file, which is displayed at the top of the log.
 Next, let's take a deeper look at the contents of the AOT shared cache file.</p>
-<h2 id="aot-shared-cache-file">AOT shared cache file</h2>
-<h3 id="quick-look-at-aot-shared-cache-file">Quick look at AOT shared cache file</h3>
+<h2 id="aot-shared-cache-file">AOT shared cache file<a class="headerlink" href="#aot-shared-cache-file" title="Permanent link">&para;</a></h2>
+<h3 id="quick-look-at-aot-shared-cache-file">Quick look at AOT shared cache file<a class="headerlink" href="#quick-look-at-aot-shared-cache-file" title="Permanent link">&para;</a></h3>
 <p>You may think of <code>dyld_shared_cache</code> when you hear "shared cache."</p>
 <p>In fact, you can find a new file corresponding to the AOT shared cache in the folder where <code>dyld_shared_cache</code> is.</p>
-<pre><code>$ ls -lh /System/Library/dyld/
-total 7733712
--rwxr-xr-x  1 root  admin   2.4G  1  1  2020 aot_shared_cache
--rwxr-xr-x  1 root  admin     0B  1  1  2020 aot_shared_cache.t8027
--rwxr-xr-x  1 root  admin   2.1G  1  1  2020 dyld_shared_cache_arm64e
--rwxr-xr-x  1 root  admin   729K  1  1  2020 dyld_shared_cache_arm64e.map
--rwxr-xr-x  1 root  admin   2.3G  1  1  2020 dyld_shared_cache_x86_64
--rwxr-xr-x  1 root  admin   562K  1  1  2020 dyld_shared_cache_x86_64.map
--rwxr-xr-x  1 root  admin   2.3G  1  1  2020 dyld_shared_cache_x86_64h
--rwxr-xr-x  1 root  admin   562K  1  1  2020 dyld_shared_cache_x86_64h.map
-</code></pre>
+<div class="codehilite"><pre><span></span><code>$ ls -lh /System/Library/dyld/
+total <span class="m">7733712</span>
+-rwxr-xr-x  <span class="m">1</span> root  admin   <span class="m">2</span>.4G  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> aot_shared_cache
+-rwxr-xr-x  <span class="m">1</span> root  admin     0B  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> aot_shared_cache.t8027
+-rwxr-xr-x  <span class="m">1</span> root  admin   <span class="m">2</span>.1G  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_arm64e
+-rwxr-xr-x  <span class="m">1</span> root  admin   729K  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_arm64e.map
+-rwxr-xr-x  <span class="m">1</span> root  admin   <span class="m">2</span>.3G  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_x86_64
+-rwxr-xr-x  <span class="m">1</span> root  admin   562K  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_x86_64.map
+-rwxr-xr-x  <span class="m">1</span> root  admin   <span class="m">2</span>.3G  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_x86_64h
+-rwxr-xr-x  <span class="m">1</span> root  admin   562K  <span class="m">1</span>  <span class="m">1</span>  <span class="m">2020</span> dyld_shared_cache_x86_64h.map
+</code></pre></div>
+
 <p>You can also see that the file size is about 2.4GB, which is roughly the same size as the file mentioned at the end of the previous section.
 This file seems to be mapped into the memory.</p>
 <p>Now, let's check the file type of <code>aot_shared_cache</code> with the <code>file</code> command.</p>
-<pre><code>$ file /System/Library/dyld/aot_shared_cache
+<div class="codehilite"><pre><span></span><code>$ file /System/Library/dyld/aot_shared_cache
 /System/Library/dyld/aot_shared_cache: data
-</code></pre>
+</code></pre></div>
+
 <p>Oops, the <code>file</code> command says <code>data</code>.</p>
 <p>Let's also look at the results from Patrick Wardle's excellent tool <a href="https://objective-see.com/products/whatsyoursign.html">WYS</a>.
 In general, WYS is better than the <code>file</code> command at estimating file types.
@@ -792,7 +804,7 @@ Unfortunately, however, it also displays <code>data</code> as the file type (Fig
 <p>It seems to be a file type that is not yet publicly known.</p>
 <p>I did some search on the web about AOT shared cache files.
 However, it seems that the file format has not been analyzed yet.</p>
-<h3 id="analyzing-aot-shared-cache-files">Analyzing AOT shared cache files</h3>
+<h3 id="analyzing-aot-shared-cache-files">Analyzing AOT shared cache files<a class="headerlink" href="#analyzing-aot-shared-cache-files" title="Permanent link">&para;</a></h3>
 <p>Since there was no analysis of the file format, I decided to analyze it on my own.</p>
 <p>After digging Rosetta 2 <code>runtime</code>, I found that the function <code>0x13cbc+runtime</code> in the Rosetta 2 <code>runtime</code> is loading the AOT shared cache file.
 I named this function <code>load_aot_shared_cache</code>.</p>
@@ -815,45 +827,47 @@ The file structure is shown below (Figure 11).</p>
 
 <p>First, the header contains information such as the offset to the subsequent segments, the offset size to the code signature, and so on.
 Each member of the header of the AOT shared cache looks like this.</p>
-<pre><code class="language-c">// It seems to be the same structure as _shared_region_mapping_np
-// See https://opensource.apple.com/source/dyld/dyld-95.3/src/ImageLoaderMachO.cpp.auto.html
-struct AotCacheMappingInfo {
-    uint64_t address;
-    uint64_t size;
-    uint64_t file_offset;
-    uint32_t init_prot;
-    uint32_t max_prot;
-};
+<div class="codehilite"><pre><span></span><code><span class="c1">// It seems to be the same structure as _shared_region_mapping_np</span>
+<span class="c1">// See https://opensource.apple.com/source/dyld/dyld-95.3/src/ImageLoaderMachO.cpp.auto.html</span>
+<span class="k">struct</span> <span class="nc">AotCacheMappingInfo</span> <span class="p">{</span>
+    <span class="kt">uint64_t</span> <span class="n">address</span><span class="p">;</span>
+    <span class="kt">uint64_t</span> <span class="n">size</span><span class="p">;</span>
+    <span class="kt">uint64_t</span> <span class="n">file_offset</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">init_prot</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">max_prot</span><span class="p">;</span>
+<span class="p">};</span>
 
-struct AotCacheHeader {
-    uint64_t magic;                        // Always 0x6568636143746F41 (&quot;AotCache&quot; in ASCII)
-    uint64_t field_0x8;                    // Unknown
-    uint64_t field_0x10;                   // Unknown
-    uint64_t uuid[2];                      // UUID
-    uint64_t version[4];                   // Version of AOT shared cache
-    uint64_t offset_to_codesig;            // Offset to code signature of AOT shared cache
-    uint64_t size_of_codesig;              // Size of code signature of AOT shared cache
-    uint32_t n_entries;                    // Number of entries of meta data
-    uint32_t offset_to_metadata_seg;       // Offset to metadata segment
-    struct AotCacheMappingInfo mapping[3]; // Information of each segment
-};
-</code></pre>
+<span class="k">struct</span> <span class="nc">AotCacheHeader</span> <span class="p">{</span>
+    <span class="kt">uint64_t</span> <span class="n">magic</span><span class="p">;</span>                        <span class="c1">// Always 0x6568636143746F41 (&quot;AotCache&quot; in ASCII)</span>
+    <span class="kt">uint64_t</span> <span class="n">field_0x8</span><span class="p">;</span>                    <span class="c1">// Unknown</span>
+    <span class="kt">uint64_t</span> <span class="n">field_0x10</span><span class="p">;</span>                   <span class="c1">// Unknown</span>
+    <span class="kt">uint64_t</span> <span class="n">uuid</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>                      <span class="c1">// UUID</span>
+    <span class="kt">uint64_t</span> <span class="n">version</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>                   <span class="c1">// Version of AOT shared cache</span>
+    <span class="kt">uint64_t</span> <span class="n">offset_to_codesig</span><span class="p">;</span>            <span class="c1">// Offset to code signature of AOT shared cache</span>
+    <span class="kt">uint64_t</span> <span class="n">size_of_codesig</span><span class="p">;</span>              <span class="c1">// Size of code signature of AOT shared cache</span>
+    <span class="kt">uint32_t</span> <span class="n">n_entries</span><span class="p">;</span>                    <span class="c1">// Number of entries of meta data</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_metadata_seg</span><span class="p">;</span>       <span class="c1">// Offset to metadata segment</span>
+    <span class="k">struct</span> <span class="nc">AotCacheMappingInfo</span> <span class="n">mapping</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="c1">// Information of each segment</span>
+<span class="p">};</span>
+</code></pre></div>
+
 <p>After the AOT shared cache header, there is a metadata segment.
 It contains three sets of data: code fragment metadata, branch data, and instruction map, as many as the number of images in the AOT shared cache.</p>
 <p>The code fragment metadata has the following structure.</p>
-<pre><code class="language-c">struct CodeFragmentMetadata {
-    uint32_t type;                  // 1 (Rosetta 2 runtime) 0 (AOT file without file header)
-    uint32_t offset_to_path_name;   // Offset to path name from the text segment
-    uint32_t offset_to_x64_code;    // Offset to x64 code from the text segment
-    uint32_t size_of_x64_code;      // Size of x64 code
-    uint32_t offset_to_arm64_code;  // Offset to arm64 code from the aot segment
-    uint32_t size_of_arm64_code;    // Size of arm64 code
-    uint32_t offset_to_branch_data; // Offset to branch data from the meta data segment
-    uint32_t size_of_branch_data;   // Size of branch data
-    uint32_t offset_to_insn_map;    // Offset to instruction map from the meta data segment
-    uint32_t size_of_insn_map;      // Size of instruction map from the meta data segment
-};
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="nc">CodeFragmentMetadata</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">type</span><span class="p">;</span>                  <span class="c1">// 1 (Rosetta 2 runtime) 0 (AOT file without file header)</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_path_name</span><span class="p">;</span>   <span class="c1">// Offset to path name from the text segment</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_x64_code</span><span class="p">;</span>    <span class="c1">// Offset to x64 code from the text segment</span>
+    <span class="kt">uint32_t</span> <span class="n">size_of_x64_code</span><span class="p">;</span>      <span class="c1">// Size of x64 code</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_arm64_code</span><span class="p">;</span>  <span class="c1">// Offset to arm64 code from the aot segment</span>
+    <span class="kt">uint32_t</span> <span class="n">size_of_arm64_code</span><span class="p">;</span>    <span class="c1">// Size of arm64 code</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_branch_data</span><span class="p">;</span> <span class="c1">// Offset to branch data from the meta data segment</span>
+    <span class="kt">uint32_t</span> <span class="n">size_of_branch_data</span><span class="p">;</span>   <span class="c1">// Size of branch data</span>
+    <span class="kt">uint32_t</span> <span class="n">offset_to_insn_map</span><span class="p">;</span>    <span class="c1">// Offset to instruction map from the meta data segment</span>
+    <span class="kt">uint32_t</span> <span class="n">size_of_insn_map</span><span class="p">;</span>      <span class="c1">// Size of instruction map from the meta data segment</span>
+<span class="p">};</span>
+</code></pre></div>
+
 <p>The branch data and the instruction map structures are not unknown.
 We can guess that the structure holds the correspondence between the arm64 code and x86_64 code addresses in the AOT shared cache from these names.</p>
 <p>The AOT segment follows the metadata segment, which contains the data from the Rosetta 2 <code>runtime</code> and the dylib AOT files for various systems.</p>
@@ -869,16 +883,16 @@ This is used to verify the integrity of the AOT shared cache before it is loaded
 The text segment followed by the AOT segment contains the path information of the image in the AOT shared cache and the x86_64 code.
 The two members of <code>CodeFragmentMetadata</code>, <code>offset_to_path_name</code>, and <code>offset_to_x64_code</code>, are the offsets from the starting address of this segment.</p>
 <p>The text segment information is not contained in the AOT shared cache file, and it is not clear which file contains it. I suspect that this information is extracted from <code>dyld_shared_cache</code> and written to the memory.</p>
-<h3 id="aotsharedcacheextractor">AotSharedCacheExtractor</h3>
+<h3 id="aotsharedcacheextractor">AotSharedCacheExtractor<a class="headerlink" href="#aotsharedcacheextractor" title="Permanent link">&para;</a></h3>
 <p>Based on the reverse-engineering results, I created a <a href="https://github.com/FFRI/ProjectChampollion/blob/main/AotSharedCacheExtractor/main.py">Python script</a> parsing AOT shared cache files and dumps the information in them.</p>
 <p>Currently, two commands have been implemented to dump the header information of the AOT shared cache files and extract the code signature of them.</p>
-<pre><code>$ python main.py dump /path/to/aot_shared_cache
+<div class="codehilite"><pre><span></span><code>$ python main.py dump /path/to/aot_shared_cache
 AotCacheHeader:
         magic: 0x6568636143746f41
         field_0x8: 0x901e87ff163d262d
         field_0x10: 0xd530e2b9dd65e280
-        uuid: ['0xac30dd6830a6b1e2', '0xda54b118c06a36a0']
-        version: ['0xeeb5da8f5d78c616', '0xed2c96c23df23524', '0x51d12aea4260e7a2', '0xbf5873bbc58776']
+        uuid: <span class="o">[</span><span class="s1">&#39;0xac30dd6830a6b1e2&#39;</span>, <span class="s1">&#39;0xda54b118c06a36a0&#39;</span><span class="o">]</span>
+        version: <span class="o">[</span><span class="s1">&#39;0xeeb5da8f5d78c616&#39;</span>, <span class="s1">&#39;0xed2c96c23df23524&#39;</span>, <span class="s1">&#39;0x51d12aea4260e7a2&#39;</span>, <span class="s1">&#39;0xbf5873bbc58776&#39;</span><span class="o">]</span>
         offset_to_codesig: 0x9a3fc000
         size_of_codesig: 0x134800b
         n_entries: 0x784
@@ -904,7 +918,7 @@ AotCacheHeader:
                 max_prot: 0x85
 
 metadata segment starts from 0x4000
-number of entries is 1924
+number of entries is <span class="m">1924</span>
 CodeFragmentMetaData:
         type: 0x1
         offset_to_path_name: 0x0
@@ -916,7 +930,7 @@ CodeFragmentMetaData:
         size_of_branch_data: 0x0
         offset_to_insn_map: 0x0
         size_of_insn_map: 0x0
-[0x106e0000, 0x106e35ac] RuntimeRoutines
+<span class="o">[</span>0x106e0000, 0x106e35ac<span class="o">]</span> RuntimeRoutines
 CodeFragmentMetaData:
         type: 0x0
         offset_to_path_name: 0x46880
@@ -928,21 +942,22 @@ CodeFragmentMetaData:
         size_of_branch_data: 0x7c
         offset_to_insn_map: 0xcc
         size_of_insn_map: 0x190
-[0x106e35ac, 0x106e4594] /usr/lib/system/libsystem_blocks.dylib
-        branch data: [0x4050, 0x40cc]
-        instruction map: [0x40cc, 0x425c]
+<span class="o">[</span>0x106e35ac, 0x106e4594<span class="o">]</span> /usr/lib/system/libsystem_blocks.dylib
+        branch data: <span class="o">[</span>0x4050, 0x40cc<span class="o">]</span>
+        instruction map: <span class="o">[</span>0x40cc, 0x425c<span class="o">]</span>
 ...
 
 $ python extract-codesig /path/to/aot_shared_cache codesig
-Will extract a code signature located at [0x9a3fc000, 0x9b74400b]
+Will extract a code signature located at <span class="o">[</span>0x9a3fc000, 0x9b74400b<span class="o">]</span>
 The extracted code signature is saved to code_sig
 $ file code_sig
-code_sig: Mac OS X Detached Code Signature (non-executable) - 20217867 bytes
-</code></pre>
+code_sig: Mac OS X Detached Code Signature <span class="o">(</span>non-executable<span class="o">)</span> - <span class="m">20217867</span> bytes
+</code></pre></div>
+
 <p>This can be used to find out which address in AOT shared cache files contain what image, or to dump the header information.</p>
 <p>Note that I have only tested this with <code>aot_shared_cache</code> in macOS Bug Sur version 11.1.
 Please be aware of this when using this script on your environment.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>In part2, I have explained the following three features of the Rosetta 2 <code>runtime</code>.</p>
 <ul>
 <li>Inter-process communication with <code>oahd</code>, through which file descriptors for x86_64 executables and AOT files are passed.</li>

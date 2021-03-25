@@ -81,3 +81,4 @@ The reason for providing this file is that `aot_shared_cache` does not include a
 The information in the module name may depend on the version of macOS.
 
 If you want to create `aot_mapped_module_names` for your environment, you can get the list of module names by enabling the Rosetta 2 `runtime` debugging feature (`ROSETTA_PRINT_SEGMENTS`). For more details, see [here](https://ffri.github.io/ProjectChampollion/part2/#rosetta_print_segments).
+
