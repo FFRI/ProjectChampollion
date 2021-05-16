@@ -1,6 +1,6 @@
 # Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 `runtime` and AOT shared cache files
 
-date: 2021/3/4
+date: 2021/3/4 (updated 2021/5/16: fix some mistakes & typos)
 
 author: Koh M. Nakagawa
 
