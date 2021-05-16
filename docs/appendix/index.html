@@ -306,15 +306,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data_organization" class="md-nav__link">
-    data_organization
+  <a href="#data_organization-element" class="md-nav__link">
+    &lt;data_organization&gt; element
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#prototype" class="md-nav__link">
-    prototype
+  <a href="#prototype-element" class="md-nav__link">
+    &lt;prototype&gt; element
   </a>
   
 </li>
@@ -433,15 +433,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#data_organization" class="md-nav__link">
-    data_organization
+  <a href="#data_organization-element" class="md-nav__link">
+    &lt;data_organization&gt; element
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#prototype" class="md-nav__link">
-    prototype
+  <a href="#prototype-element" class="md-nav__link">
+    &lt;prototype&gt; element
   </a>
   
 </li>
@@ -553,7 +553,7 @@ Then, we can continue debugging this program at the arm64 instruction-level.</p>
 
 <p>Why can we debug it at the arm64 instruction-level when we execute it via <code>runner.out</code>?
 It seems to be related to the fact that <code>debugserver</code> binaries are different between <code>lldb runner.out test.out</code> and <code>lldb test.out</code>.</p>
-<p>If you simply run <code>lldb test.out</code>, the process tree will look like this.</p>
+<p>If you simply run <code>lldb test.out</code>, the process tree looks like this.</p>
 <div class="codehilite"><pre><span></span><code><span class="p">(...</span><span class="n">snip</span><span class="p">...)</span>
  <span class="o">|</span> <span class="o">|</span>   <span class="o">|-+=</span> <span class="mh">03574</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">lldb</span> <span class="n">test</span><span class="p">.</span><span class="n">out</span>
  <span class="o">|</span> <span class="o">|</span>   <span class="o">|</span> <span class="n">\-+=</span> <span class="mh">03581</span> <span class="n">konakagawa</span><span class="p">.</span><span class="n">ffri</span> <span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Apple</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">oah</span><span class="o">/</span><span class="n">debugserver</span> <span class="o">--</span><span class="n">fd</span><span class="o">=</span><span class="mh">7</span> <span class="o">--</span><span class="n">native</span><span class="o">-</span><span class="n">regs</span> <span class="o">--</span><span class="n">setsid</span>
@@ -584,12 +584,12 @@ Internally, the <code>execve</code> is called to execute the x86_64 code, but th
 <h2 id="customizing-ghidra-for-analyzing-aot-files">Customizing Ghidra for analyzing AOT files<a class="headerlink" href="#customizing-ghidra-for-analyzing-aot-files" title="Permanent link">&para;</a></h2>
 <p>In part1, <a href="../part1/#problems-in-analysis-with-ghidra">I mentioned that I modified Ghidra for analyzing AOT files</a> to:</p>
 <ul>
-<li>Enable Ghidra to disassemble <code>cfinv</code> instruction, which is not supported in Ghidra 9.2.1</li>
+<li>Enable Ghidra to disassemble <code>cfinv</code>, which is not supported in Ghidra 9.2.1</li>
 <li>Improve decompilation results for the proprietary calling convention used in AOT files</li>
 </ul>
 <p>In this section, I will introduce how to customize Ghidra for analyzing AOT files.</p>
 <h3 id="adding-a-new-instruction-to-ghidras-disassembly-engine">Adding a new instruction to Ghidra's disassembly engine<a class="headerlink" href="#adding-a-new-instruction-to-ghidras-disassembly-engine" title="Permanent link">&para;</a></h3>
-<p>Firstly, I will explain how to add <code>cfinv</code> instruction to Ghidra's disassembly engine.</p>
+<p>Firstly, I will explain how to add the <code>cfinv</code> instruction to Ghidra's disassembly engine.</p>
 <h4 id="introduction-to-p-code-and-sleigh">Introduction to P-Code and SLEIGH<a class="headerlink" href="#introduction-to-p-code-and-sleigh" title="Permanent link">&para;</a></h4>
 <p>To add a new instruction to Ghidra, we need to edit the SLEIGH file of the target processor.</p>
 <p>Before explaining SLEIGH, let me briefly explain P-Code.</p>
@@ -629,7 +629,7 @@ The definition consists of several sections:</p>
 <li>Display section: it describes how to display this instruction in the disassembled listings.</li>
 <li>Bit pattern sections: they describe the bit pattern encoding of this instruction.</li>
 <li>Semantics actions section: it describes the semantics of the instruction in C-like syntax (eventually converted to P-Code operations by the SLEIGH compiler)<ul>
-<li>In the example above, the conditional expression <code>Rt_GPR64 == 0</code> is converted to <code>INT_EQUAL</code> and <code>if (...) goto</code> is converted to <code>CBRANCH</code>.</li>
+<li>In the example below, the conditional expression <code>Rt_GPR64 == 0</code> is converted to <code>INT_EQUAL</code> and <code>if (...) goto</code> is converted to <code>CBRANCH</code>.</li>
 </ul>
 </li>
 </ul>
@@ -725,7 +725,7 @@ I show the part of this file as follows.</p>
 
 <p>CSPEC always has <code>&lt;compiler_spec&gt;</code> as the root XML tag, and compiler features are described as child elements of this tag.
 Here, I will explain two typical elements <code>&lt;data_organization&gt;</code> and <code>&lt;prototype&gt;</code>.</p>
-<h4 id="data_organization"><code>data_organization</code><a class="headerlink" href="#data_organization" title="Permanent link">&para;</a></h4>
+<h4 id="data_organization-element"><code>&lt;data_organization&gt;</code> element<a class="headerlink" href="#data_organization-element" title="Permanent link">&para;</a></h4>
 <p>This element is used to define the memory alignment and the data sizes of primitive types.</p>
 <p>In the above example, the pointer size is 8 bytes because the CSPEC is for x86_64 binaries.
 You can find the following element specifying the pointer size as follows.</p>
@@ -750,7 +750,7 @@ You can find the following element specifying the pointer size as follows.</p>
   <span class="nt">&lt;/data_organization&gt;</span>
 </code></pre></div>
 
-<h4 id="prototype"><code>prototype</code><a class="headerlink" href="#prototype" title="Permanent link">&para;</a></h4>
+<h4 id="prototype-element"><code>&lt;prototype&gt;</code> element<a class="headerlink" href="#prototype-element" title="Permanent link">&para;</a></h4>
 <p>This element is used to define calling conventions.</p>
 <p>Let's take a look at the description of <code>__stdcall</code> defined in <code>x86-64-gcc.cspec</code>.</p>
 <div class="codehilite"><pre><span></span><code>...(snip)...

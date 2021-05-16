@@ -123,7 +123,7 @@ Load command 4
 ```
 
 The following is the reverse-engineering result of `LC_AOT_METADATA` command structure.
-It contains the information about the entry point and the offset to the path name of the x86\_64 executable.
+It contains the information about the code section and the offset to the path name of the x86\_64 executable.
 
 ```c
 struct lc_aot_metadata {
@@ -133,13 +133,12 @@ struct lc_aot_metadata {
     uint32_t image_path_length;    // Length of image path name
     uint32_t field_0x10;           // unknown
     uint32_t field_0x14;           // unknown (always 1, otherwise an x86_64 application will crash)
-    uint32_t x86_64_entry_rva;     // RVA of x86_64 entry point
+    uint32_t x86_64_code_section;  // RVA of x86_64 code section
     uint32_t field_0x1c;           // unknown
 };
 ```
 
-We can set the `x86_64_entry_rva` to an invalid value and still run the application without any problem.
-So, the information in the `LC_MAIN` command included in the x86\_64 executable is referred to at runtime for getting the entry point.
+We can set the `x86_64_code_section` to an invalid value and still run the application without any problem.
 
 As for `image_path_length` and `offset_to_image_path`, if an integer overflow does not occur, they can be set to invalid values.
 These two records are probably used for debugging purposes.
@@ -449,7 +448,7 @@ struct CodeFragmentMetadata {
 };
 ```
 
-The branch data and the instruction map structures are not unknown.
+The branch data and the instruction map structures are unknown.
 We can guess that the structure holds the correspondence between the arm64 code and x86_64 code addresses in the AOT shared cache from these names.
 
 The AOT segment follows the metadata segment, which contains the data from the Rosetta 2 `runtime` and the dylib AOT files for various systems.
