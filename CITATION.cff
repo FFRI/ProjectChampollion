@@ -3,9 +3,9 @@ message: "Reverse engineering Rosetta 2 on M1 Mac"
 authors:
   - family-names: "Nakagawa"
     given-names: "Koh"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
+    orcid: ""
 title: "Project Champollion: Reverse engineering Rosetta 2 on M1 Mac"
 date-released: 2021-02-09
 url: "https://github.com/FFRI/ProjectChampollion"
-version: 2.0.4
-doi: 10.5281/zenodo.1234
+version: 0.1.0
+doi: ""
