@@ -495,7 +495,7 @@
                 
                 
                 <h1 id="reverse-engineering-rosetta-2-part2-analyzing-other-aspects-of-rosetta-2-runtime-and-aot-shared-cache-files">Reverse-engineering Rosetta 2 part2: Analyzing other aspects of Rosetta 2 <code>runtime</code> and AOT shared cache files<a class="headerlink" href="#reverse-engineering-rosetta-2-part2-analyzing-other-aspects-of-rosetta-2-runtime-and-aot-shared-cache-files" title="Permanent link">&para;</a></h1>
-<p>date: 2021/3/4</p>
+<p>date: 2021/3/4 (updated 2021/5/16: fix some mistakes &amp; typos)</p>
 <p>author: Koh M. Nakagawa</p>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>In part2, I will discuss three features of the Rosetta 2 <code>runtime</code>:</p>
@@ -595,7 +595,7 @@ It is currently an undocumented load command.</p>
 </code></pre></div>
 
 <p>The following is the reverse-engineering result of <code>LC_AOT_METADATA</code> command structure.
-It contains the information about the entry point and the offset to the path name of the x86_64 executable.</p>
+It contains the information about the code section and the offset to the path name of the x86_64 executable.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="nc">lc_aot_metadata</span> <span class="p">{</span>
     <span class="kt">uint32_t</span> <span class="n">cmd</span><span class="p">;</span>                  <span class="c1">// 0xcacaca01</span>
     <span class="kt">uint32_t</span> <span class="n">cmdsize</span><span class="p">;</span>              <span class="c1">// Always 32</span>
@@ -603,13 +603,12 @@ It contains the information about the entry point and the offset to the path nam
     <span class="kt">uint32_t</span> <span class="n">image_path_length</span><span class="p">;</span>    <span class="c1">// Length of image path name</span>
     <span class="kt">uint32_t</span> <span class="n">field_0x10</span><span class="p">;</span>           <span class="c1">// unknown</span>
     <span class="kt">uint32_t</span> <span class="n">field_0x14</span><span class="p">;</span>           <span class="c1">// unknown (always 1, otherwise an x86_64 application will crash)</span>
-    <span class="kt">uint32_t</span> <span class="n">x86_64_entry_rva</span><span class="p">;</span>     <span class="c1">// RVA of x86_64 entry point</span>
+    <span class="kt">uint32_t</span> <span class="n">x86_64_code_section</span><span class="p">;</span>  <span class="c1">// RVA of x86_64 code section</span>
     <span class="kt">uint32_t</span> <span class="n">field_0x1c</span><span class="p">;</span>           <span class="c1">// unknown</span>
 <span class="p">};</span>
 </code></pre></div>
 
-<p>We can set the <code>x86_64_entry_rva</code> to an invalid value and still run the application without any problem.
-So, the information in the <code>LC_MAIN</code> command included in the x86_64 executable is referred to at runtime for getting the entry point.</p>
+<p>We can set the <code>x86_64_code_section</code> to an invalid value and still run the application without any problem.</p>
 <p>As for <code>image_path_length</code> and <code>offset_to_image_path</code>, if an integer overflow does not occur, they can be set to invalid values.
 These two records are probably used for debugging purposes.</p>
 <h2 id="rosetta-2-runtimes-debugging-features">Rosetta 2 <code>runtime</code>'s debugging features<a class="headerlink" href="#rosetta-2-runtimes-debugging-features" title="Permanent link">&para;</a></h2>
@@ -868,7 +867,7 @@ It contains three sets of data: code fragment metadata, branch data, and instruc
 <span class="p">};</span>
 </code></pre></div>
 
-<p>The branch data and the instruction map structures are not unknown.
+<p>The branch data and the instruction map structures are unknown.
 We can guess that the structure holds the correspondence between the arm64 code and x86_64 code addresses in the AOT shared cache from these names.</p>
 <p>The AOT segment follows the metadata segment, which contains the data from the Rosetta 2 <code>runtime</code> and the dylib AOT files for various systems.</p>
 <p>After the AOT segment, you can see that there is a code signature.
